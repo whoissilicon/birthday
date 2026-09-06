@@ -1067,7 +1067,7 @@ p {
   max-height: 520px;
 
   object-fit: cover; 
-  object-position: 80% center; /* ডানপাশের বাড়তি অংশ বা লেখা বাদ দিতে পজিশন অ্যাডজাস্ট করা হয়েছে */
+  object-position: 80% center;
 
   display: block;
 }
