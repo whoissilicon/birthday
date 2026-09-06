@@ -1066,9 +1066,8 @@ p {
 
   max-height: 520px;
 
-  object-fit: cover; /* ছবির ডানের ওভারফ্লোয় হওয়া টেক্সট সুন্দরভাবে ক্রপ হয়ে যাবে */
-
-  object-position: left center; /* বিষয়বস্তু কেন্দ্রিক ও বামের অংশ ফোকাস রাখবে */
+  object-fit: cover; 
+  object-position: 80% center; /* ডানপাশের বাড়তি অংশ বা লেখা বাদ দিতে পজিশন অ্যাডজাস্ট করা হয়েছে */
 
   display: block;
 }
