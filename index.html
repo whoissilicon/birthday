@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Journey</title>
@@ -9,7 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    
+    <!-- CryptoJS Library যুক্ত করা হলো -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 <body>
 
@@ -52,7 +52,7 @@
             <div class="content-box text-center">
                 <p class="fade-line" style="--delay: 1;">“Okay…”</p>
                 <p class="fade-line" style="--delay: 2;">“I think I know who you are now.”</p>
-                <h1 class="highlight-name fade-line mt-md mb-md" style="--delay: 3;" id="identified-name">Naila Islam Shifa</h1>
+                <h1 class="highlight-name fade-line mt-md mb-md" style="--delay: 3;" id="identified-name"></h1>
                 <p class="fade-line" style="--delay: 4;">“Yes.”</p>
                 <p class="fade-line" style="--delay: 5;">“You’re the person I was looking for.”</p>
                 <div class="fade-line" style="--delay: 6;">
@@ -118,7 +118,7 @@
                 <div id="reveal-step-2" class="hidden">
                     <p class="pre-title">It’s your birthday.</p>
                     <h2 class="sub-reveal">HAPPY BIRTHDAY</h2>
-                    <h1 class="grand-title gradient-text" id="birthday-name-display">NAILA ISLAM SHIFA</h1>
+                    <h1 class="grand-title gradient-text" id="birthday-name-display"></h1>
                     <div class="cake-emoji">🎂</div>
                     <button class="btn btn-gold mt-xl" onclick="goToStage(8)">Read Message</button>
                 </div>
@@ -140,7 +140,7 @@
                     <img id="final-image" src="" alt="Final Photo" onerror="handleImageError(this)">
                 </div>
                 <p class="subtitle mb-sm">“And yes…<br>this whole little journey was made for you.”</p>
-                <h2 class="title highlight-name mb-xl">Happy Birthday, <span id="final-name-span">Naila</span>.</h2>
+                <h2 class="title highlight-name mb-xl">Happy Birthday, <span id="final-name-span"></span>.</h2>
                 <button class="btn btn-secondary" onclick="restartExperience()">Start Again</button>
             </div>
         </section>
