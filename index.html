@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Journey</title>
@@ -9,8 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-
-    
 </head>
 <body>
 
@@ -18,22 +15,24 @@
 
     <main class="app-container">
 
+        <!-- Stage 1 -->
         <section id="stage-1" class="stage active">
             <div class="content-box text-center">
-                <p class="fade-line" style="--delay: 1;">“I’ve been looking for someone.”</p>
-                <p class="fade-line" style="--delay: 2;">“Someone very specific.”</p>
-                <p class="fade-line" style="--delay: 3;">“I wasn’t sure if you would find this…”</p>
+                <p class="fade-line" style="--delay: 1;">I've been looking for someone.</p>
+                <p class="fade-line" style="--delay: 2;">Someone very specific.</p>
+                <p class="fade-line" style="--delay: 3;">I wasn't sure if you would find this.</p>
                 <div class="fade-line" style="--delay: 4;">
                     <button class="btn btn-primary mt-lg" onclick="goToStage(2)">Continue</button>
                 </div>
             </div>
         </section>
 
+        <!-- Stage 2 -->
         <section id="stage-2" class="stage">
             <div class="content-box text-center">
-                <p class="subtitle mb-md">Before we continue…<br>I need to make sure you’re the person I’m looking for.</p>
-                <h2 class="title mb-lg">What’s your name?</h2>
-                
+                <p class="subtitle mb-md">Before we continue...<br>I need to make sure you're the person I'm looking for.</p>
+                <h2 class="title mb-lg">What's your name?</h2>
+
                 <form id="name-form" onsubmit="handleNameSubmit(event)">
                     <div class="input-group">
                         <input type="text" id="name-input" placeholder="Enter your full name..." autocomplete="off" required>
@@ -45,23 +44,26 @@
             </div>
         </section>
 
+        <!-- Stage 3 -->
         <section id="stage-3" class="stage">
             <div id="question-container" class="content-box"></div>
         </section>
 
+        <!-- Stage 4 -->
         <section id="stage-4" class="stage">
             <div class="content-box text-center">
-                <p class="fade-line" style="--delay: 1;">“Okay…”</p>
-                <p class="fade-line" style="--delay: 2;">“I think I know who you are now.”</p>
+                <p class="fade-line" style="--delay: 1;">Okay...</p>
+                <p class="fade-line" style="--delay: 2;">I think I know who you are now.</p>
                 <h1 class="highlight-name fade-line mt-md mb-md" style="--delay: 3;" id="identified-name">Naila Islam Shifa</h1>
-                <p class="fade-line" style="--delay: 4;">“Yes.”</p>
-                <p class="fade-line" style="--delay: 5;">“You’re the person I was looking for.”</p>
+                <p class="fade-line" style="--delay: 4;">Yes...</p>
+                <p class="fade-line" style="--delay: 5;">You're the person I was looking for.</p>
                 <div class="fade-line" style="--delay: 6;">
                     <button class="btn btn-primary mt-lg" onclick="goToStage(5)">Continue</button>
                 </div>
             </div>
         </section>
 
+        <!-- Stage 5 -->
         <section id="stage-5" class="stage">
             <div class="content-box">
                 <h2 class="title text-center mb-md">There are some dates worth remembering.</h2>
@@ -85,39 +87,42 @@
             </div>
         </section>
 
+        <!-- Stage 6 -->
         <section id="stage-6" class="stage">
             <div class="content-box text-center">
-                <p class="fade-line" style="--delay: 1;">“Now you probably have an idea why I was looking for you.”</p>
-                <p class="fade-line" style="--delay: 2;">“But there’s something I haven’t told you yet.”</p>
+                <p class="fade-line" style="--delay: 1;">Now you probably have an idea why I was looking for you.</p>
+                <p class="fade-line" style="--delay: 2;">But there's something I haven't told you yet.</p>
                 <div class="fade-line" style="--delay: 3;">
                     <button class="btn btn-primary mt-lg" onclick="showStage6Part2()">What?</button>
                 </div>
             </div>
         </section>
 
+        <!-- Stage 6 Part 2 -->
         <section id="stage-6-part2" class="stage">
             <div class="content-box text-center">
-                <p class="fade-line" style="--delay: 1;">“Today is not just another day.”</p>
-                <p class="fade-line" style="--delay: 2;">“At least… not for you.”</p>
+                <p class="fade-line" style="--delay: 1;">Today is not just another day.</p>
+                <p class="fade-line" style="--delay: 2;">At least... not for you.</p>
                 <div class="fade-line" style="--delay: 3;">
                     <button class="btn btn-primary mt-lg" onclick="goToStage(7)">Continue</button>
                 </div>
             </div>
         </section>
 
+        <!-- Stage 7 -->
         <section id="stage-7" class="stage">
             <div class="content-box text-center">
                 <div id="reveal-step-1">
-                    <p class="fade-line" style="--delay: 1;">“There’s one reason…”</p>
-                    <p class="fade-line" style="--delay: 2;">“I wanted you to find this.”</p>
-                    <p class="fade-line" style="--delay: 3;">“One reason today matters a little more.”</p>
+                    <p class="fade-line" style="--delay: 1;">There's one reason...</p>
+                    <p class="fade-line" style="--delay: 2;">I wanted you to find this.</p>
+                    <p class="fade-line" style="--delay: 3;">One reason today matters a little more.</p>
                     <div class="fade-line" style="--delay: 4;">
                         <button class="btn btn-primary mt-lg" onclick="triggerGrandReveal()">Reveal</button>
                     </div>
                 </div>
 
                 <div id="reveal-step-2" class="hidden">
-                    <p class="pre-title">It’s your birthday.</p>
+                    <p class="pre-title">It's your birthday.</p>
                     <h2 class="sub-reveal">HAPPY BIRTHDAY</h2>
                     <h1 class="grand-title gradient-text" id="birthday-name-display">NAILA ISLAM SHIFA</h1>
                     <div class="cake-emoji">🎂</div>
@@ -126,6 +131,7 @@
             </div>
         </section>
 
+        <!-- Stage 8 -->
         <section id="stage-8" class="stage">
             <div class="content-box letter-container">
                 <div id="letter-content" class="letter-body"></div>
@@ -135,13 +141,14 @@
             </div>
         </section>
 
+        <!-- Stage 9 -->
         <section id="stage-9" class="stage">
             <div class="content-box text-center">
                 <div class="final-image-wrapper mb-lg">
                     <img id="final-image" src="" alt="Final Photo" onerror="handleImageError(this)">
                 </div>
-                <p class="subtitle mb-sm">“And yes…<br>this whole little journey was made for you.”</p>
-                <h2 class="title highlight-name mb-xl">Happy Birthday, <span id="final-name-span">Naila</span>.</h2>
+                <p class="subtitle mb-sm">And yes... this whole little journey was made for you.</p>
+                <h2 class="title highlight-name mb-xl">Happy Birthday, <span id="final-name-span">Naila</span>! ❤️</h2>
                 <button class="btn btn-secondary" onclick="restartExperience()">Start Again</button>
             </div>
         </section>
