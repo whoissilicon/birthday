@@ -1033,18 +1033,19 @@ p {
 }
 
 
-/* FIX FOR TEXT OVERFLOW ON FINAL IMAGE */
+/* STRICT CONTAINER CLIPPING TO HIDE EXTRA TEXT ON RIGHT SIDE */
 
 .final-image {
   width: 100%;
 
-  max-height: 520px;
+  max-height: 480px;
 
   background: #080809;
 
   border-radius: 10px;
 
-  overflow: hidden;
+  /* এটি ডানপাশের বাড়তি অংশ সম্পূর্ণ কেটে বা হাইড করে দেবে */
+  overflow: hidden; 
 
   display: flex;
 
@@ -1060,14 +1061,13 @@ p {
 
 
 .final-image img {
-  width: 100%;
-
+  width: 120%; /* ইমেজটিকে একটু বড় করে দেওয়া হলো যাতে ডানের অংশ স্ক্রিনের বাইরে চলে যায় */
   height: 100%;
 
-  max-height: 520px;
+  max-height: 480px;
 
   object-fit: cover; 
-  object-position: 75% center;
+  object-position: 25% center; /* ফোকাস সম্পূর্ণ বাম ও সেন্টারে শিফট করা হলো যাতে ডানের টেক্সট হাইড হয়ে যায় */
 
   display: block;
 }
@@ -1152,7 +1152,7 @@ p {
   .memory-image img,
   .final-image,
   .final-image img {
-    max-height: 380px;
+    max-height: 350px;
   }
 
 
