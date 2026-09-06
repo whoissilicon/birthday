@@ -1,160 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Journey</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="theme-color" content="#08060d">
+  <title>The Naila File</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div id="app">
+  <canvas id="particles"></canvas>
+  <div class="vignette"></div>
 
-    <canvas id="particles-canvas"></canvas>
+  <section class="screen active" id="s-arrival">
+    <div class="dots" id="arrival-dots" style="display:none;"><span></span><span></span><span></span></div>
+    <div class="line" id="arrival-line"></div>
+    <div class="big-you" id="arrival-you" style="display:none;">YOU</div>
+    <div class="sub" id="arrival-sub" style="display:none;">Yes... you.</div>
+    <button class="btn primary" id="btn-enter" style="display:none;">ENTER</button>
+  </section>
 
-    <main class="app-container">
+  <section class="screen" id="s-name">
+    <div class="eyebrow">IDENTITY CHECK</div>
+    <div class="q-text">Before we continue...</div>
+    <div class="line">I need to make sure you're the person I'm looking for.</div>
+    <form id="name-form" class="name-form">
+      <input id="name-input" type="text" placeholder="Enter your name..." autocomplete="off" required>
+      <button class="btn primary" type="submit">VERIFY</button>
+    </form>
+    <div class="reaction" id="name-feedback"></div>
+  </section>
 
-        <!-- Stage 1 -->
-        <section id="stage-1" class="stage active">
-            <div class="content-box text-center">
-                <p class="fade-line" style="--delay: 1;">I've been looking for someone.</p>
-                <p class="fade-line" style="--delay: 2;">Someone very specific.</p>
-                <p class="fade-line" style="--delay: 3;">I wasn't sure if you would find this.</p>
-                <div class="fade-line" style="--delay: 4;">
-                    <button class="btn btn-primary mt-lg" onclick="goToStage(2)">Continue</button>
-                </div>
-            </div>
-        </section>
+  <section class="screen" id="s-questions">
+    <div class="q-num" id="q-num">QUESTION 01</div>
+    <div class="q-text" id="q-text"></div>
+    <div class="btn-row" id="q-options"></div>
+    <div class="reaction" id="q-reaction"></div>
+  </section>
 
-        <!-- Stage 2 -->
-        <section id="stage-2" class="stage">
-            <div class="content-box text-center">
-                <p class="subtitle mb-md">Before we continue...<br>I need to make sure you're the person I'm looking for.</p>
-                <h2 class="title mb-lg">What's your name?</h2>
+  <section class="screen" id="s-confirm">
+    <div class="line" id="confirm-line"></div>
+  </section>
 
-                <form id="name-form" onsubmit="handleNameSubmit(event)">
-                    <div class="input-group">
-                        <input type="text" id="name-input" placeholder="Enter your full name..." autocomplete="off" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary mt-md">Verify</button>
-                </form>
+  <section class="screen" id="s-hub">
+    <div class="file-window">
+      <div class="file-header">
+        <span class="fname">FILE: <b>NAILA ISLAM SHIFA</b></span>
+        <span class="file-status unlocked">UNLOCKED</span>
+      </div>
+      <div class="file-list" id="file-list"></div>
+    </div>
+  </section>
 
-                <div id="name-feedback" class="feedback-text mt-md"></div>
-            </div>
-        </section>
+  <section class="screen" id="s-memory">
+    <div id="memory-grid-view">
+      <div class="eyebrow">MEMORY ARCHIVE</div>
+      <div class="line memory-intro">Some dates are ordinary. Some aren't.</div>
+      <div class="mem-counter">MEMORIES FOUND <span id="mem-count">0</span> / <span id="mem-total">17</span></div>
+      <div class="mem-grid" id="mem-grid"></div>
+      <button class="btn" id="btn-mem-next" style="display:none;">CONTINUE</button>
+    </div>
 
-        <!-- Stage 3 -->
-        <section id="stage-3" class="stage">
-            <div id="question-container" class="content-box"></div>
-        </section>
+    <div class="memory-view" id="memory-view">
+      <div class="mem-date-label" id="mv-date"></div>
+      <div class="mem-photo-wrap"><img id="mv-photo" src="" alt="Memory"></div>
+      <div class="mem-title" id="mv-title"></div>
+      <div class="mem-caption" id="mv-caption"></div>
+      <button class="btn small" id="btn-close-memory">BACK TO DATES</button>
+    </div>
+  </section>
 
-        <!-- Stage 4 -->
-        <section id="stage-4" class="stage">
-            <div class="content-box text-center">
-                <p class="fade-line" style="--delay: 1;">Okay...</p>
-                <p class="fade-line" style="--delay: 2;">I think I know who you are now.</p>
-                <h1 class="highlight-name fade-line mt-md mb-md" style="--delay: 3;" id="identified-name">Naila Islam Shifa</h1>
-                <p class="fade-line" style="--delay: 4;">Yes...</p>
-                <p class="fade-line" style="--delay: 5;">You're the person I was looking for.</p>
-                <div class="fade-line" style="--delay: 6;">
-                    <button class="btn btn-primary mt-lg" onclick="goToStage(5)">Continue</button>
-                </div>
-            </div>
-        </section>
+  <section class="screen" id="s-moment">
+    <div class="eyebrow">MOMENT</div>
+    <div class="q-text">Which one sounds more like Naila?</div>
+    <div class="opt-grid" id="moment-options"></div>
+    <div class="reaction" id="moment-reaction"></div>
+  </section>
 
-        <!-- Stage 5 -->
-        <section id="stage-5" class="stage">
-            <div class="content-box">
-                <h2 class="title text-center mb-md">There are some dates worth remembering.</h2>
-                <p class="subtitle text-center mb-lg">Select a date to revisit a moment.</p>
+  <section class="screen" id="s-message">
+    <div class="eyebrow">MESSAGE</div>
+    <div class="line">Someone left something here for Naila.</div>
+    <div class="envelope" id="envelope">
+      <div class="env-body"></div>
+      <div class="env-flap"></div>
+      <div class="letter"></div>
+    </div>
+    <button class="btn" id="btn-open-envelope">OPEN</button>
+    <div class="message-text" id="message-text"></div>
+    <button class="btn" id="btn-message-continue" style="display:none;">CONTINUE</button>
+  </section>
 
-                <div id="timeline-buttons" class="date-grid mb-lg"></div>
+  <section class="screen" id="s-something">
+    <div class="eyebrow">SOMETHING ELSE</div>
+    <div class="line">A few things the file wasn't supposed to show Naila.</div>
+    <div class="spark-list" id="spark-list"></div>
+    <button class="btn" id="btn-something-continue">CONTINUE</button>
+  </section>
 
-                <div id="memory-viewer" class="memory-viewer hidden">
-                    <div class="image-wrapper">
-                        <img id="memory-image" src="" alt="Memory Photo" onerror="handleImageError(this)">
-                    </div>
-                    <div class="memory-details mt-md text-center">
-                        <h3 id="memory-title" class="memory-title"></h3>
-                        <p id="memory-caption" class="memory-caption mt-sm"></p>
-                    </div>
-                </div>
+  <section class="screen" id="s-finalq">
+    <div class="eyebrow">FINAL ACCESS REQUIRED</div>
+    <div class="q-text">One last question.</div>
+    <div class="line">Naila, do you want to see what's inside?</div>
+    <div class="btn-row" id="finalq-options">
+      <button class="btn primary" id="btn-final-yes">YES</button>
+      <button class="btn" id="btn-final-notready">I'M NOT READY</button>
+    </div>
+    <div class="reaction" id="finalq-reaction"></div>
+    <div class="countdown-num" id="countdown" style="display:none;"></div>
+  </section>
 
-                <div class="text-center mt-xl">
-                    <button class="btn btn-secondary" onclick="goToStage(6)">Proceed</button>
-                </div>
-            </div>
-        </section>
+  <section class="screen" id="s-finalreveal">
+    <div class="line" id="fr-opened"></div>
+    <div class="final-subject" id="fr-subject">SUBJECT: NAILA ISLAM SHIFA</div>
+    <div class="big-you" id="fr-you">NAILA</div>
+    <div class="happy-birthday" id="fr-hb">HAPPY BIRTHDAY</div>
+    <div class="line" id="fr-sub">Happy Birthday, Naila. ❤️</div>
+    <div class="typewriter-box" id="fr-tw"></div>
+    <button class="btn" id="btn-final-onething" style="display:none;">ONE LAST THING</button>
+  </section>
 
-        <!-- Stage 6 -->
-        <section id="stage-6" class="stage">
-            <div class="content-box text-center">
-                <p class="fade-line" style="--delay: 1;">Now you probably have an idea why I was looking for you.</p>
-                <p class="fade-line" style="--delay: 2;">But there's something I haven't told you yet.</p>
-                <div class="fade-line" style="--delay: 3;">
-                    <button class="btn btn-primary mt-lg" onclick="showStage6Part2()">What?</button>
-                </div>
-            </div>
-        </section>
+  <section class="screen" id="s-finalphoto">
+    <div class="line" id="fp-line1">There's one more thing.</div>
+    <button class="btn" id="btn-reveal-photo">REVEAL</button>
+    <div class="final-photo-wrap" id="fp-wrap" style="display:none;">
+      <img id="fp-img" src="" alt="Final memory">
+    </div>
+    <div class="mem-caption" id="fp-caption" style="display:none;"></div>
+    <button class="btn" id="btn-photo-continue" style="display:none;">CONTINUE</button>
+  </section>
 
-        <!-- Stage 6 Part 2 -->
-        <section id="stage-6-part2" class="stage">
-            <div class="content-box text-center">
-                <p class="fade-line" style="--delay: 1;">Today is not just another day.</p>
-                <p class="fade-line" style="--delay: 2;">At least... not for you.</p>
-                <div class="fade-line" style="--delay: 3;">
-                    <button class="btn btn-primary mt-lg" onclick="goToStage(7)">Continue</button>
-                </div>
-            </div>
-        </section>
+  <section class="screen" id="s-end">
+    <div class="line" id="end-l1">That's all.</div>
+    <div class="line" id="end-l2" style="display:none;">Or maybe...</div>
+    <div class="line" id="end-l3" style="display:none;">Just remember this:</div>
+    <div class="important-text" id="end-important" style="display:none;">NAILA, YOU ARE IMPORTANT.</div>
+    <div class="happy-birthday" id="end-hb" style="display:none;font-size:clamp(24px,7vw,36px);">Happy Birthday, Naila. ❤️</div>
+    <button class="btn" id="btn-replay" style="display:none;">REPLAY THE JOURNEY</button>
+  </section>
 
-        <!-- Stage 7 -->
-        <section id="stage-7" class="stage">
-            <div class="content-box text-center">
-                <div id="reveal-step-1">
-                    <p class="fade-line" style="--delay: 1;">There's one reason...</p>
-                    <p class="fade-line" style="--delay: 2;">I wanted you to find this.</p>
-                    <p class="fade-line" style="--delay: 3;">One reason today matters a little more.</p>
-                    <div class="fade-line" style="--delay: 4;">
-                        <button class="btn btn-primary mt-lg" onclick="triggerGrandReveal()">Reveal</button>
-                    </div>
-                </div>
+  <div id="guide-pointer">
+    <svg viewBox="0 0 24 24" fill="none">
+      <path d="M12 2L12 22M12 22L6 16M12 22L18 16" stroke="#C9A876" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <div id="guide-wrap">
+    <div id="guide-avatar"><img id="guide-img" src="images/naila.png" alt="guide"></div>
+    <div id="guide-bubble"></div>
+  </div>
+</div>
 
-                <div id="reveal-step-2" class="hidden">
-                    <p class="pre-title">It's your birthday.</p>
-                    <h2 class="sub-reveal">HAPPY BIRTHDAY</h2>
-                    <h1 class="grand-title gradient-text" id="birthday-name-display">NAILA ISLAM SHIFA</h1>
-                    <div class="cake-emoji">🎂</div>
-                    <button class="btn btn-gold mt-xl" onclick="goToStage(8)">Read Message</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Stage 8 -->
-        <section id="stage-8" class="stage">
-            <div class="content-box letter-container">
-                <div id="letter-content" class="letter-body"></div>
-                <div id="letter-actions" class="text-center mt-xl opacity-0 transition-fade">
-                    <button class="btn btn-primary" onclick="goToStage(9)">One Last Thing</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Stage 9 -->
-        <section id="stage-9" class="stage">
-            <div class="content-box text-center">
-                <div class="final-image-wrapper mb-lg">
-                    <img id="final-image" src="" alt="Final Photo" onerror="handleImageError(this)">
-                </div>
-                <p class="subtitle mb-sm">And yes... this whole little journey was made for you.</p>
-                <h2 class="title highlight-name mb-xl">Happy Birthday, <span id="final-name-span">Naila</span>! ❤️</h2>
-                <button class="btn btn-secondary" onclick="restartExperience()">Start Again</button>
-            </div>
-        </section>
-
-    </main>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
