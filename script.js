@@ -1,14 +1,6 @@
-/**
- * CUSTOMIZABLE DATA SECTION
- */
 const birthdayData = {
-    // Target user's exact name
     name: "Naila Islam Shifa",
-
-    // Path to the final photograph
     finalImage: "images/final.jpg",
-
-    // Personality Questions & Responses (Stage 3)
     questions: [
         {
             question: "Be honest… which one sounds most like you?",
@@ -44,42 +36,110 @@ const birthdayData = {
             ]
         }
     ],
-
-    // Interactive Timeline Memories (Stage 5)
     memories: [
         {
-            date: "14 March",
+            date: "06 Aug 2023",
             image: "images/memory1.jpg",
-            title: "That day",
-            caption: "Some moments become special without asking permission."
+            title: "A beginning",
+            caption: "Where the story first quietly started to unfold."
         },
         {
-            date: "27 April",
-            image: "images/memory1.jpg",
-            title: "A quiet moment",
+            date: "22 Aug 2023",
+            image: "images/memory2.jpg",
+            title: "A gentle step",
             caption: "Another ordinary day that ended up sticking around in memory."
         },
         {
-            date: "09 June",
-            image: "images/memory1.jpg",
+            date: "31 Aug 2023",
+            image: "images/memory3.jpg",
+            title: "Quiet moments",
+            caption: "Unplanned conversations and simple clarity."
+        },
+        {
+            date: "23 Oct 2023",
+            image: "images/memory4.jpg",
+            title: "Shared time",
+            caption: "Proof that time passes, but good feelings don't."
+        },
+        {
+            date: "29 Oct 2023",
+            image: "images/memory5.jpg",
+            title: "First meet",
+            caption: "The day we finally met in person and created a core memory."
+        },
+        {
+            date: "11 Nov 2023",
+            image: "images/memory6.jpg",
             title: "Unplanned laughter",
             caption: "The best times are usually the ones that weren't scheduled."
         },
         {
-            date: "21 August",
-            image: "images/memory1.jpg",
-            title: "Looking back",
-            caption: "Proof that time passes, but good feelings don't."
+            date: "16 Mar 2024",
+            image: "images/memory7.jpg",
+            title: "Spring memory",
+            caption: "A bright day worth holding on to."
         },
         {
-            date: "03 October",
-            image: "images/memory1.jpg",
-            title: "A simple chapter",
+            date: "17 Jul 2024",
+            image: "images/memory8.jpg",
+            title: "Midsummer chapter",
+            caption: "Moments becoming special without asking permission."
+        },
+        {
+            date: "19 Jul 2024",
+            image: "images/memory9.jpg",
+            title: "Good company",
             caption: "Just one of many reasons to celebrate this story."
+        },
+        {
+            date: "21 Sep 2024",
+            image: "images/memory10.jpg",
+            title: "Autumn warmth",
+            caption: "Reflecting on how quickly time moves."
+        },
+        {
+            date: "09 Dec 2024",
+            image: "images/memory11.jpg",
+            title: "Winter reflection",
+            caption: "Finding comfort in shared memories."
+        },
+        {
+            date: "25 Dec 2024",
+            image: "images/memory12.jpg",
+            title: "Year-end magic",
+            caption: "A cozy moment at the end of the year."
+        },
+        {
+            date: "27 Dec 2024",
+            image: "images/memory13.jpg",
+            title: "Revisiting those days",
+            caption: "Recently visited the place to remember those days."
+        },
+        {
+            date: "26 Jan 2025",
+            image: "images/memory14.jpg",
+            title: "New year chapter",
+            caption: "Starting a new year with cherished memories."
+        },
+        {
+            date: "27 Jan 2025",
+            image: "images/memory15.jpg",
+            title: "A calm day",
+            caption: "Quiet peace and simple gratitude."
+        },
+        {
+            date: "15 Apr 2025",
+            image: "images/memory16.jpg",
+            title: "Spring sunshine",
+            caption: "Capturing a brand-new page of the journey."
+        },
+        {
+            date: "27 Oct 2025",
+            image: "images/memory17.jpg",
+            title: "Looking back",
+            caption: "Reflecting on two years of wonderful moments."
         }
     ],
-
-    // Personal Birthday Message (Stage 8)
     letterText: `Dear Naila,
 
 Some people come into our lives and somehow make ordinary moments feel a little more special.
@@ -99,8 +159,6 @@ I hope this year becomes one of those chapters you'll look back on and smile abo
 Stay happy. Stay curious. And keep being you. ❤️`
 };
 
-/* --- CORE APPLICATION LOGIC --- */
-
 let currentStage = 1;
 let currentQuestionIdx = 0;
 
@@ -111,7 +169,6 @@ document.addEventListener("DOMContentLoaded", () => {
     setupFinalStage();
 });
 
-// Navigation Function
 function goToStage(stageNum) {
     const currentEl = document.querySelector('.stage.active');
     if (currentEl) {
@@ -132,12 +189,11 @@ function goToStage(stageNum) {
         }
         currentStage = stageNum;
 
-        // Custom Stage Triggers
         if (stageNum === 3) loadQuestion(0);
+        if (stageNum === 8) setTimeout(startTypewriter, 600);
     }, 400);
 }
 
-// Stage 2: Name Input Handling (Flexible Name Matching)
 function handleNameSubmit(event) {
     event.preventDefault();
     const inputVal = document.getElementById("name-input").value.trim().toLowerCase();
@@ -156,7 +212,6 @@ function handleNameSubmit(event) {
     }
 }
 
-// Stage 3: Personality Questions Logic
 function loadQuestion(index) {
     currentQuestionIdx = index;
     const container = document.getElementById("question-container");
@@ -194,13 +249,11 @@ function selectOption(optIndex) {
     }, 1600);
 }
 
-// Stage 4 Setup
 function setupStage4() {
     document.getElementById("identified-name").innerText = birthdayData.name;
     document.getElementById("birthday-name-display").innerText = birthdayData.name.toUpperCase();
 }
 
-// Stage 5: Interactive Timeline
 function setupTimeline() {
     const container = document.getElementById("timeline-buttons");
     container.innerHTML = "";
@@ -235,12 +288,10 @@ function showMemory(index, element) {
     }, 300);
 }
 
-// Stage 6 Part 2 Toggle
 function showStage6Part2() {
     goToStage("6-part2");
 }
 
-// Stage 7 Reveal
 function triggerGrandReveal() {
     const step1 = document.getElementById("reveal-step-1");
     const step2 = document.getElementById("reveal-step-2");
@@ -250,7 +301,6 @@ function triggerGrandReveal() {
     triggerCelebratoryParticles();
 }
 
-// Stage 8: Typewriter Letter
 function startTypewriter() {
     const letterEl = document.getElementById("letter-content");
     const actionsEl = document.getElementById("letter-actions");
@@ -272,15 +322,6 @@ function startTypewriter() {
     type();
 }
 
-const originalGoToStage = goToStage;
-goToStage = function(stageNum) {
-    originalGoToStage(stageNum);
-    if (stageNum === 8) {
-        setTimeout(startTypewriter, 600);
-    }
-};
-
-// Stage 9 Setup
 function setupFinalStage() {
     document.getElementById("final-image").src = birthdayData.finalImage;
     const firstName = birthdayData.name.split(" ")[0];
@@ -298,7 +339,6 @@ function restartExperience() {
     goToStage(1);
 }
 
-// Graceful Image Fallback System
 function handleImageError(imgElement) {
     const parent = imgElement.parentElement;
     imgElement.style.display = "none";
@@ -312,7 +352,6 @@ function handleImageError(imgElement) {
     }
 }
 
-// Background Particle Engine (Canvas)
 let particles = [];
 let particleMode = "subtle";
 
