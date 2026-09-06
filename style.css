@@ -1067,7 +1067,7 @@ p {
   max-height: 520px;
 
   object-fit: cover; 
-  object-position: 80% center;
+  object-position: 75% center;
 
   display: block;
 }
