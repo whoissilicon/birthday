@@ -1032,7 +1032,6 @@ p {
   margin: auto;
 }
 
-
 .final-image {
   width: 100%;
   max-height: none;
@@ -1047,15 +1046,15 @@ p {
   border: 1px solid var(--border);
 }
 
-
 .final-image img {
   width: 100%;
   height: auto;
   max-height: none;
   object-fit: contain;
-  object-position: 70%center;
+  object-position: center;
   display: block;
 }
+
 
 
 .final-card h1 {
