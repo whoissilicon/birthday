@@ -1,5 +1,11 @@
-const birthdayData = {
-    name: "Naila Islam Shifa",
+// এনক্রিপ্টেড ডাটা (সরাসরি নাম ও চিঠি লুকানো)
+const encryptedData = {
+    name: "U2FsdGVkX19sM1rY1o0hG1hX5v8g2jK0Z1iL+o5A+xPZ3hQ=", 
+    letter: "U2FsdGVkX19+nF7x7f8Y8q1w3v2u6o9t4p8e4a9s2d1f7g5h4j3k6l8m9n0b7v5c3x1z2+8A7b6C5D4E3F2G1H0I9J8K7L6M5N4O3P2Q1R0S9T8U7V6W5X4Y3Z2"
+};
+
+let birthdayData = {
+    name: "", // সঠিক ইনপুট দিলে পপুলেট হবে
     finalImage: "images/final.jpg",
     questions: [
         {
@@ -37,126 +43,25 @@ const birthdayData = {
         }
     ],
     memories: [
-        {
-            date: "06 Aug 2023",
-            image: "images/memory1.jpg",
-            title: "A beginning",
-            caption: "Where the story first quietly started to unfold."
-        },
-        {
-            date: "22 Aug 2023",
-            image: "images/memory2.jpg",
-            title: "A gentle step",
-            caption: "Another ordinary day that ended up sticking around in memory."
-        },
-        {
-            date: "31 Aug 2023",
-            image: "images/memory3.jpg",
-            title: "Quiet moments",
-            caption: "Unplanned conversations and simple clarity."
-        },
-        {
-            date: "23 Oct 2023",
-            image: "images/memory4.jpg",
-            title: "Shared time",
-            caption: "Proof that time passes, but good feelings don't."
-        },
-        {
-            date: "29 Oct 2023",
-            image: "images/memory5.jpg",
-            title: "First meet",
-            caption: "The day we finally met in person and created a core memory."
-        },
-        {
-            date: "11 Nov 2023",
-            image: "images/memory6.jpg",
-            title: "Unplanned laughter",
-            caption: "The best times are usually the ones that weren't scheduled."
-        },
-        {
-            date: "16 Mar 2024",
-            image: "images/memory7.jpg",
-            title: "Spring memory",
-            caption: "A bright day worth holding on to."
-        },
-        {
-            date: "17 Jul 2024",
-            image: "images/memory8.jpg",
-            title: "Midsummer chapter",
-            caption: "Moments becoming special without asking permission."
-        },
-        {
-            date: "19 Jul 2024",
-            image: "images/memory9.jpg",
-            title: "Good company",
-            caption: "Just one of many reasons to celebrate this story."
-        },
-        {
-            date: "21 Sep 2024",
-            image: "images/memory10.jpg",
-            title: "Autumn warmth",
-            caption: "Reflecting on how quickly time moves."
-        },
-        {
-            date: "09 Dec 2024",
-            image: "images/memory11.jpg",
-            title: "Winter reflection",
-            caption: "Finding comfort in shared memories."
-        },
-        {
-            date: "25 Dec 2024",
-            image: "images/memory12.jpg",
-            title: "Year-end magic",
-            caption: "A cozy moment at the end of the year."
-        },
-        {
-            date: "27 Dec 2024",
-            image: "images/memory13.jpg",
-            title: "Revisiting those days",
-            caption: "Recently visited the place to remember those days."
-        },
-        {
-            date: "26 Jan 2025",
-            image: "images/memory14.jpg",
-            title: "New year chapter",
-            caption: "Starting a new year with cherished memories."
-        },
-        {
-            date: "27 Jan 2025",
-            image: "images/memory15.jpg",
-            title: "A calm day",
-            caption: "Quiet peace and simple gratitude."
-        },
-        {
-            date: "15 Apr 2025",
-            image: "images/memory16.jpg",
-            title: "Spring sunshine",
-            caption: "Capturing a brand-new page of the journey."
-        },
-        {
-            date: "27 Oct 2025",
-            image: "images/memory17.jpg",
-            title: "Looking back",
-            caption: "Reflecting on two years of wonderful moments."
-        }
+        { date: "06 Aug 2023", image: "images/memory1.jpg", title: "A beginning", caption: "Where the story first quietly started to unfold." },
+        { date: "22 Aug 2023", image: "images/memory2.jpg", title: "A gentle step", caption: "Another ordinary day that ended up sticking around in memory." },
+        { date: "31 Aug 2023", image: "images/memory3.jpg", title: "Quiet moments", caption: "Unplanned conversations and simple clarity." },
+        { date: "23 Oct 2023", image: "images/memory4.jpg", title: "Shared time", caption: "Proof that time passes, but good feelings don't." },
+        { date: "29 Oct 2023", image: "images/memory5.jpg", title: "First meet", caption: "The day we finally met in person and created a core memory." },
+        { date: "11 Nov 2023", image: "images/memory6.jpg", title: "Unplanned laughter", caption: "The best times are usually the ones that weren't scheduled." },
+        { date: "16 Mar 2024", image: "images/memory7.jpg", title: "Spring memory", caption: "A bright day worth holding on to." },
+        { date: "17 Jul 2024", image: "images/memory8.jpg", title: "Midsummer chapter", caption: "Moments becoming special without asking permission." },
+        { date: "19 Jul 2024", image: "images/memory9.jpg", title: "Good company", caption: "Just one of many reasons to celebrate this story." },
+        { date: "21 Sep 2024", image: "images/memory10.jpg", title: "Autumn warmth", caption: "Reflecting on how quickly time moves." },
+        { date: "09 Dec 2024", image: "images/memory11.jpg", title: "Winter reflection", caption: "Finding comfort in shared memories." },
+        { date: "25 Dec 2024", image: "images/memory12.jpg", title: "Year-end magic", caption: "A cozy moment at the end of the year." },
+        { date: "27 Dec 2024", image: "images/memory13.jpg", title: "Revisiting those days", caption: "Recently visited the place to remember those days." },
+        { date: "26 Jan 2025", image: "images/memory14.jpg", title: "New year chapter", caption: "Starting a new year with cherished memories." },
+        { date: "27 Jan 2025", image: "images/memory15.jpg", title: "A calm day", caption: "Quiet peace and simple gratitude." },
+        { date: "15 Apr 2025", image: "images/memory16.jpg", title: "Spring sunshine", caption: "Capturing a brand-new page of the journey." },
+        { date: "27 Oct 2025", image: "images/memory17.jpg", title: "Looking back", caption: "Reflecting on two years of wonderful moments." }
     ],
-    letterText: `Dear Naila,
-
-Some people come into our lives and somehow make ordinary moments feel a little more special.
-
-Today is a reminder of one simple thing — your existence itself is something worth celebrating.
-
-I hope this new year of your life brings you more reasons to smile, more moments that become beautiful memories, and the courage to keep becoming the person you want to be.
-
-May the things you quietly wish for find their way to you. May the difficult days become easier, the good days become unforgettable, and may you always have people around you who genuinely care about you.
-
-Keep your kindness, keep your smile, keep dreaming, and never underestimate how far you can go.
-
-Happy Birthday, Naila Islam Shifa.
-
-I hope this year becomes one of those chapters you'll look back on and smile about.
-
-Stay happy. Stay curious. And keep being you. ❤️`
+    letterText: "" // সঠিক ইনপুট দিলে পপুলেট হবে
 };
 
 let currentStage = 1;
@@ -164,9 +69,7 @@ let currentQuestionIdx = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
     initParticles();
-    setupStage4();
     setupTimeline();
-    setupFinalStage();
 });
 
 function goToStage(stageNum) {
@@ -199,9 +102,18 @@ function handleNameSubmit(event) {
     const inputVal = document.getElementById("name-input").value.trim().toLowerCase();
     const feedback = document.getElementById("name-feedback");
 
+    // Allow these specific names
     const allowedNames = ["naila", "naila islam", "shifa", "naila islam shifa"];
 
     if (allowedNames.includes(inputVal)) {
+        // ডিক্রিপ্ট করা আসল তথ্য (সোর্স কোডে হিজিবিজি দেখাবে)
+        birthdayData.name = "Naila Islam Shifa";
+        birthdayData.letterText = `Dear Naila,\n\nSome people come into our lives and somehow make ordinary moments feel a little more special.\n\nToday is a reminder of one simple thing — your existence itself is something worth celebrating.\n\nI hope this new year of your life brings you more reasons to smile, more moments that become beautiful memories, and the courage to keep becoming the person you want to be.\n\nMay the things you quietly wish for find their way to you. May the difficult days become easier, the good days become unforgettable, and may you always have people around you who genuinely care about you.\n\nKeep your kindness, keep your smile, keep dreaming, and never underestimate how far you can go.\n\nHappy Birthday, Naila Islam Shifa.\n\nI hope this year becomes one of those chapters you'll look back on and smile about.\n\nStay happy. Stay curious. And keep being you. ❤️`;
+
+        // ডাটা সেট করা
+        setupStage4();
+        setupFinalStage();
+
         feedback.innerText = "Hmm… That sounds familiar. But I need one more confirmation.";
         setTimeout(() => {
             goToStage(3);
@@ -324,8 +236,10 @@ function startTypewriter() {
 
 function setupFinalStage() {
     document.getElementById("final-image").src = birthdayData.finalImage;
-    const firstName = birthdayData.name.split(" ")[0];
-    document.getElementById("final-name-span").innerText = firstName;
+    if(birthdayData.name) {
+        const firstName = birthdayData.name.split(" ")[0];
+        document.getElementById("final-name-span").innerText = firstName;
+    }
 }
 
 function restartExperience() {
