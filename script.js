@@ -1,11 +1,5 @@
-// এনক্রিপ্টেড ডাটা (সরাসরি নাম ও চিঠি লুকানো)
-const encryptedData = {
-    name: "U2FsdGVkX19sM1rY1o0hG1hX5v8g2jK0Z1iL+o5A+xPZ3hQ=", 
-    letter: "U2FsdGVkX19+nF7x7f8Y8q1w3v2u6o9t4p8e4a9s2d1f7g5h4j3k6l8m9n0b7v5c3x1z2+8A7b6C5D4E3F2G1H0I9J8K7L6M5N4O3P2Q1R0S9T8U7V6W5X4Y3Z2"
-};
-
-let birthdayData = {
-    name: "", // সঠিক ইনপুট দিলে পপুলেট হবে
+    const birthdayData = {
+    name: "",
     finalImage: "images/final.jpg",
     questions: [
         {
@@ -61,7 +55,7 @@ let birthdayData = {
         { date: "15 Apr 2025", image: "images/memory16.jpg", title: "Spring sunshine", caption: "Capturing a brand-new page of the journey." },
         { date: "27 Oct 2025", image: "images/memory17.jpg", title: "Looking back", caption: "Reflecting on two years of wonderful moments." }
     ],
-    letterText: "" // সঠিক ইনপুট দিলে পপুলেট হবে
+    letterText: ""
 };
 
 let currentStage = 1;
@@ -93,7 +87,9 @@ function goToStage(stageNum) {
         currentStage = stageNum;
 
         if (stageNum === 3) loadQuestion(0);
+        if (stageNum === 4) setupStage4();
         if (stageNum === 8) setTimeout(startTypewriter, 600);
+        if (stageNum === 9) setupFinalStage();
     }, 400);
 }
 
@@ -102,17 +98,11 @@ function handleNameSubmit(event) {
     const inputVal = document.getElementById("name-input").value.trim().toLowerCase();
     const feedback = document.getElementById("name-feedback");
 
-    // Allow these specific names
     const allowedNames = ["naila", "naila islam", "shifa", "naila islam shifa"];
 
     if (allowedNames.includes(inputVal)) {
-        // ডিক্রিপ্ট করা আসল তথ্য (সোর্স কোডে হিজিবিজি দেখাবে)
         birthdayData.name = "Naila Islam Shifa";
-        birthdayData.letterText = `Dear Naila,\n\nSome people come into our lives and somehow make ordinary moments feel a little more special.\n\nToday is a reminder of one simple thing — your existence itself is something worth celebrating.\n\nI hope this new year of your life brings you more reasons to smile, more moments that become beautiful memories, and the courage to keep becoming the person you want to be.\n\nMay the things you quietly wish for find their way to you. May the difficult days become easier, the good days become unforgettable, and may you always have people around you who genuinely care about you.\n\nKeep your kindness, keep your smile, keep dreaming, and never underestimate how far you can go.\n\nHappy Birthday, Naila Islam Shifa.\n\nI hope this year becomes one of those chapters you'll look back on and smile about.\n\nStay happy. Stay curious. And keep being you. ❤️`;
-
-        // ডাটা সেট করা
-        setupStage4();
-        setupFinalStage();
+        birthdayData.letterText = "Dear Naila,\n\nSome people come into our lives and somehow make ordinary moments feel a little more special.\n\nToday is a reminder of one simple thing — your existence itself is something worth celebrating.\n\nI hope this new year of your life brings you more reasons to smile, more moments that become beautiful memories, and the courage to keep becoming the person you want to be.\n\nMay the things you quietly wish for find their way to you. May the difficult days become easier, the good days become unforgettable, and may you always have people around you who genuinely care about you.\n\nKeep your kindness, keep your smile, keep dreaming, and never underestimate how far you can go.\n\nHappy Birthday, Naila Islam Shifa.\n\nI hope this year becomes one of those chapters you'll look back on and smile about.\n\nStay happy. Stay curious. And keep being you. ❤️";
 
         feedback.innerText = "Hmm… That sounds familiar. But I need one more confirmation.";
         setTimeout(() => {
@@ -162,12 +152,15 @@ function selectOption(optIndex) {
 }
 
 function setupStage4() {
-    document.getElementById("identified-name").innerText = birthdayData.name;
-    document.getElementById("birthday-name-display").innerText = birthdayData.name.toUpperCase();
+    if(birthdayData.name) {
+        document.getElementById("identified-name").innerText = birthdayData.name;
+        document.getElementById("birthday-name-display").innerText = birthdayData.name.toUpperCase();
+    }
 }
 
 function setupTimeline() {
     const container = document.getElementById("timeline-buttons");
+    if(!container) return;
     container.innerHTML = "";
 
     birthdayData.memories.forEach((mem, index) => {
@@ -192,6 +185,10 @@ function showMemory(index, element) {
     viewer.style.opacity = 0;
 
     setTimeout(() => {
+        img.style.display = "block";
+        const placeholder = viewer.querySelector(".placeholder-box");
+        if(placeholder) placeholder.remove();
+
         img.src = mem.image;
         title.innerText = mem.title;
         caption.innerText = mem.caption;
@@ -235,7 +232,11 @@ function startTypewriter() {
 }
 
 function setupFinalStage() {
-    document.getElementById("final-image").src = birthdayData.finalImage;
+    const finalImg = document.getElementById("final-image");
+    if(finalImg) {
+        finalImg.style.display = "block";
+        finalImg.src = birthdayData.finalImage;
+    }
     if(birthdayData.name) {
         const firstName = birthdayData.name.split(" ")[0];
         document.getElementById("final-name-span").innerText = firstName;
@@ -244,6 +245,8 @@ function setupFinalStage() {
 
 function restartExperience() {
     currentQuestionIdx = 0;
+    birthdayData.name = "";
+    birthdayData.letterText = "";
     document.getElementById("name-input").value = "";
     document.getElementById("name-feedback").innerText = "";
     document.getElementById("memory-viewer").classList.add("hidden");
@@ -271,6 +274,7 @@ let particleMode = "subtle";
 
 function initParticles() {
     const canvas = document.getElementById("particles-canvas");
+    if(!canvas) return;
     const ctx = canvas.getContext("2d");
 
     function resize() {
@@ -313,6 +317,7 @@ function initParticles() {
 function triggerCelebratoryParticles() {
     particleMode = "gold";
     const canvas = document.getElementById("particles-canvas");
+    if(!canvas) return;
     for (let i = 0; i < 60; i++) {
         particles.push({
             x: Math.random() * canvas.width,
