@@ -622,7 +622,7 @@ p {
 
   font-size: .8rem;
 
-  transition: .2s;
+  transition: .25s;
 }
 
 
@@ -670,7 +670,8 @@ p {
 
   max-height: 550px;
 
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center;
 
   display: block;
 }
@@ -1032,10 +1033,12 @@ p {
 }
 
 
+/* FIX FOR TEXT OVERFLOW ON FINAL IMAGE */
+
 .final-image {
   width: 100%;
 
-  max-height: 550px;
+  max-height: 520px;
 
   background: #080809;
 
@@ -1049,15 +1052,23 @@ p {
   justify-content: center;
 
   margin-bottom: 22px;
+
+  position: relative;
+
+  border: 1px solid var(--border);
 }
 
 
 .final-image img {
   width: 100%;
 
-  max-height: 550px;
+  height: 100%;
 
-  object-fit: contain;
+  max-height: 520px;
+
+  object-fit: cover; /* ছবির ডানের ওভারফ্লোয় হওয়া টেক্সট সুন্দরভাবে ক্রপ হয়ে যাবে */
+
+  object-position: left center; /* বিষয়বস্তু কেন্দ্রিক ও বামের অংশ ফোকাস রাখবে */
 
   display: block;
 }
@@ -1142,7 +1153,7 @@ p {
   .memory-image img,
   .final-image,
   .final-image img {
-    max-height: 400px;
+    max-height: 380px;
   }
 
 
