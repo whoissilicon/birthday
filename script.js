@@ -13,40 +13,62 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!music) return;
     music.volume = 0.35;
     
-    music.play().then(() => {
-      isPlaying = true;
-      musicToggleBtn.textContent = "🔊";
-    }).catch(error => {
-      console.log("Audio play failed:", error);
-      isPlaying = false;
-      musicToggleBtn.textContent = "🔇";
-    });
+    const playPromise = music.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        isPlaying = true;
+        if (musicToggleBtn) {
+          musicToggleBtn.textContent = "🔊";
+          musicToggleBtn.style.display = "inline-block";
+        }
+      }).catch(error => {
+        console.log("Audio play failed:", error);
+        isPlaying = false;
+        if (musicToggleBtn) {
+          musicToggleBtn.textContent = "🔇";
+          musicToggleBtn.style.display = "inline-block";
+        }
+      });
+    }
   }
 
   function pauseMusic() {
     if (!music) return;
     music.pause();
     isPlaying = false;
-    musicToggleBtn.textContent = "🔇";
+    if (musicToggleBtn) {
+      musicToggleBtn.textContent = "🔇";
+      musicToggleBtn.style.display = "inline-block";
+    }
   }
 
-  allowMusicBtn.addEventListener("click", () => {
-    playMusic();
-    musicModal.classList.add("hidden-modal");
-  });
+  if (musicToggleBtn) {
+    musicToggleBtn.style.display = "none";
+  }
 
-  denyMusicBtn.addEventListener("click", () => {
-    pauseMusic();
-    musicModal.classList.add("hidden-modal");
-  });
-
-  musicToggleBtn.addEventListener("click", () => {
-    if (isPlaying) {
-      pauseMusic();
-    } else {
+  if (allowMusicBtn) {
+    allowMusicBtn.addEventListener("click", () => {
       playMusic();
-    }
-  });
+      if (musicModal) musicModal.classList.add("hidden-modal");
+    });
+  }
+
+  if (denyMusicBtn) {
+    denyMusicBtn.addEventListener("click", () => {
+      pauseMusic();
+      if (musicModal) musicModal.classList.add("hidden-modal");
+    });
+  }
+
+  if (musicToggleBtn) {
+    musicToggleBtn.addEventListener("click", () => {
+      if (isPlaying) {
+        pauseMusic();
+      } else {
+        playMusic();
+      }
+    });
+  }
 
   const validNames = [
     "naila",
@@ -127,11 +149,6 @@ document.addEventListener("DOMContentLoaded", () => {
       screen.classList.add("active");
     }
     window.scrollTo(0, 0);
-
-    if (id === "file" && !musicPermissionAsked) {
-      musicPermissionAsked = true;
-      musicModal.classList.remove("hidden-modal");
-    }
   }
 
   function typeText(elementId, lines, callback) {
@@ -166,6 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function startIntro() {
     const button = document.getElementById("introBtn");
+    if (!button) return;
     button.classList.add("hidden");
     typeText(
       "introText",
@@ -183,20 +201,26 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  musicModal.classList.add("hidden-modal");
+  if (musicModal) {
+    musicModal.classList.add("hidden-modal");
+  }
   startIntro();
 
-  document.getElementById("introBtn").addEventListener("click", () => {
-    showScreen("nameScreen");
-    startNameScreen();
-  });
+  const introBtn = document.getElementById("introBtn");
+  if (introBtn) {
+    introBtn.addEventListener("click", () => {
+      showScreen("nameScreen");
+      startNameScreen();
+    });
+  }
 
   function startNameScreen() {
     const form = document.getElementById("nameForm");
     const error = document.getElementById("nameError");
     const input = document.getElementById("nameInput");
+    if (!form || !input) return;
     form.classList.add("hidden");
-    error.classList.add("hidden");
+    if (error) error.classList.add("hidden");
     input.value = "";
 
     typeText(
@@ -210,11 +234,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function submitName() {
-    const input = document.getElementById("nameInput").value.trim().toLowerCase();
+    const inputField = document.getElementById("nameInput");
+    if (!inputField) return;
+    const input = inputField.value.trim().toLowerCase();
     const valid = validNames.some(name => input === name || input.includes(name));
 
     if (!valid) {
-      document.getElementById("nameError").classList.remove("hidden");
+      const error = document.getElementById("nameError");
+      if (error) error.classList.remove("hidden");
       return;
     }
 
@@ -222,12 +249,19 @@ document.addEventListener("DOMContentLoaded", () => {
     startQuestions();
   }
 
-  document.getElementById("nameBtn").addEventListener("click", submitName);
-  document.getElementById("nameInput").addEventListener("keydown", event => {
-    if (event.key === "Enter") {
-      submitName();
-    }
-  });
+  const nameBtn = document.getElementById("nameBtn");
+  if (nameBtn) {
+    nameBtn.addEventListener("click", submitName);
+  }
+
+  const nameInput = document.getElementById("nameInput");
+  if (nameInput) {
+    nameInput.addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        submitName();
+      }
+    });
+  }
 
   function startQuestions() {
     questionIndex = 0;
@@ -236,14 +270,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showQuestion() {
     const question = questions[questionIndex];
-    document.getElementById("questionNumber").textContent = `QUESTION ${String(questionIndex + 1).padStart(2, "0")} / ${questions.length}`;
-    document.getElementById("questionTitle").textContent = question.title;
-    document.getElementById("questionSubtitle").textContent = question.subtitle;
+    const qNum = document.getElementById("questionNumber");
+    const qTitle = document.getElementById("questionTitle");
+    const qSub = document.getElementById("questionSubtitle");
+
+    if (qNum) qNum.textContent = `QUESTION ${String(questionIndex + 1).padStart(2, "0")} / ${questions.length}`;
+    if (qTitle) qTitle.textContent = question.title;
+    if (qSub) qSub.textContent = question.subtitle;
 
     const options = document.getElementById("options");
-    options.innerHTML = "";
     const feedback = document.getElementById("feedback");
-    feedback.classList.add("hidden");
+    if (!options) return;
+
+    options.innerHTML = "";
+    if (feedback) feedback.classList.add("hidden");
     options.style.opacity = "1";
     options.style.pointerEvents = "auto";
 
@@ -259,8 +299,10 @@ document.addEventListener("DOMContentLoaded", () => {
   function chooseOption(optionText) {
     const options = document.getElementById("options");
     const feedback = document.getElementById("feedback");
-    options.style.pointerEvents = "none";
-    options.style.opacity = "0.4";
+    if (options) {
+      options.style.pointerEvents = "none";
+      options.style.opacity = "0.4";
+    }
 
     let message = "Interesting choice.";
     if (optionText === "I have no idea how it became 3 AM.") {
@@ -275,8 +317,10 @@ document.addEventListener("DOMContentLoaded", () => {
       message = "And today might just be one of them.";
     }
 
-    feedback.textContent = message;
-    feedback.classList.remove("hidden");
+    if (feedback) {
+      feedback.textContent = message;
+      feedback.classList.remove("hidden");
+    }
 
     setTimeout(() => {
       questionIndex++;
@@ -291,27 +335,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function startConfirmation() {
     const box = document.getElementById("confirmBox");
-    box.classList.add("hidden");
+    if (box) box.classList.add("hidden");
     typeText(
       "confirmText",
       ["Okay.", "I think we have enough.", "Name checked.", "A few answers checked.", "Yes."],
       () => {
-        box.classList.remove("hidden");
+        if (box) box.classList.remove("hidden");
       }
     );
   }
 
-  document.getElementById("enterBtn").addEventListener("click", () => {
-    showScreen("file");
-  });
+  const enterBtn = document.getElementById("enterBtn");
+  if (enterBtn) {
+    enterBtn.addEventListener("click", () => {
+      showScreen("file");
+    });
+  }
 
   document.querySelectorAll(".file-card").forEach(card => {
     card.addEventListener("click", () => {
       const target = card.dataset.open;
       showScreen(target);
+      
       if (target === "memories") {
+        if (!musicPermissionAsked) {
+          musicPermissionAsked = true;
+          if (musicModal) {
+            musicModal.classList.remove("hidden-modal");
+          }
+        }
         initMemories();
       }
+
       if (target === "last") {
         startLastThing();
       }
@@ -326,6 +381,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function initMemories() {
     const selector = document.getElementById("dateSelector");
+    if (!selector) return;
     selector.innerHTML = "";
     memoryIndex = 0;
 
@@ -348,32 +404,45 @@ document.addEventListener("DOMContentLoaded", () => {
     const image = document.getElementById("memoryImg");
     const fallback = document.getElementById("imageFallback");
 
-    image.style.display = "block";
-    fallback.classList.add("hidden");
-    image.src = memory.img;
+    if (image && fallback) {
+      image.style.display = "block";
+      fallback.classList.add("hidden");
+      image.src = memory.img;
 
-    image.onerror = () => {
-      image.style.display = "none";
-      fallback.classList.remove("hidden");
-    };
+      image.onerror = () => {
+        image.style.display = "none";
+        fallback.classList.remove("hidden");
+      };
+    }
 
-    document.getElementById("memoryCounter").textContent = `${String(index + 1).padStart(2, "0")} / ${memories.length}`;
-    document.getElementById("memoryDate").textContent = memory.fullDate;
-    document.getElementById("memoryTitle").textContent = memory.title;
-    document.getElementById("memoryCaption").textContent = memory.caption;
+    const mCounter = document.getElementById("memoryCounter");
+    const mDate = document.getElementById("memoryDate");
+    const mTitle = document.getElementById("memoryTitle");
+    const mCaption = document.getElementById("memoryCaption");
+
+    if (mCounter) mCounter.textContent = `${String(index + 1).padStart(2, "0")} / ${memories.length}`;
+    if (mDate) mDate.textContent = memory.fullDate;
+    if (mTitle) mTitle.textContent = memory.title;
+    if (mCaption) mCaption.textContent = memory.caption;
 
     document.querySelectorAll(".date").forEach((button, i) => {
       button.classList.toggle("active", i === index);
     });
   }
 
-  document.getElementById("prevMemory").addEventListener("click", () => {
-    if (memoryIndex > 0) selectMemory(memoryIndex - 1);
-  });
+  const prevMemory = document.getElementById("prevMemory");
+  if (prevMemory) {
+    prevMemory.addEventListener("click", () => {
+      if (memoryIndex > 0) selectMemory(memoryIndex - 1);
+    });
+  }
 
-  document.getElementById("nextMemory").addEventListener("click", () => {
-    if (memoryIndex < memories.length - 1) selectMemory(memoryIndex + 1);
-  });
+  const nextMemory = document.getElementById("nextMemory");
+  if (nextMemory) {
+    nextMemory.addEventListener("click", () => {
+      if (memoryIndex < memories.length - 1) selectMemory(memoryIndex + 1);
+    });
+  }
 
   document.querySelectorAll(".flip").forEach(card => {
     card.addEventListener("click", () => {
@@ -381,13 +450,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  document.getElementById("envelope").addEventListener("click", () => {
-    document.getElementById("envelopeFront").classList.add("hidden");
-    document.getElementById("letterContent").classList.remove("hidden");
-  });
+  const envelope = document.getElementById("envelope");
+  if (envelope) {
+    envelope.addEventListener("click", () => {
+      const envFront = document.getElementById("envelopeFront");
+      const letterContent = document.getElementById("letterContent");
+      if (envFront) envFront.classList.add("hidden");
+      if (letterContent) letterContent.classList.remove("hidden");
+    });
+  }
 
   function startLastThing() {
     const button = document.getElementById("lastBtn");
+    if (!button) return;
     button.classList.add("hidden");
     typeText(
       "lastText",
@@ -402,6 +477,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function startLastPart() {
     const button = document.getElementById("lastBtn");
+    if (!button) return;
     button.classList.add("hidden");
     typeText(
       "lastText",
@@ -416,6 +492,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function finalBuildUp() {
     const button = document.getElementById("lastBtn");
+    if (!button) return;
     button.classList.add("hidden");
     typeText(
       "lastText",
@@ -446,30 +523,37 @@ document.addEventListener("DOMContentLoaded", () => {
     const sub = document.getElementById("birthdaySub");
     const button = document.getElementById("photoBtn");
 
-    date.classList.add("hidden");
-    title.classList.add("hidden");
-    name.classList.add("hidden");
-    sub.classList.add("hidden");
-    button.classList.add("hidden");
+    if (date) date.classList.add("hidden");
+    if (title) title.classList.add("hidden");
+    if (name) name.classList.add("hidden");
+    if (sub) sub.classList.add("hidden");
+    if (button) button.classList.add("hidden");
 
-    setTimeout(() => { date.classList.remove("hidden"); }, 300);
-    setTimeout(() => { title.classList.remove("hidden"); }, 1000);
-    setTimeout(() => { name.classList.remove("hidden"); }, 1800);
-    setTimeout(() => { sub.classList.remove("hidden"); }, 2600);
-    setTimeout(() => { button.classList.remove("hidden"); }, 3400);
+    setTimeout(() => { if (date) date.classList.remove("hidden"); }, 300);
+    setTimeout(() => { if (title) title.classList.remove("hidden"); }, 1000);
+    setTimeout(() => { if (name) name.classList.remove("hidden"); }, 1800);
+    setTimeout(() => { if (sub) sub.classList.remove("hidden"); }, 2600);
+    setTimeout(() => { if (button) button.classList.remove("hidden"); }, 3400);
   }
 
-  document.getElementById("photoBtn").addEventListener("click", () => {
-    showScreen("final");
-  });
+  const photoBtn = document.getElementById("photoBtn");
+  if (photoBtn) {
+    photoBtn.addEventListener("click", () => {
+      showScreen("final");
+    });
+  }
 
-  document.getElementById("endBtn").addEventListener("click", () => {
-    showScreen("end");
-    startEnd();
-  });
+  const endBtn = document.getElementById("endBtn");
+  if (endBtn) {
+    endBtn.addEventListener("click", () => {
+      showScreen("end");
+      startEnd();
+    });
+  }
 
   function startEnd() {
     const button = document.getElementById("restartBtn");
+    if (!button) return;
     button.classList.add("hidden");
     typeText(
       "endText",
@@ -487,11 +571,15 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  document.getElementById("restartBtn").addEventListener("click", () => {
-    pauseMusic();
-    musicPermissionAsked = false;
-    showScreen("intro");
-    startIntro();
-  });
+  const restartBtn = document.getElementById("restartBtn");
+  if (restartBtn) {
+    restartBtn.addEventListener("click", () => {
+      pauseMusic();
+      musicPermissionAsked = false;
+      if (musicToggleBtn) musicToggleBtn.style.display = "none";
+      showScreen("intro");
+      startIntro();
+    });
+  }
 
 });
