@@ -1226,7 +1226,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
-  /* =========================================
+    /* =========================================
      END
   ========================================= */
 
@@ -1241,4 +1241,65 @@ document.addEventListener("DOMContentLoaded", () => {
         startEnd();
 
       }
- 
+    );
+
+
+  function startEnd() {
+
+    const text =
+      document.getElementById("endText");
+
+    const button =
+      document.getElementById("restartBtn");
+
+
+    button.classList.add("hidden");
+
+
+    typeText(
+      "endText",
+      [
+        "That's it.",
+        "No more hidden files.",
+        "No more questions.",
+        "Just one simple thing left to say.",
+        "Happy Birthday, Naila.",
+        "And thank you for being part of so many memories."
+      ],
+      () => {
+
+        button.classList.remove("hidden");
+
+      }
+    );
+
+  }
+
+
+  /* =========================================
+     RESTART
+  ========================================= */
+
+  document
+    .getElementById("restartBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        stopMusic();
+
+        showScreen("intro");
+
+        startIntro();
+
+      }
+    );
+
+
+  /* =========================================
+     START
+  ========================================= */
+
+  startIntro();
+
+});
