@@ -297,7 +297,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("enterBtn").addEventListener("click", () => {
     showScreen("file");
-    playMusic(); // ফাইলে ঢোকার সাথে সাথে গান বাজবে
+    playMusic();
   });
 
   document.querySelectorAll(".file-card").forEach(card => {
@@ -489,3 +489,4 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
+      
