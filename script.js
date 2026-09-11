@@ -1,4 +1,4 @@
-Document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
 
   const music = document.getElementById("backgroundMusic");
   const musicModal = document.getElementById("musicModal");
@@ -365,12 +365,7 @@ Document.addEventListener("DOMContentLoaded", () => {
       showScreen(target);
       
       if (target === "memories") {
-        if (!musicPermissionAsked) {
-          musicPermissionAsked = true;
-          if (musicModal) {
-            musicModal.classList.remove("hidden-modal");
-          }
-        }
+        playMusic(); // memories এ ক্লিক করলেই সরাসরি গান প্লে হবে
         initMemories();
       }
 
