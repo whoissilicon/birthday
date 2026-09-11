@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+Document.addEventListener("DOMContentLoaded", () => {
 
   const music = document.getElementById("backgroundMusic");
   const musicModal = document.getElementById("musicModal");
@@ -134,7 +134,14 @@ document.addEventListener("DOMContentLoaded", () => {
     { date: "26.01.25", fullDate: "26 JAN 2025", img: "images/memory14.jpg", title: "New year chapter", caption: "Starting a new year with cherished memories." },
     { date: "27.01.25", fullDate: "27 JAN 2025", img: "images/memory15.jpg", title: "A calm day", caption: "Quiet peace and simple gratitude." },
     { date: "15.04.25", fullDate: "15 APR 2025", img: "images/memory16.jpg", title: "Spring sunshine", caption: "Capturing a brand-new page of the journey." },
-    { date: "27.10.25", fullDate: "27 OCT 2025", img: "images/memory17.jpg", title: "Looking back", caption: "Reflecting on two years of wonderful moments." }
+    { date: "27.10.25", fullDate: "27 OCT 2025", img: "images/memory17.jpg", title: "Looking back", caption: "Reflecting on two years of wonderful moments." },
+    { date: "14.09.23", fullDate: "14 SEP 2023", img: "images/memory18.jpg", title: "Afternoon calm", caption: "Slow hours spent talking about absolutely nothing at all." },
+    { date: "05.10.23", fullDate: "05 OCT 2023", img: "images/memory19.jpg", title: "Unexpected smiles", caption: "Little surprises that made the whole week better." },
+    { date: "04.12.23", fullDate: "04 DEC 2023", img: "images/memory20.jpg", title: "Chilly breeze", caption: "Finding warmth in simple company as the season changed." },
+    { date: "14.01.25", fullDate: "14 JAN 2025", img: "images/memory21.jpg", title: "Quiet evening", caption: "Watching the sky fade into a peaceful twilight." },
+    { date: "18.02.25", fullDate: "18 FEB 2025", img: "images/memory22.jpg", title: "Random snapshots", caption: "Capturing everyday magic that usually goes unnoticed." },
+    { date: "20.06.25", fullDate: "20 JUN 2025", img: "images/memory23.jpg", title: "Slowing down", caption: "A lazy afternoon where nothing else mattered." },
+    { date: "12.12.25", fullDate: "12 DEC 2025", img: "images/memory24.jpg", title: "Closing thoughts", caption: "Another year well spent and deeply appreciated." }
   ];
 
   let questionIndex = 0;
