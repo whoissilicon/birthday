@@ -7,11 +7,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const musicToggleBtn = document.getElementById("musicToggleBtn");
 
   let isPlaying = false;
+  let musicPermissionAsked = false;
 
   function playMusic() {
     if (!music) return;
     music.volume = 0.35;
-    music.load(); 
     
     music.play().then(() => {
       isPlaying = true;
@@ -33,13 +33,11 @@ document.addEventListener("DOMContentLoaded", () => {
   allowMusicBtn.addEventListener("click", () => {
     playMusic();
     musicModal.classList.add("hidden-modal");
-    startIntro();
   });
 
   denyMusicBtn.addEventListener("click", () => {
     pauseMusic();
     musicModal.classList.add("hidden-modal");
-    startIntro();
   });
 
   musicToggleBtn.addEventListener("click", () => {
@@ -129,6 +127,11 @@ document.addEventListener("DOMContentLoaded", () => {
       screen.classList.add("active");
     }
     window.scrollTo(0, 0);
+
+    if (id === "file" && !musicPermissionAsked) {
+      musicPermissionAsked = true;
+      musicModal.classList.remove("hidden-modal");
+    }
   }
 
   function typeText(elementId, lines, callback) {
@@ -179,6 +182,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     );
   }
+
+  musicModal.classList.add("hidden-modal");
+  startIntro();
 
   document.getElementById("introBtn").addEventListener("click", () => {
     showScreen("nameScreen");
@@ -297,7 +303,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("enterBtn").addEventListener("click", () => {
     showScreen("file");
-    playMusic();
   });
 
   document.querySelectorAll(".file-card").forEach(card => {
@@ -484,9 +489,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("restartBtn").addEventListener("click", () => {
     pauseMusic();
+    musicPermissionAsked = false;
     showScreen("intro");
     startIntro();
   });
 
 });
-      
