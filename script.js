@@ -1,7 +1,43 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   /* =========================================
-     DATA
+     MUSIC
+  ========================================= */
+
+  const music =
+    document.getElementById("backgroundMusic");
+
+
+  function playMusic() {
+
+    if (!music) return;
+
+    music.volume = 0.35;
+
+    music.play()
+      .then(() => {
+        console.log("Music started.");
+      })
+      .catch(error => {
+        console.log("Music could not start:", error);
+      });
+
+  }
+
+
+  function stopMusic() {
+
+    if (!music) return;
+
+    music.pause();
+
+    music.currentTime = 0;
+
+  }
+
+
+  /* =========================================
+     NAME
   ========================================= */
 
   const validNames = [
@@ -11,6 +47,10 @@ document.addEventListener("DOMContentLoaded", () => {
     "naila islam shifa"
   ];
 
+
+  /* =========================================
+     QUESTIONS
+  ========================================= */
 
   const questions = [
 
@@ -57,6 +97,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   ];
 
+
+  /* =========================================
+     MEMORIES
+  ========================================= */
 
   const memories = [
 
@@ -200,7 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =========================================
-     STATE
+     VARIABLES
   ========================================= */
 
   let questionIndex = 0;
@@ -208,25 +252,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =========================================
-     SCREEN CONTROL
+     SCREEN
   ========================================= */
 
   function showScreen(id) {
 
-    document.querySelectorAll(".screen").forEach(screen => {
-      screen.classList.remove("active");
-    });
+    document
+      .querySelectorAll(".screen")
+      .forEach(screen => {
+        screen.classList.remove("active");
+      });
 
-    const target = document.getElementById(id);
 
-    if (target) {
-      target.classList.add("active");
+    const screen =
+      document.getElementById(id);
+
+
+    if (screen) {
+      screen.classList.add("active");
     }
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
+
+    window.scrollTo(0, 0);
 
   }
 
@@ -237,60 +284,78 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function typeText(elementId, lines, callback) {
 
-    const container = document.getElementById(elementId);
+    const container =
+      document.getElementById(elementId);
+
 
     if (!container) return;
 
+
     container.innerHTML = "";
+
 
     let lineIndex = 0;
 
 
-    function nextLine() {
+    function writeLine() {
 
       if (lineIndex >= lines.length) {
 
-        if (callback) callback();
+        if (callback) {
+          callback();
+        }
 
         return;
       }
 
 
-      const p = document.createElement("p");
-
-      p.className = "typewriter-line";
-
-      container.appendChild(p);
+      const line =
+        document.createElement("p");
 
 
-      const text = lines[lineIndex];
+      line.className =
+        "typewriter-line";
+
+
+      container.appendChild(line);
+
+
+      const text =
+        lines[lineIndex];
+
 
       let charIndex = 0;
 
 
-      const interval = setInterval(() => {
+      const timer =
+        setInterval(() => {
 
-        p.textContent += text.charAt(charIndex);
+          line.textContent +=
+            text.charAt(charIndex);
 
-        charIndex++;
+
+          charIndex++;
 
 
-        if (charIndex >= text.length) {
+          if (charIndex >= text.length) {
 
-          clearInterval(interval);
+            clearInterval(timer);
 
-          lineIndex++;
+            lineIndex++;
 
-          setTimeout(nextLine, 350);
+            setTimeout(
+              writeLine,
+              300
+            );
 
-        }
+          }
 
-      }, 32);
+        }, 30);
 
     }
 
 
-    nextLine();
+    writeLine();
 
   }
 
@@ -301,9 +366,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function startIntro() {
 
-    const btn = document.getElementById("introBtn");
+    const button =
+      document.getElementById("introBtn");
 
-    btn.classList.add("hidden");
+
+    button.classList.add("hidden");
 
 
     typeText(
@@ -318,7 +385,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ],
       () => {
 
-        btn.classList.remove("hidden");
+        button.classList.remove("hidden");
 
       }
     );
@@ -338,16 +405,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   /* =========================================
-     NAME
+     NAME SCREEN
   ========================================= */
 
   function startNameScreen() {
 
-    const form = document.getElementById("nameForm");
+    const form =
+      document.getElementById("nameForm");
 
-    const error = document.getElementById("nameError");
+    const error =
+      document.getElementById("nameError");
 
-    const input = document.getElementById("nameInput");
+    const input =
+      document.getElementById("nameInput");
 
 
     form.classList.add("hidden");
@@ -377,22 +447,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function submitName() {
 
-    const input = document
-      .getElementById("nameInput")
-      .value
-      .trim()
-      .toLowerCase();
+    const input =
+      document
+        .getElementById("nameInput")
+        .value
+        .trim()
+        .toLowerCase();
 
 
-    const matched = validNames.some(name => {
+    const valid =
+      validNames.some(name =>
+        input === name ||
+        input.includes(name)
+      );
 
-      return input === name ||
-             input.includes(name);
 
-    });
-
-
-    if (!matched) {
+    if (!valid) {
 
       document
         .getElementById("nameError")
@@ -412,20 +482,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document
     .getElementById("nameBtn")
-    .addEventListener("click", submitName);
+    .addEventListener(
+      "click",
+      submitName
+    );
 
 
   document
     .getElementById("nameInput")
-    .addEventListener("keydown", event => {
+    .addEventListener(
+      "keydown",
+      event => {
 
-      if (event.key === "Enter") {
-
-        submitName();
+        if (event.key === "Enter") {
+          submitName();
+        }
 
       }
-
-    });
+    );
 
 
   /* =========================================
@@ -436,10 +510,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     questionIndex = 0;
 
-    document
-      .getElementById("feedback")
-      .classList.add("hidden");
-
     showQuestion();
 
   }
@@ -447,7 +517,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showQuestion() {
 
-    const q = questions[questionIndex];
+    const question =
+      questions[questionIndex];
 
 
     document
@@ -458,33 +529,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document
       .getElementById("questionTitle")
-      .textContent = q.title;
+      .textContent =
+      question.title;
 
 
     document
       .getElementById("questionSubtitle")
-      .textContent = q.subtitle;
+      .textContent =
+      question.subtitle;
 
 
-    const options = document.getElementById("options");
+    const options =
+      document.getElementById("options");
+
 
     options.innerHTML = "";
 
 
-    q.options.forEach(optionText => {
+    const feedback =
+      document.getElementById("feedback");
 
-      const button = document.createElement("button");
+
+    feedback.classList.add("hidden");
+
+
+    options.style.opacity = "1";
+
+    options.style.pointerEvents = "auto";
+
+
+    question.options.forEach(optionText => {
+
+      const button =
+        document.createElement("button");
+
 
       button.className = "option";
 
       button.textContent = optionText;
 
 
-      button.addEventListener("click", () => {
-
-        chooseOption(optionText);
-
-      });
+      button.addEventListener(
+        "click",
+        () => chooseOption(optionText)
+      );
 
 
       options.appendChild(button);
@@ -496,47 +584,77 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function chooseOption(optionText) {
 
-    const options = document.getElementById("options");
+    const options =
+      document.getElementById("options");
 
-    const feedback = document.getElementById("feedback");
-
-
-    options.style.pointerEvents = "none";
-
-    options.style.opacity = ".35";
+    const feedback =
+      document.getElementById("feedback");
 
 
-    let message = "Interesting choice.";
+    options.style.pointerEvents =
+      "none";
+
+
+    options.style.opacity =
+      "0.4";
+
+
+    let message =
+      "Interesting choice.";
 
 
     if (
-      optionText === "I have no idea how it became 3 AM."
+      optionText ===
+      "I have no idea how it became 3 AM."
     ) {
+
       message = "Thought so. 🌙";
+
     }
 
-    else if (optionText === "Sleep") {
+    else if (
+      optionText === "Sleep"
+    ) {
+
       message = "Pure bliss. 🛌";
+
     }
 
-    else if (optionText === "Go somewhere") {
+    else if (
+      optionText === "Go somewhere"
+    ) {
+
       message = "Wanderlust wins. ✈️";
+
     }
 
-    else if (optionText === "A perfect memory") {
+    else if (
+      optionText ===
+      "A perfect memory"
+    ) {
+
       message =
-        "Interesting choice… Maybe that explains why some moments are worth keeping.";
+        "Maybe that's why some moments are worth keeping.";
+
     }
 
-    else if (optionText === "Absolutely") {
+    else if (
+      optionText === "Absolutely"
+    ) {
+
       message =
         "And today might just be one of them.";
+
     }
 
 
-    feedback.textContent = message;
+    feedback.textContent =
+      message;
 
-    feedback.classList.remove("hidden");
+
+    feedback.classList.remove(
+      "hidden"
+    );
 
 
     setTimeout(() => {
@@ -544,13 +662,10 @@ document.addEventListener("DOMContentLoaded", () => {
       questionIndex++;
 
 
-      if (questionIndex < questions.length) {
-
-        feedback.classList.add("hidden");
-
-        options.style.pointerEvents = "auto";
-
-        options.style.opacity = "1";
+      if (
+        questionIndex <
+        questions.length
+      ) {
 
         showQuestion();
 
@@ -564,7 +679,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       }
 
-    }, 1500);
+    }, 1200);
 
   }
 
@@ -575,7 +690,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function startConfirmation() {
 
-    const box = document.getElementById("confirmBox");
+    const box =
+      document.getElementById("confirmBox");
+
 
     box.classList.add("hidden");
 
@@ -601,52 +718,78 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document
     .getElementById("enterBtn")
-    .addEventListener("click", () => {
+    .addEventListener(
+      "click",
+      () => {
 
-      showScreen("file");
+        showScreen("file");
+
+      }
+    );
+
+
+  /* =========================================
+     FILE CARDS
+  ========================================= */
+
+  document
+    .querySelectorAll(".file-card")
+    .forEach(card => {
+
+      card.addEventListener(
+        "click",
+        () => {
+
+          const target =
+            card.dataset.open;
+
+
+          showScreen(target);
+
+
+          /* ================================
+             MUSIC STARTS ONLY HERE
+          ================================= */
+
+          if (target === "memories") {
+
+            initMemories();
+
+            playMusic();
+
+          }
+
+
+          if (target === "last") {
+
+            startLastThing();
+
+          }
+
+        }
+      );
 
     });
 
 
   /* =========================================
-     FILE NAVIGATION
+     BACK BUTTONS
   ========================================= */
 
-  document.querySelectorAll(".file-card").forEach(card => {
+  document
+    .querySelectorAll("[data-back]")
+    .forEach(button => {
 
-    card.addEventListener("click", () => {
+      button.addEventListener(
+        "click",
+        () => {
 
-      const target = card.dataset.open;
+          showScreen("file");
 
-      showScreen(target);
-
-
-      if (target === "memories") {
-
-        initMemories();
-
-      }
-
-      if (target === "last") {
-
-        startLastThing();
-
-      }
+        }
+      );
 
     });
-
-  });
-
-
-  document.querySelectorAll("[data-back]").forEach(button => {
-
-    button.addEventListener("click", () => {
-
-      showScreen("file");
-
-    });
-
-  });
 
 
   /* =========================================
@@ -655,32 +798,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function initMemories() {
 
-    const selector = document.getElementById("dateSelector");
+    const selector =
+      document.getElementById(
+        "dateSelector"
+      );
+
 
     selector.innerHTML = "";
+
 
     memoryIndex = 0;
 
 
-    memories.forEach((memory, index) => {
+    memories.forEach(
+      (memory, index) => {
 
-      const button = document.createElement("button");
-
-      button.className = "date";
-
-      button.textContent = memory.date;
+        const button =
+          document.createElement("button");
 
 
-      button.addEventListener("click", () => {
-
-        selectMemory(index);
-
-      });
+        button.className = "date";
 
 
-      selector.appendChild(button);
+        button.textContent =
+          memory.date;
 
-    });
+
+        button.addEventListener(
+          "click",
+          () => selectMemory(index)
+        );
+
+
+        selector.appendChild(button);
+
+      }
+    );
 
 
     selectMemory(0);
@@ -690,138 +843,178 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function selectMemory(index) {
 
-    if (index < 0 || index >= memories.length) return;
+    if (
+      index < 0 ||
+      index >= memories.length
+    ) {
+      return;
+    }
 
 
     memoryIndex = index;
 
-    const memory = memories[index];
+
+    const memory =
+      memories[index];
 
 
-    const img = document.getElementById("memoryImg");
-
-    const fallback = document.getElementById("imageFallback");
-
-
-    img.style.display = "block";
-
-    fallback.classList.add("hidden");
+    const image =
+      document.getElementById(
+        "memoryImg"
+      );
 
 
-    img.src = memory.img;
+    const fallback =
+      document.getElementById(
+        "imageFallback"
+      );
 
 
-    img.onerror = () => {
+    image.style.display =
+      "block";
 
-      img.style.display = "none";
 
-      fallback.classList.remove("hidden");
+    fallback.classList.add(
+      "hidden"
+    );
+
+
+    image.src =
+      memory.img;
+
+
+    image.onerror = () => {
+
+      image.style.display =
+        "none";
+
+      fallback.classList.remove(
+        "hidden"
+      );
 
     };
 
 
-    document.getElementById("memoryCounter")
+    document
+      .getElementById("memoryCounter")
       .textContent =
       `${String(index + 1).padStart(2, "0")} / ${memories.length}`;
 
 
-    document.getElementById("memoryDate")
-      .textContent = memory.fullDate;
+    document
+      .getElementById("memoryDate")
+      .textContent =
+      memory.fullDate;
 
 
-    document.getElementById("memoryTitle")
-      .textContent = memory.title;
+    document
+      .getElementById("memoryTitle")
+      .textContent =
+      memory.title;
 
 
-    document.getElementById("memoryCaption")
-      .textContent = memory.caption;
+    document
+      .getElementById("memoryCaption")
+      .textContent =
+      memory.caption;
 
 
-    document.querySelectorAll(".date").forEach((button, i) => {
+    document
+      .querySelectorAll(".date")
+      .forEach((button, i) => {
 
-      button.classList.toggle("active", i === index);
+        button.classList.toggle(
+          "active",
+          i === index
+        );
 
-    });
-
-
-    const activeDate =
-      document.querySelectorAll(".date")[index];
-
-
-    if (activeDate) {
-
-      activeDate.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center"
       });
-
-    }
 
   }
 
 
   document
     .getElementById("prevMemory")
-    .addEventListener("click", () => {
+    .addEventListener(
+      "click",
+      () => {
 
-      if (memoryIndex > 0) {
+        if (memoryIndex > 0) {
 
-        selectMemory(memoryIndex - 1);
+          selectMemory(
+            memoryIndex - 1
+          );
+
+        }
 
       }
-
-    });
+    );
 
 
   document
     .getElementById("nextMemory")
-    .addEventListener("click", () => {
+    .addEventListener(
+      "click",
+      () => {
 
-      if (memoryIndex < memories.length - 1) {
+        if (
+          memoryIndex <
+          memories.length - 1
+        ) {
 
-        selectMemory(memoryIndex + 1);
+          selectMemory(
+            memoryIndex + 1
+          );
+
+        }
 
       }
-
-    });
+    );
 
 
   /* =========================================
      LITTLE THINGS
   ========================================= */
 
-  document.querySelectorAll(".flip").forEach(card => {
+  document
+    .querySelectorAll(".flip")
+    .forEach(card => {
 
-    card.addEventListener("click", () => {
+      card.addEventListener(
+        "click",
+        () => {
 
-      card.classList.toggle("flipped");
+          card.classList.toggle(
+            "flipped"
+          );
+
+        }
+      );
 
     });
-
-  });
 
 
   /* =========================================
      LETTER
   ========================================= */
 
-  const envelope =
-    document.getElementById("envelope");
+  document
+    .getElementById("envelope")
+    .addEventListener(
+      "click",
+      () => {
+
+        document
+          .getElementById("envelopeFront")
+          .classList.add("hidden");
 
 
-  envelope.addEventListener("click", () => {
+        document
+          .getElementById("letterContent")
+          .classList.remove("hidden");
 
-    document
-      .getElementById("envelopeFront")
-      .classList.add("hidden");
-
-
-    document
-      .getElementById("letterContent")
-      .classList.remove("hidden");
-
-  });
+      }
+    );
 
 
   /* =========================================
@@ -830,9 +1023,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function startLastThing() {
 
-    const btn = document.getElementById("lastBtn");
+    const button =
+      document.getElementById(
+        "lastBtn"
+      );
 
-    btn.classList.add("hidden");
+
+    button.classList.add("hidden");
 
 
     typeText(
@@ -844,11 +1041,17 @@ document.addEventListener("DOMContentLoaded", () => {
       ],
       () => {
 
-        btn.textContent = "Continue →";
+        button.textContent =
+          "Continue →";
 
-        btn.classList.remove("hidden");
 
-        btn.onclick = startLastPart;
+        button.classList.remove(
+          "hidden"
+        );
+
+
+        button.onclick =
+          startLastPart;
 
       }
     );
@@ -858,9 +1061,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function startLastPart() {
 
-    const btn = document.getElementById("lastBtn");
+    const button =
+      document.getElementById(
+        "lastBtn"
+      );
 
-    btn.classList.add("hidden");
+
+    button.classList.add("hidden");
 
 
     typeText(
@@ -872,11 +1079,17 @@ document.addEventListener("DOMContentLoaded", () => {
       ],
       () => {
 
-        btn.textContent = "Show me →";
+        button.textContent =
+          "Show me →";
 
-        btn.classList.remove("hidden");
 
-        btn.onclick = finalBuildUp;
+        button.classList.remove(
+          "hidden"
+        );
+
+
+        button.onclick =
+          finalBuildUp;
 
       }
     );
@@ -886,9 +1099,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function finalBuildUp() {
 
-    const btn = document.getElementById("lastBtn");
+    const button =
+      document.getElementById(
+        "lastBtn"
+      );
 
-    btn.classList.add("hidden");
+
+    button.classList.add("hidden");
 
 
     typeText(
@@ -904,11 +1121,16 @@ document.addEventListener("DOMContentLoaded", () => {
       ],
       () => {
 
-        btn.textContent = "Continue →";
+        button.textContent =
+          "Continue →";
 
-        btn.classList.remove("hidden");
 
-        btn.onclick = () => {
+        button.classList.remove(
+          "hidden"
+        );
+
+
+        button.onclick = () => {
 
           showScreen("birthday");
 
@@ -929,76 +1151,79 @@ document.addEventListener("DOMContentLoaded", () => {
   function startBirthday() {
 
     const date =
-      document.getElementById("birthdayDate");
+      document.getElementById(
+        "birthdayDate"
+      );
 
     const title =
-      document.getElementById("birthdayTitle");
+      document.getElementById(
+        "birthdayTitle"
+      );
 
     const name =
-      document.getElementById("birthdayName");
+      document.getElementById(
+        "birthdayName"
+      );
 
     const sub =
-      document.getElementById("birthdaySub");
+      document.getElementById(
+        "birthdaySub"
+      );
 
     const button =
-      document.getElementById("photoBtn");
+      document.getElementById(
+        "photoBtn"
+      );
 
 
     date.classList.add("hidden");
-
     title.classList.add("hidden");
-
     name.classList.add("hidden");
-
     sub.classList.add("hidden");
-
     button.classList.add("hidden");
 
 
     setTimeout(() => {
-
       date.classList.remove("hidden");
-
-    }, 400);
+    }, 300);
 
 
     setTimeout(() => {
-
       title.classList.remove("hidden");
-
-    }, 1200);
+    }, 1000);
 
 
     setTimeout(() => {
-
       name.classList.remove("hidden");
-
-    }, 2000);
+    }, 1800);
 
 
     setTimeout(() => {
-
       sub.classList.remove("hidden");
-
-    }, 2800);
+    }, 2600);
 
 
     setTimeout(() => {
-
       button.classList.remove("hidden");
-
-    }, 3600);
+    }, 3400);
 
   }
 
 
+  /* =========================================
+     FINAL PHOTO
+  ========================================= */
+
   document
     .getElementById("photoBtn")
-    .addEventListener("click", () => {
+    .addEventListener(
+      "click",
+      () => {
 
-      showScreen("final");
+        showScreen("final");
 
-    });
+      }
+    );
 
 
   /* =========================================
@@ -1007,84 +1232,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document
     .getElementById("endBtn")
-    .addEventListener("click", () => {
-
-      showScreen("end");
-
-      startEnd();
-
-    });
-
-
-  function startEnd() {
-
-    const button =
-      document.getElementById("restartBtn");
-
-
-    button.classList.add("hidden");
-
-
-    typeText(
-      "endText",
-      [
-        "That's it.",
-        "You made it to the end.",
-        "Happy Birthday, Naila. :)"
-      ],
+    .addEventListener(
+      "click",
       () => {
 
-        button.classList.remove("hidden");
+        showScreen("end");
+
+        startEnd();
 
       }
-    );
-
-  }
-
-
-  /* =========================================
-     RESTART
-  ========================================= */
-
-  document
-    .getElementById("restartBtn")
-    .addEventListener("click", () => {
-
-      document
-        .querySelectorAll(".flip")
-        .forEach(card => {
-
-          card.classList.remove("flipped");
-
-        });
-
-
-      document
-        .getElementById("envelopeFront")
-        .classList.remove("hidden");
-
-
-      document
-        .getElementById("letterContent")
-        .classList.add("hidden");
-
-
-      questionIndex = 0;
-
-      memoryIndex = 0;
-
-
-      showScreen("intro");
-
-      startIntro();
-
-    });
-
-
-  /* =========================================
-     START
-  ========================================= */
-
-  startIntro();
-
-});
+ 
