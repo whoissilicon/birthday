@@ -368,6 +368,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document
     .getElementById("introBtn")
     .addEventListener("click", () => {
+      playMusic(); // ব্রাউজারের পলিসি এড়াতে প্রথম ক্লিকেই মিউজিক ট্রিগার করা হলো
 
       showScreen("nameScreen");
 
