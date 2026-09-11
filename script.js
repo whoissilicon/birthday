@@ -365,7 +365,7 @@ document.addEventListener("DOMContentLoaded", () => {
       showScreen(target);
       
       if (target === "memories") {
-        playMusic(); // memories এ ক্লিক করলেই সরাসরি গান প্লে হবে
+        playMusic();
         initMemories();
       }
 
@@ -585,3 +585,4 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 });
+
