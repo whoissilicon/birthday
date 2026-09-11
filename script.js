@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function playMusic() {
     if (!music) return;
     music.volume = 0.35;
+    music.load(); 
+    
     music.play().then(() => {
       isPlaying = true;
       musicToggleBtn.textContent = "🔊";
@@ -295,6 +297,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("enterBtn").addEventListener("click", () => {
     showScreen("file");
+    playMusic(); // ফাইলে ঢোকার সাথে সাথে গান বাজবে
   });
 
   document.querySelectorAll(".file-card").forEach(card => {
