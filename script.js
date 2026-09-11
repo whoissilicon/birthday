@@ -4,35 +4,23 @@ document.addEventListener("DOMContentLoaded", () => {
      MUSIC
   ========================================= */
 
-  const music =
-    document.getElementById("backgroundMusic");
-
+  const music = document.getElementById("backgroundMusic");
 
   function playMusic() {
-
     if (!music) return;
 
     music.volume = 0.35;
 
-    music.play()
-      .then(() => {
-        console.log("Music started.");
-      })
-      .catch(error => {
-        console.log("Music could not start:", error);
-      });
-
+    music.play().catch(error => {
+      console.log("Music could not start:", error);
+    });
   }
 
-
   function stopMusic() {
-
     if (!music) return;
 
     music.pause();
-
     music.currentTime = 0;
-
   }
 
 
@@ -87,7 +75,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     {
       title: "One last thing…",
-      subtitle: "Do you think some ordinary days become special only when you look back at them?",
+      subtitle:
+        "Do you think some ordinary days become special only when you look back at them?",
       options: [
         "Yes",
         "Maybe",
@@ -105,43 +94,48 @@ document.addEventListener("DOMContentLoaded", () => {
   const memories = [
 
     {
-      date: "08.06.23",
+      date: "06.08.23",
       fullDate: "06 AUG 2023",
       img: "images/memory1.jpg",
       title: "A beginning",
-      caption: "Where the story first quietly started to unfold."
+      caption:
+        "Where the story first quietly started to unfold."
     },
 
     {
-      date: "08.22.23",
+      date: "22.08.23",
       fullDate: "22 AUG 2023",
       img: "images/memory2.jpg",
       title: "A gentle step",
-      caption: "Another ordinary day that ended up sticking around in memory."
+      caption:
+        "Another ordinary day that ended up sticking around in memory."
     },
 
     {
-      date: "08.31.23",
+      date: "31.08.23",
       fullDate: "31 AUG 2023",
       img: "images/memory3.jpg",
       title: "Quiet moments",
-      caption: "Unplanned conversations and simple clarity."
+      caption:
+        "Unplanned conversations and simple clarity."
     },
 
     {
-      date: "10.23.23",
+      date: "23.10.23",
       fullDate: "23 OCT 2023",
       img: "images/memory4.jpg",
       title: "Shared time",
-      caption: "Proof that time passes, but good feelings don't."
+      caption:
+        "Proof that time passes, but good feelings don't."
     },
 
     {
-      date: "10.29.23",
+      date: "29.10.23",
       fullDate: "29 OCT 2023",
       img: "images/memory5.jpg",
       title: "First meet",
-      caption: "The day we finally met in person and created a core memory."
+      caption:
+        "The day we finally met in person and created a core memory."
     },
 
     {
@@ -149,95 +143,107 @@ document.addEventListener("DOMContentLoaded", () => {
       fullDate: "11 NOV 2023",
       img: "images/memory6.jpg",
       title: "Unplanned laughter",
-      caption: "The best times are usually the ones that weren't scheduled."
+      caption:
+        "The best times are usually the ones that weren't scheduled."
     },
 
     {
-      date: "03.16.24",
+      date: "16.03.24",
       fullDate: "16 MAR 2024",
       img: "images/memory7.jpg",
       title: "Spring memory",
-      caption: "A bright day worth holding on to."
+      caption:
+        "A bright day worth holding on to."
     },
 
     {
-      date: "07.17.24",
+      date: "17.07.24",
       fullDate: "17 JUL 2024",
       img: "images/memory8.jpg",
       title: "Midsummer chapter",
-      caption: "Moments becoming special without asking permission."
+      caption:
+        "Moments becoming special without asking permission."
     },
 
     {
-      date: "07.19.24",
+      date: "19.07.24",
       fullDate: "19 JUL 2024",
       img: "images/memory9.jpg",
       title: "Good company",
-      caption: "Just one of many reasons to celebrate this story."
+      caption:
+        "Just one of many reasons to celebrate this story."
     },
 
     {
-      date: "09.21.24",
+      date: "21.09.24",
       fullDate: "21 SEP 2024",
       img: "images/memory10.jpg",
       title: "Autumn warmth",
-      caption: "Reflecting on how quickly time moves."
+      caption:
+        "Reflecting on how quickly time moves."
     },
 
     {
-      date: "12.09.24",
+      date: "09.12.24",
       fullDate: "09 DEC 2024",
       img: "images/memory11.jpg",
       title: "Winter reflection",
-      caption: "Finding comfort in shared memories."
+      caption:
+        "Finding comfort in shared memories."
     },
 
     {
-      date: "12.25.24",
+      date: "25.12.24",
       fullDate: "25 DEC 2024",
       img: "images/memory12.jpg",
       title: "Year-end magic",
-      caption: "A cozy moment at the end of the year."
+      caption:
+        "A cozy moment at the end of the year."
     },
 
     {
-      date: "12.27.24",
+      date: "27.12.24",
       fullDate: "27 DEC 2024",
       img: "images/memory13.jpg",
       title: "Revisiting those days",
-      caption: "Recently visited the place to remember those days."
+      caption:
+        "Recently visited the place to remember those days."
     },
 
     {
-      date: "01.26.25",
+      date: "26.01.25",
       fullDate: "26 JAN 2025",
       img: "images/memory14.jpg",
       title: "New year chapter",
-      caption: "Starting a new year with cherished memories."
+      caption:
+        "Starting a new year with cherished memories."
     },
 
     {
-      date: "01.27.25",
+      date: "27.01.25",
       fullDate: "27 JAN 2025",
       img: "images/memory15.jpg",
       title: "A calm day",
-      caption: "Quiet peace and simple gratitude."
+      caption:
+        "Quiet peace and simple gratitude."
     },
 
     {
-      date: "04.15.25",
+      date: "15.04.25",
       fullDate: "15 APR 2025",
       img: "images/memory16.jpg",
       title: "Spring sunshine",
-      caption: "Capturing a brand-new page of the journey."
+      caption:
+        "Capturing a brand-new page of the journey."
     },
 
     {
-      date: "10.27.25",
+      date: "27.10.25",
       fullDate: "27 OCT 2025",
       img: "images/memory17.jpg",
       title: "Looking back",
-      caption: "Reflecting on two years of wonderful moments."
+      caption:
+        "Reflecting on two years of wonderful moments."
     }
 
   ];
@@ -263,18 +269,13 @@ document.addEventListener("DOMContentLoaded", () => {
         screen.classList.remove("active");
       });
 
-
-    const screen =
-      document.getElementById(id);
-
+    const screen = document.getElementById(id);
 
     if (screen) {
       screen.classList.add("active");
     }
 
-
     window.scrollTo(0, 0);
-
   }
 
 
@@ -287,15 +288,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const container =
       document.getElementById(elementId);
 
-
     if (!container) return;
-
 
     container.innerHTML = "";
 
-
     let lineIndex = 0;
-
 
     function writeLine() {
 
@@ -308,55 +305,35 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      const line = document.createElement("p");
 
-      const line =
-        document.createElement("p");
-
-
-      line.className =
-        "typewriter-line";
-
+      line.className = "typewriter-line";
 
       container.appendChild(line);
 
-
-      const text =
-        lines[lineIndex];
-
+      const text = lines[lineIndex];
 
       let charIndex = 0;
 
+      const timer = setInterval(() => {
 
-      const timer =
-        setInterval(() => {
+        line.textContent += text.charAt(charIndex);
 
-          line.textContent +=
-            text.charAt(charIndex);
+        charIndex++;
 
+        if (charIndex >= text.length) {
 
-          charIndex++;
+          clearInterval(timer);
 
+          lineIndex++;
 
-          if (charIndex >= text.length) {
+          setTimeout(writeLine, 300);
+        }
 
-            clearInterval(timer);
-
-            lineIndex++;
-
-            setTimeout(
-              writeLine,
-              300
-            );
-
-          }
-
-        }, 30);
-
+      }, 30);
     }
 
-
     writeLine();
-
   }
 
 
@@ -369,9 +346,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const button =
       document.getElementById("introBtn");
 
-
     button.classList.add("hidden");
-
 
     typeText(
       "introText",
@@ -384,12 +359,9 @@ document.addEventListener("DOMContentLoaded", () => {
         "We need to ask you something."
       ],
       () => {
-
         button.classList.remove("hidden");
-
       }
     );
-
   }
 
 
@@ -400,7 +372,6 @@ document.addEventListener("DOMContentLoaded", () => {
       showScreen("nameScreen");
 
       startNameScreen();
-
     });
 
 
@@ -419,13 +390,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const input =
       document.getElementById("nameInput");
 
-
     form.classList.add("hidden");
 
     error.classList.add("hidden");
 
     input.value = "";
-
 
     typeText(
       "nameText",
@@ -438,10 +407,8 @@ document.addEventListener("DOMContentLoaded", () => {
         form.classList.remove("hidden");
 
         input.focus();
-
       }
     );
-
   }
 
 
@@ -454,13 +421,11 @@ document.addEventListener("DOMContentLoaded", () => {
         .trim()
         .toLowerCase();
 
-
     const valid =
       validNames.some(name =>
         input === name ||
         input.includes(name)
       );
-
 
     if (!valid) {
 
@@ -469,37 +434,28 @@ document.addEventListener("DOMContentLoaded", () => {
         .classList.remove("hidden");
 
       return;
-
     }
-
 
     showScreen("questions");
 
     startQuestions();
-
   }
 
 
   document
     .getElementById("nameBtn")
-    .addEventListener(
-      "click",
-      submitName
-    );
+    .addEventListener("click", submitName);
 
 
   document
     .getElementById("nameInput")
-    .addEventListener(
-      "keydown",
-      event => {
+    .addEventListener("keydown", event => {
 
-        if (event.key === "Enter") {
-          submitName();
-        }
-
+      if (event.key === "Enter") {
+        submitName();
       }
-    );
+
+    });
 
 
   /* =========================================
@@ -511,7 +467,6 @@ document.addEventListener("DOMContentLoaded", () => {
     questionIndex = 0;
 
     showQuestion();
-
   }
 
 
@@ -520,65 +475,51 @@ document.addEventListener("DOMContentLoaded", () => {
     const question =
       questions[questionIndex];
 
-
     document
       .getElementById("questionNumber")
       .textContent =
       `QUESTION ${String(questionIndex + 1).padStart(2, "0")} / ${questions.length}`;
-
 
     document
       .getElementById("questionTitle")
       .textContent =
       question.title;
 
-
     document
       .getElementById("questionSubtitle")
       .textContent =
       question.subtitle;
 
-
     const options =
       document.getElementById("options");
 
-
     options.innerHTML = "";
-
 
     const feedback =
       document.getElementById("feedback");
 
-
     feedback.classList.add("hidden");
-
 
     options.style.opacity = "1";
 
     options.style.pointerEvents = "auto";
-
 
     question.options.forEach(optionText => {
 
       const button =
         document.createElement("button");
 
-
       button.className = "option";
 
       button.textContent = optionText;
-
 
       button.addEventListener(
         "click",
         () => chooseOption(optionText)
       );
 
-
       options.appendChild(button);
-
     });
-
   }
 
 
@@ -590,18 +531,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const feedback =
       document.getElementById("feedback");
 
+    options.style.pointerEvents = "none";
 
-    options.style.pointerEvents =
-      "none";
-
-
-    options.style.opacity =
-      "0.4";
-
+    options.style.opacity = "0.4";
 
     let message =
       "Interesting choice.";
-
 
     if (
       optionText ===
@@ -610,25 +545,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
       message = "Thought so. 🌙";
 
-    }
-
-    else if (
+    } else if (
       optionText === "Sleep"
     ) {
 
       message = "Pure bliss. 🛌";
 
-    }
-
-    else if (
+    } else if (
       optionText === "Go somewhere"
     ) {
 
       message = "Wanderlust wins. ✈️";
 
-    }
-
-    else if (
+    } else if (
       optionText ===
       "A perfect memory"
     ) {
@@ -636,31 +565,21 @@ document.addEventListener("DOMContentLoaded", () => {
       message =
         "Maybe that's why some moments are worth keeping.";
 
-    }
-
-    else if (
+    } else if (
       optionText === "Absolutely"
     ) {
 
       message =
         "And today might just be one of them.";
-
     }
 
+    feedback.textContent = message;
 
-    feedback.textContent =
-      message;
-
-
-    feedback.classList.remove(
-      "hidden"
-    );
-
+    feedback.classList.remove("hidden");
 
     setTimeout(() => {
 
       questionIndex++;
-
 
       if (
         questionIndex <
@@ -669,18 +588,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         showQuestion();
 
-      }
-
-      else {
+      } else {
 
         showScreen("confirmation");
 
         startConfirmation();
-
       }
 
     }, 1200);
-
   }
 
 
@@ -693,9 +608,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const box =
       document.getElementById("confirmBox");
 
-
     box.classList.add("hidden");
-
 
     typeText(
       "confirmText",
@@ -709,23 +622,17 @@ document.addEventListener("DOMContentLoaded", () => {
       () => {
 
         box.classList.remove("hidden");
-
       }
     );
-
   }
 
 
   document
     .getElementById("enterBtn")
-    .addEventListener(
-      "click",
-      () => {
+    .addEventListener("click", () => {
 
-        showScreen("file");
-
-      }
-    );
+      showScreen("file");
+    });
 
 
   /* =========================================
@@ -736,38 +643,26 @@ document.addEventListener("DOMContentLoaded", () => {
     .querySelectorAll(".file-card")
     .forEach(card => {
 
-      card.addEventListener(
-        "click",
-        () => {
+      card.addEventListener("click", () => {
 
-          const target =
-            card.dataset.open;
+        const target =
+          card.dataset.open;
 
+        showScreen(target);
 
-          showScreen(target);
+        if (target === "memories") {
 
+          initMemories();
 
-          /* ================================
-             MUSIC STARTS ONLY HERE
-          ================================= */
-
-          if (target === "memories") {
-
-            initMemories();
-
-            playMusic();
-
-          }
-
-
-          if (target === "last") {
-
-            startLastThing();
-
-          }
-
+          playMusic();
         }
-      );
+
+        if (target === "last") {
+
+          startLastThing();
+        }
+
+      });
 
     });
 
@@ -780,14 +675,11 @@ document.addEventListener("DOMContentLoaded", () => {
     .querySelectorAll("[data-back]")
     .forEach(button => {
 
-      button.addEventListener(
-        "click",
-        () => {
+      button.addEventListener("click", () => {
 
-          showScreen("file");
+        showScreen("file");
 
-        }
-      );
+      });
 
     });
 
@@ -799,45 +691,31 @@ document.addEventListener("DOMContentLoaded", () => {
   function initMemories() {
 
     const selector =
-      document.getElementById(
-        "dateSelector"
-      );
-
+      document.getElementById("dateSelector");
 
     selector.innerHTML = "";
 
-
     memoryIndex = 0;
 
+    memories.forEach((memory, index) => {
 
-    memories.forEach(
-      (memory, index) => {
+      const button =
+        document.createElement("button");
 
-        const button =
-          document.createElement("button");
+      button.className = "date";
 
+      button.textContent = memory.date;
 
-        button.className = "date";
+      button.addEventListener(
+        "click",
+        () => selectMemory(index)
+      );
 
+      selector.appendChild(button);
 
-        button.textContent =
-          memory.date;
-
-
-        button.addEventListener(
-          "click",
-          () => selectMemory(index)
-        );
-
-
-        selector.appendChild(button);
-
-      }
-    );
-
+    });
 
     selectMemory(0);
-
   }
 
 
@@ -850,74 +728,49 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-
     memoryIndex = index;
-
 
     const memory =
       memories[index];
 
-
     const image =
-      document.getElementById(
-        "memoryImg"
-      );
-
+      document.getElementById("memoryImg");
 
     const fallback =
-      document.getElementById(
-        "imageFallback"
-      );
+      document.getElementById("imageFallback");
 
+    image.style.display = "block";
 
-    image.style.display =
-      "block";
+    fallback.classList.add("hidden");
 
-
-    fallback.classList.add(
-      "hidden"
-    );
-
-
-    image.src =
-      memory.img;
-
+    image.src = memory.img;
 
     image.onerror = () => {
 
-      image.style.display =
-        "none";
+      image.style.display = "none";
 
-      fallback.classList.remove(
-        "hidden"
-      );
-
+      fallback.classList.remove("hidden");
     };
-
 
     document
       .getElementById("memoryCounter")
       .textContent =
       `${String(index + 1).padStart(2, "0")} / ${memories.length}`;
 
-
     document
       .getElementById("memoryDate")
       .textContent =
       memory.fullDate;
-
 
     document
       .getElementById("memoryTitle")
       .textContent =
       memory.title;
 
-
     document
       .getElementById("memoryCaption")
       .textContent =
       memory.caption;
-
 
     document
       .querySelectorAll(".date")
@@ -929,47 +782,34 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
       });
-
   }
 
 
   document
     .getElementById("prevMemory")
-    .addEventListener(
-      "click",
-      () => {
+    .addEventListener("click", () => {
 
-        if (memoryIndex > 0) {
+      if (memoryIndex > 0) {
 
-          selectMemory(
-            memoryIndex - 1
-          );
-
-        }
-
+        selectMemory(memoryIndex - 1);
       }
-    );
+
+    });
 
 
   document
     .getElementById("nextMemory")
-    .addEventListener(
-      "click",
-      () => {
+    .addEventListener("click", () => {
 
-        if (
-          memoryIndex <
-          memories.length - 1
-        ) {
+      if (
+        memoryIndex <
+        memories.length - 1
+      ) {
 
-          selectMemory(
-            memoryIndex + 1
-          );
-
-        }
-
+        selectMemory(memoryIndex + 1);
       }
-    );
+
+    });
 
 
   /* =========================================
@@ -980,16 +820,11 @@ document.addEventListener("DOMContentLoaded", () => {
     .querySelectorAll(".flip")
     .forEach(card => {
 
-      card.addEventListener(
-        "click",
-        () => {
+      card.addEventListener("click", () => {
 
-          card.classList.toggle(
-            "flipped"
-          );
+        card.classList.toggle("flipped");
 
-        }
-      );
+      });
 
     });
 
@@ -1000,21 +835,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document
     .getElementById("envelope")
-    .addEventListener(
-      "click",
-      () => {
+    .addEventListener("click", () => {
 
-        document
-          .getElementById("envelopeFront")
-          .classList.add("hidden");
+      document
+        .getElementById("envelopeFront")
+        .classList.add("hidden");
 
+      document
+        .getElementById("letterContent")
+        .classList.remove("hidden");
 
-        document
-          .getElementById("letterContent")
-          .classList.remove("hidden");
-
-      }
-    );
+    });
 
 
   /* =========================================
@@ -1024,13 +855,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function startLastThing() {
 
     const button =
-      document.getElementById(
-        "lastBtn"
-      );
-
+      document.getElementById("lastBtn");
 
     button.classList.add("hidden");
-
 
     typeText(
       "lastText",
@@ -1044,31 +871,21 @@ document.addEventListener("DOMContentLoaded", () => {
         button.textContent =
           "Continue →";
 
-
-        button.classList.remove(
-          "hidden"
-        );
-
+        button.classList.remove("hidden");
 
         button.onclick =
           startLastPart;
-
       }
     );
-
   }
 
 
   function startLastPart() {
 
     const button =
-      document.getElementById(
-        "lastBtn"
-      );
-
+      document.getElementById("lastBtn");
 
     button.classList.add("hidden");
-
 
     typeText(
       "lastText",
@@ -1082,31 +899,21 @@ document.addEventListener("DOMContentLoaded", () => {
         button.textContent =
           "Show me →";
 
-
-        button.classList.remove(
-          "hidden"
-        );
-
+        button.classList.remove("hidden");
 
         button.onclick =
           finalBuildUp;
-
       }
     );
-
   }
 
 
   function finalBuildUp() {
 
     const button =
-      document.getElementById(
-        "lastBtn"
-      );
-
+      document.getElementById("lastBtn");
 
     button.classList.add("hidden");
-
 
     typeText(
       "lastText",
@@ -1124,23 +931,17 @@ document.addEventListener("DOMContentLoaded", () => {
         button.textContent =
           "Continue →";
 
-
-        button.classList.remove(
-          "hidden"
-        );
-
+        button.classList.remove("hidden");
 
         button.onclick = () => {
 
           showScreen("birthday");
 
           startBirthday();
-
         };
 
       }
     );
-
   }
 
 
@@ -1151,35 +952,28 @@ document.addEventListener("DOMContentLoaded", () => {
   function startBirthday() {
 
     const date =
-      document.getElementById(
-        "birthdayDate"
-      );
+      document.getElementById("birthdayDate");
 
     const title =
-      document.getElementById(
-        "birthdayTitle"
-      );
+      document.getElementById("birthdayTitle");
 
     const name =
-      document.getElementById(
-        "birthdayName"
-      );
+      document.getElementById("birthdayName");
 
     const sub =
-      document.getElementById(
-        "birthdaySub"
-      );
+      document.getElementById("birthdaySub");
 
     const button =
-      document.getElementById(
-        "photoBtn"
-      );
-
+      document.getElementById("photoBtn");
 
     date.classList.add("hidden");
+
     title.classList.add("hidden");
+
     name.classList.add("hidden");
+
     sub.classList.add("hidden");
+
     button.classList.add("hidden");
 
 
@@ -1206,8 +1000,16 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       button.classList.remove("hidden");
     }, 3400);
-
   }
+
+
+  document
+    .getElementById("photoBtn")
+    .addEventListener("click", () => {
+
+      showScreen("final");
+
+    });
 
 
   /* =========================================
@@ -1215,46 +1017,26 @@ document.addEventListener("DOMContentLoaded", () => {
   ========================================= */
 
   document
-    .getElementById("photoBtn")
-    .addEventListener(
-      "click",
-      () => {
+    .getElementById("endBtn")
+    .addEventListener("click", () => {
 
-        showScreen("final");
+      showScreen("end");
 
-      }
-    );
+      startEnd();
+
+    });
 
 
-    /* =========================================
+  /* =========================================
      END
   ========================================= */
 
-  document
-    .getElementById("endBtn")
-    .addEventListener(
-      "click",
-      () => {
-
-        showScreen("end");
-
-        startEnd();
-
-      }
-    );
-
-
   function startEnd() {
-
-    const text =
-      document.getElementById("endText");
 
     const button =
       document.getElementById("restartBtn");
 
-
     button.classList.add("hidden");
-
 
     typeText(
       "endText",
@@ -1272,7 +1054,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       }
     );
-
   }
 
 
@@ -1282,22 +1063,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document
     .getElementById("restartBtn")
-    .addEventListener(
-      "click",
-      () => {
+    .addEventListener("click", () => {
 
-        stopMusic();
+      stopMusic();
 
-        showScreen("intro");
+      showScreen("intro");
 
-        startIntro();
+      startIntro();
 
-      }
-    );
+    });
 
 
   /* =========================================
-     START
+     START WEBSITE
   ========================================= */
 
   startIntro();
