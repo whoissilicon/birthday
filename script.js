@@ -271,7 +271,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     question.options.forEach(optionText => {
       const button = document.createElement("button");
-      button.className = "option-btn"; // ঠিক করা হয়েছে যাতে CSS-এর ডিজাইন পায়
+      button.className = "option-btn";
       button.textContent = optionText;
       button.addEventListener("click", () => chooseOption(optionText));
       options.appendChild(button);
@@ -338,7 +338,26 @@ document.addEventListener("DOMContentLoaded", () => {
     card.addEventListener("click", () => {
       const target = card.dataset.open;
       if (target === "memories") {
-        playMusic(); // গান শুধু Memories অপশনে চাপ দিলেই বাজবে
+        playMusic();
+        showScreen("screen-memories");
+        initMemories();
+      } else if (target === "little-things") {
+        showScreen("screen-little-things");
+      } else if (target === "letter") {
+        showScreen("screen-letter");
+      } else if (target === "last") {
+        showScreen("screen-suspense");
+        startLastThing();
+      }
+    });
+  });
+
+  // Hub card click support using data-open attribute (since cards use data-open)
+  document.querySelectorAll(".hub-card").forEach(card => {
+    card.addEventListener("click", () => {
+      const target = card.dataset.open;
+      if (target === "memories") {
+        playMusic();
         showScreen("screen-memories");
         initMemories();
       } else if (target === "little-things") {
