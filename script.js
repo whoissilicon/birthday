@@ -1,455 +1,587 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
 
-  // --- AUDIO SETUP ---
-  const bgAudio = document.getElementById('backgroundMusic');
-  if (bgAudio) {
-    bgAudio.volume = 0.5;
+  const music = document.getElementById("backgroundMusic");
+  const musicModal = document.getElementById("musicModal");
+  const allowMusicBtn = document.getElementById("allowMusic");
+  const denyMusicBtn = document.getElementById("denyMusic");
+  const musicToggleBtn = document.getElementById("musicToggleBtn");
+
+  let isPlaying = false;
+  let musicPermissionAsked = false;
+
+  function playMusic() {
+    if (!music) return;
+    music.volume = 0.35;
+    
+    const playPromise = music.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        isPlaying = true;
+        if (musicToggleBtn) {
+          musicToggleBtn.textContent = "🔊";
+          musicToggleBtn.style.display = "inline-block";
+        }
+      }).catch(error => {
+        console.log("Audio play failed:", error);
+        isPlaying = false;
+        if (musicToggleBtn) {
+          musicToggleBtn.textContent = "🔇";
+          musicToggleBtn.style.display = "inline-block";
+        }
+      });
+    }
   }
 
-  // --- DATA SOURCES ---
-  const validNames = ['naila', 'shifa', 'naila islam', 'naila islam shifa'];
+  function pauseMusic() {
+    if (!music) return;
+    music.pause();
+    isPlaying = false;
+    if (musicToggleBtn) {
+      musicToggleBtn.textContent = "🔇";
+      musicToggleBtn.style.display = "inline-block";
+    }
+  }
 
-  const questionsData = [
+  if (musicToggleBtn) {
+    musicToggleBtn.style.display = "none";
+  }
+
+  if (allowMusicBtn) {
+    allowMusicBtn.addEventListener("click", () => {
+      playMusic();
+      if (musicModal) musicModal.classList.add("hidden-modal");
+    });
+  }
+
+  if (denyMusicBtn) {
+    denyMusicBtn.addEventListener("click", () => {
+      pauseMusic();
+      if (musicModal) musicModal.classList.add("hidden-modal");
+    });
+  }
+
+  if (musicToggleBtn) {
+    musicToggleBtn.addEventListener("click", () => {
+      if (isPlaying) {
+        pauseMusic();
+      } else {
+        playMusic();
+      }
+    });
+  }
+
+  const validNames = [
+    "naila",
+    "shifa",
+    "naila islam",
+    "naila islam shifa"
+  ];
+
+  const questions = [
     {
-      title: "What's your usual choice?",
+      title: "Be honest… which one sounds most like you?",
       subtitle: "Pick one.",
       options: [
-        { text: "Stay home", feedback: "Hmm. Interesting." },
-        { text: "Go outside", feedback: "Okay. Noted." }
+        "I'll sleep early tonight.",
+        "One more episode.",
+        "One more scroll.",
+        "I have no idea how it became 3 AM."
       ]
     },
     {
-      title: "Pick one.",
+      title: "If you suddenly got a completely free day, what would you choose?",
       subtitle: "No wrong answers.",
       options: [
-        { text: "Tea", feedback: "I had a feeling." },
-        { text: "Coffee", feedback: "That makes sense." }
+        "Sleep",
+        "Go somewhere",
+        "Spend time with people",
+        "Just disappear from everyone for a while"
       ]
     },
     {
-      title: "What sounds better?",
-      subtitle: "Be honest.",
+      title: "Which matters more?",
+      subtitle: "Interesting question.",
       options: [
-        { text: "A quiet day", feedback: "Okay. Noted." },
-        { text: "A busy day", feedback: "Hmm. Interesting." }
+        "A perfect photograph",
+        "A perfect memory"
       ]
     },
     {
-      title: "Be honest...",
-      subtitle: "How good is your memory?",
+      title: "One last thing…",
+      subtitle: "Do you think some ordinary days become special only when you look back at them?",
       options: [
-        { text: "Pretty good", feedback: "We'll see about that." },
-        { text: "Depends", feedback: "Fair enough." }
-      ]
-    },
-    {
-      title: "One last thing...",
-      subtitle: "Would you keep going if something interesting was waiting?",
-      options: [
-        { text: "Of course", feedback: "Good answer." },
-        { text: "Maybe", feedback: "Fair enough." }
+        "Yes",
+        "Maybe",
+        "Absolutely"
       ]
     }
   ];
 
-  const memoriesData = [
-    { date: "06.08.23", fullDate: "06 AUG 2023", img: "images/memory1.jpg", caption: "Remember this one?" },
-    { date: "22.08.23", fullDate: "22 AUG 2023", img: "images/memory2.jpg", caption: "Still remember this?" },
-    { date: "31.08.23", fullDate: "31 AUG 2023", img: "images/memory3.jpg", caption: "This was a good day." },
-    { date: "23.10.23", fullDate: "23 OCT 2023", img: "images/memory4.jpg", caption: "Feels like a while ago." },
-    { date: "29.10.23", fullDate: "29 OCT 2023", img: "images/memory5.jpg", caption: "Yeah... this one." },
-    { date: "11.11.23", fullDate: "11 NOV 2023", img: "images/memory6.jpg", caption: "Another memory." },
-    { date: "16.03.24", fullDate: "16 MAR 2024", img: "images/memory7.jpg", caption: "Remember this one?" },
-    { date: "17.07.24", fullDate: "17 JUL 2024", img: "images/memory8.jpg", caption: "Still remember this?" },
-    { date: "19.07.24", fullDate: "19 JUL 2024", img: "images/memory9.jpg", caption: "This was a good day." },
-    { date: "21.09.24", fullDate: "21 SEP 2024", img: "images/memory10.jpg", caption: "Feels like a while ago." },
-    { date: "09.12.24", fullDate: "09 DEC 2024", img: "images/memory11.jpg", caption: "Yeah... this one." },
-    { date: "25.12.24", fullDate: "25 DEC 2024", img: "images/memory12.jpg", caption: "Another memory." },
-    { date: "27.12.24", fullDate: "27 DEC 2024", img: "images/memory13.jpg", caption: "This one is a little different." },
-    { date: "15.01.25", fullDate: "15 JAN 2025", img: "images/memory14.jpg", caption: "Remember this one?" },
-    { date: "27.01.25", fullDate: "27 JAN 2025", img: "images/memory15.jpg", caption: "Still remember this?" },
-    { date: "15.02.25", fullDate: "15 FEB 2025", img: "images/memory16.jpg", caption: "This was a good day." }
+  const memories = [
+    { date: "06.08.23", fullDate: "06 AUG 2023", img: "images/memory1.jpg", title: "A beginning", caption: "Where the story first quietly started to unfold." },
+    { date: "22.08.23", fullDate: "22 AUG 2023", img: "images/memory2.jpg", title: "A gentle step", caption: "Another ordinary day that ended up sticking around in memory." },
+    { date: "31.08.23", fullDate: "31 AUG 2023", img: "images/memory3.jpg", title: "Quiet moments", caption: "Unplanned conversations and simple clarity." },
+    { date: "14.09.23", fullDate: "14 SEP 2023", img: "images/memory18.jpg", title: "Afternoon calm", caption: "Slow hours spent talking about absolutely nothing at all." },
+    { date: "05.10.23", fullDate: "05 OCT 2023", img: "images/memory19.jpg", title: "Unexpected smiles", caption: "Little surprises that made the whole week better." },
+    { date: "23.10.23", fullDate: "23 OCT 2023", img: "images/memory4.jpg", title: "Shared time", caption: "Proof that time passes, but good feelings don't." },
+    { date: "29.10.23", fullDate: "29 OCT 2023", img: "images/memory5.jpg", title: "First meet", caption: "The day we finally met in person and created a core memory." },
+    { date: "11.11.23", fullDate: "11 NOV 2023", img: "images/memory6.jpg", title: "Unplanned laughter", caption: "The best times are usually the ones that weren't scheduled." },
+    { date: "04.12.23", fullDate: "04 DEC 2023", img: "images/memory20.jpg", title: "Chilly breeze", caption: "Finding warmth in simple company as the season changed." },
+    { date: "16.03.24", fullDate: "16 MAR 2024", img: "images/memory7.jpg", title: "Spring memory", caption: "A bright day worth holding on to." },
+    { date: "17.07.24", fullDate: "17 JUL 2024", img: "images/memory8.jpg", title: "Midsummer chapter", caption: "Moments becoming special without asking permission." },
+    { date: "19.07.24", fullDate: "19 JUL 2024", img: "images/memory9.jpg", title: "Good company", caption: "Just one of many reasons to celebrate this story." },
+    { date: "21.09.24", fullDate: "21 SEP 2024", img: "images/memory10.jpg", title: "Autumn warmth", caption: "Reflecting on how quickly time moves." },
+    { date: "09.12.24", fullDate: "09 DEC 2024", img: "images/memory11.jpg", title: "Winter reflection", caption: "Finding comfort in shared memories." },
+    { date: "25.12.24", fullDate: "25 DEC 2024", img: "images/memory12.jpg", title: "Year-end magic", caption: "A cozy moment at the end of the year." },
+    { date: "27.12.24", fullDate: "27 DEC 2024", img: "images/memory13.jpg", title: "Revisiting those days", caption: "Recently visited the place to remember those days." },
+    { date: "14.01.25", fullDate: "14 JAN 2025", img: "images/memory21.jpg", title: "Quiet evening", caption: "Watching the sky fade into a peaceful twilight." },
+    { date: "26.01.25", fullDate: "26 JAN 2025", img: "images/memory14.jpg", title: "New year chapter", caption: "Starting a new year with cherished memories." },
+    { date: "27.01.25", fullDate: "27 JAN 2025", img: "images/memory15.jpg", title: "A calm day", caption: "Quiet peace and simple gratitude." },
+    { date: "18.02.25", fullDate: "18 FEB 2025", img: "images/memory22.jpg", title: "Random snapshots", caption: "Capturing everyday magic that usually goes unnoticed." },
+    { date: "15.04.25", fullDate: "15 APR 2025", img: "images/memory16.jpg", title: "Spring sunshine", caption: "Capturing a brand-new page of the journey." },
+    { date: "20.06.25", fullDate: "20 JUN 2025", img: "images/memory23.jpg", title: "Slowing down", caption: "A lazy afternoon where nothing else mattered." },
+    { date: "27.10.25", fullDate: "27 OCT 2025", img: "images/memory17.jpg", title: "Looking back", caption: "Reflecting on two years of wonderful moments." },
+    { date: "12.12.25", fullDate: "12 DEC 2025", img: "images/memory24.jpg", title: "Closing thoughts", caption: "Another year well spent and deeply appreciated." }
   ];
 
-  // --- STATE ---
-  let currentQuestionIndex = 0;
-  let currentMemoryIndex = 0;
+  let questionIndex = 0;
+  let memoryIndex = 0;
 
-  // --- UTILS: SCREEN SWITCHING ---
-  function showScreen(screenId) {
-    document.querySelectorAll('.screen').forEach(screen => {
-      screen.classList.remove('active');
+  function showScreen(id) {
+    document.querySelectorAll(".screen").forEach(screen => {
+      screen.classList.remove("active");
     });
-    const target = document.getElementById(screenId);
-    if (target) {
-      target.classList.add('active');
+    const screen = document.getElementById(id);
+    if (screen) {
+      screen.classList.add("active");
     }
+    window.scrollTo(0, 0);
   }
 
-  // --- UTILS: TYPEWRITER EFFECT ---
-  function typeSequence(containerId, lines, doneCallback) {
-    const container = document.getElementById(containerId);
-    container.innerHTML = '';
-    let lineIdx = 0;
+  function typeText(elementId, lines, callback) {
+    const container = document.getElementById(elementId);
+    if (!container) return;
+    container.innerHTML = "";
+    let lineIndex = 0;
 
-    function typeLine() {
-      if (lineIdx < lines.length) {
-        const p = document.createElement('p');
-        p.className = 'typewriter-line';
-        container.appendChild(p);
-
-        let charIdx = 0;
-        const text = lines[lineIdx];
-
-        const timer = setInterval(() => {
-          if (charIdx < text.length) {
-            p.textContent += text.charAt(charIdx);
-            charIdx++;
-          } else {
-            clearInterval(timer);
-            lineIdx++;
-            setTimeout(typeLine, 400);
-          }
-        }, 35);
-      } else if (doneCallback) {
-        doneCallback();
+    function writeLine() {
+      if (lineIndex >= lines.length) {
+        if (callback) callback();
+        return;
       }
+      const line = document.createElement("p");
+      line.className = "typewriter-line";
+      container.appendChild(line);
+      const text = lines[lineIndex];
+      let charIndex = 0;
+
+      const timer = setInterval(() => {
+        line.textContent += text.charAt(charIndex);
+        charIndex++;
+        if (charIndex >= text.length) {
+          clearInterval(timer);
+          lineIndex++;
+          setTimeout(writeLine, 300);
+        }
+      }, 30);
+    }
+    writeLine();
+  }
+
+  function startIntro() {
+    const button = document.getElementById("introBtn");
+    if (!button) return;
+    button.classList.add("hidden");
+    typeText(
+      "introText",
+      [
+        "We are looking for someone.",
+        "Someone very specific.",
+        "We don't know if you found this page by accident...",
+        "...or if it was meant to find you.",
+        "So before we continue...",
+        "We need to ask you something."
+      ],
+      () => {
+        button.classList.remove("hidden");
+      }
+    );
+  }
+
+  if (musicModal) {
+    musicModal.classList.add("hidden-modal");
+  }
+  startIntro();
+
+  const introBtn = document.getElementById("introBtn");
+  if (introBtn) {
+    introBtn.addEventListener("click", () => {
+      showScreen("nameScreen");
+      startNameScreen();
+    });
+  }
+
+  function startNameScreen() {
+    const form = document.getElementById("nameForm");
+    const error = document.getElementById("nameError");
+    const input = document.getElementById("nameInput");
+    if (!form || !input) return;
+    form.classList.add("hidden");
+    if (error) error.classList.add("hidden");
+    input.value = "";
+
+    typeText(
+      "nameText",
+      ["First things first.", "What's your name?"],
+      () => {
+        form.classList.remove("hidden");
+        input.focus();
+      }
+    );
+  }
+
+  function submitName() {
+    const inputField = document.getElementById("nameInput");
+    if (!inputField) return;
+    const input = inputField.value.trim().toLowerCase();
+    const valid = validNames.some(name => input === name || input.includes(name));
+
+    if (!valid) {
+      const error = document.getElementById("nameError");
+      if (error) error.classList.remove("hidden");
+      return;
     }
 
-    typeLine();
+    showScreen("questions");
+    startQuestions();
   }
 
-  // --- SCREEN 1: MYSTERY INTRO ---
-  function initIntro() {
-    const introLines = [
-      "We are looking for someone.",
-      "Someone specific.",
-      "We don't know if you've found this page by accident...",
-      "...or if it was meant to find you.",
-      "So before we continue...",
-      "We need to ask you something."
-    ];
+  const nameBtn = document.getElementById("nameBtn");
+  if (nameBtn) {
+    nameBtn.addEventListener("click", submitName);
+  }
 
-    typeSequence('typewriter-intro', introLines, () => {
-      document.getElementById('btn-intro-next').classList.remove('hidden');
+  const nameInput = document.getElementById("nameInput");
+  if (nameInput) {
+    nameInput.addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        submitName();
+      }
     });
   }
 
-  document.getElementById('btn-intro-next').addEventListener('click', () => {
-    showScreen('screen-name');
-    initNameScreen();
-  });
+  function startQuestions() {
+    questionIndex = 0;
+    showQuestion();
+  }
 
-  // --- SCREEN 2: NAME INPUT ---
-  function initNameScreen() {
-    document.getElementById('name-form-container').classList.add('hidden');
-    document.getElementById('name-error').classList.add('hidden');
-    document.getElementById('name-input').value = '';
+  function showQuestion() {
+    const question = questions[questionIndex];
+    const qNum = document.getElementById("questionNumber");
+    const qTitle = document.getElementById("questionTitle");
+    const qSub = document.getElementById("questionSubtitle");
 
-    const nameLines = [
-      "First things first.",
-      "What's your name?"
-    ];
+    if (qNum) qNum.textContent = `QUESTION ${String(questionIndex + 1).padStart(2, "0")} / ${questions.length}`;
+    if (qTitle) qTitle.textContent = question.title;
+    if (qSub) qSub.textContent = question.subtitle;
 
-    typeSequence('typewriter-name', nameLines, () => {
-      document.getElementById('name-form-container').classList.remove('hidden');
+    const options = document.getElementById("options");
+    const feedback = document.getElementById("feedback");
+    if (!options) return;
+
+    options.innerHTML = "";
+    if (feedback) feedback.classList.add("hidden");
+    options.style.opacity = "1";
+    options.style.pointerEvents = "auto";
+
+    question.options.forEach(optionText => {
+      const button = document.createElement("button");
+      button.className = "option";
+      button.textContent = optionText;
+      button.addEventListener("click", () => chooseOption(optionText));
+      options.appendChild(button);
     });
   }
 
-  document.getElementById('btn-submit-name').addEventListener('click', handleNameSubmit);
-  document.getElementById('name-input').addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') handleNameSubmit();
-  });
-
-  function handleNameSubmit() {
-    const inputVal = document.getElementById('name-input').value.trim().toLowerCase();
-    const isMatch = validNames.some(name => inputVal.includes(name));
-
-    if (isMatch) {
-      showScreen('screen-questions');
-      initQuestions();
-    } else {
-      document.getElementById('name-error').classList.remove('hidden');
+  function chooseOption(optionText) {
+    const options = document.getElementById("options");
+    const feedback = document.getElementById("feedback");
+    if (options) {
+      options.style.pointerEvents = "none";
+      options.style.opacity = "0.4";
     }
-  }
 
-  // --- SCREEN 3: NATURAL QUESTIONS ---
-  function initQuestions() {
-    currentQuestionIndex = 0;
-    document.getElementById('typewriter-question-intro').innerHTML = '';
-    document.getElementById('question-container').classList.add('hidden');
-    document.getElementById('question-feedback').classList.add('hidden');
+    let message = "Interesting choice.";
+    if (optionText === "I have no idea how it became 3 AM.") {
+      message = "Thought so. 🌙";
+    } else if (optionText === "Sleep") {
+      message = "Pure bliss. 🛌";
+    } else if (optionText === "Go somewhere") {
+      message = "Wanderlust wins. ✈️";
+    } else if (optionText === "A perfect memory") {
+      message = "Maybe that's why some moments are worth keeping.";
+    } else if (optionText === "Absolutely") {
+      message = "And today might just be one of them.";
+    }
 
-    displayQuestion(currentQuestionIndex);
-  }
-
-  function displayQuestion(index) {
-    const qData = questionsData[index];
-    const container = document.getElementById('question-container');
-    const optionsContainer = document.getElementById('question-options');
-
-    document.getElementById('question-title').textContent = qData.title;
-    document.getElementById('question-subtitle').textContent = qData.subtitle;
-    optionsContainer.innerHTML = '';
-
-    qData.options.forEach(opt => {
-      const btn = document.createElement('button');
-      btn.className = 'option-btn';
-      btn.textContent = opt.text;
-      btn.addEventListener('click', () => handleOptionClick(opt.feedback));
-      optionsContainer.appendChild(btn);
-    });
-
-    container.classList.remove('hidden');
-  }
-
-  function handleOptionClick(feedbackText) {
-    document.getElementById('question-container').classList.add('hidden');
-    const feedbackBox = document.getElementById('question-feedback');
-    feedbackBox.textContent = feedbackText;
-    feedbackBox.classList.remove('hidden');
+    if (feedback) {
+      feedback.textContent = message;
+      feedback.classList.remove("hidden");
+    }
 
     setTimeout(() => {
-      feedbackBox.classList.add('hidden');
-      currentQuestionIndex++;
-      if (currentQuestionIndex < questionsData.length) {
-        displayQuestion(currentQuestionIndex);
+      questionIndex++;
+      if (questionIndex < questions.length) {
+        showQuestion();
       } else {
-        showScreen('screen-confirmation');
-        initConfirmation();
+        showScreen("confirmation");
+        startConfirmation();
       }
     }, 1200);
   }
 
-  // --- SCREEN 4: IDENTITY CONFIRMATION (PACED REVEAL) ---
-  function initConfirmation() {
-    document.getElementById('confirm-reveal').classList.add('hidden');
+  function startConfirmation() {
+    const box = document.getElementById("confirmBox");
+    if (box) box.classList.add("hidden");
+    typeText(
+      "confirmText",
+      ["Okay.", "I think we have enough.", "Name checked.", "A few answers checked.", "Yes."],
+      () => {
+        if (box) box.classList.remove("hidden");
+      }
+    );
+  }
 
-    const confirmLines = [
-      "Okay.",
-      "I think we have enough.",
-      "Name checked.",
-      "A few answers checked.",
-      "Yes."
-    ];
-
-    typeSequence('typewriter-confirm', confirmLines, () => {
-      document.getElementById('confirm-reveal').classList.remove('hidden');
+  const enterBtn = document.getElementById("enterBtn");
+  if (enterBtn) {
+    enterBtn.addEventListener("click", () => {
+      showScreen("file");
     });
   }
 
-  document.getElementById('btn-enter').addEventListener('click', () => {
-    showScreen('screen-hub');
-  });
-
-  // --- SCREEN 5: MAIN HUB ROUTING ---
-  document.querySelectorAll('.hub-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const targetScreen = card.getAttribute('data-target');
-      showScreen(targetScreen);
-
-      // শুধুমাত্র Memories কার্ডে ক্লিক করলেই গান বাজবে
-      if (targetScreen === 'screen-memories') {
-        if (bgAudio) {
-          bgAudio.play().catch(e => console.log("Audio autoplay restricted:", e));
-        }
+  document.querySelectorAll(".file-card").forEach(card => {
+    card.addEventListener("click", () => {
+      const target = card.dataset.open;
+      showScreen(target);
+      
+      if (target === "memories") {
+        playMusic();
         initMemories();
       }
 
-      if (targetScreen === 'screen-suspense') initSuspense();
+      if (target === "last") {
+        startLastThing();
+      }
     });
   });
 
-  document.querySelectorAll('.btn-back').forEach(btn => {
-    btn.addEventListener('click', () => {
-      showScreen('screen-hub');
+  document.querySelectorAll("[data-back]").forEach(button => {
+    button.addEventListener("click", () => {
+      showScreen("file");
     });
   });
 
-  // --- SECTION 01: MEMORIES ---
   function initMemories() {
-    const selector = document.getElementById('date-selector');
-    selector.innerHTML = '';
+    const selector = document.getElementById("dateSelector");
+    if (!selector) return;
+    selector.innerHTML = "";
+    memoryIndex = 0;
 
-    memoriesData.forEach((item, index) => {
-      const chip = document.createElement('button');
-      chip.className = `date-chip ${index === 0 ? 'active' : ''}`;
-      chip.textContent = item.date;
-      chip.addEventListener('click', () => selectMemory(index));
-      selector.appendChild(chip);
+    memories.forEach((memory, index) => {
+      const button = document.createElement("button");
+      button.className = "date";
+      button.textContent = memory.date;
+      button.addEventListener("click", () => selectMemory(index));
+      selector.appendChild(button);
     });
 
     selectMemory(0);
   }
 
   function selectMemory(index) {
-    currentMemoryIndex = index;
-    const data = memoriesData[index];
+    if (index < 0 || index >= memories.length) return;
+    memoryIndex = index;
+    const memory = memories[index];
 
-    const img = document.getElementById('memory-img');
-    const placeholder = img.nextElementSibling;
-    img.style.display = 'block';
-    if(placeholder) placeholder.style.display = 'none';
+    const image = document.getElementById("memoryImg");
+    const fallback = document.getElementById("imageFallback");
 
-    img.src = data.img;
-    document.getElementById('memory-date').textContent = data.fullDate;
-    document.getElementById('memory-caption').textContent = data.caption;
-    document.getElementById('memory-counter').textContent = `${String(index + 1).padStart(2, '0')} / ${memoriesData.length}`;
+    if (image && fallback) {
+      image.style.display = "block";
+      fallback.classList.add("hidden");
+      image.src = memory.img;
 
-    const chips = document.querySelectorAll('.date-chip');
-    chips.forEach((chip, idx) => {
-      chip.classList.toggle('active', idx === index);
-      if (idx === index) {
-        chip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-      }
-    });
-  }
-
-  document.getElementById('btn-prev-memory').addEventListener('click', () => {
-    if (currentMemoryIndex > 0) {
-      selectMemory(currentMemoryIndex - 1);
-    }
-  });
-
-  document.getElementById('btn-next-memory').addEventListener('click', () => {
-    if (currentMemoryIndex < memoriesData.length - 1) {
-      selectMemory(currentMemoryIndex + 1);
-    }
-  });
-
-  // --- SECTION 02: LITTLE THINGS (CARD FLIP) ---
-  document.querySelectorAll('.flip-card').forEach(card => {
-    card.addEventListener('click', () => {
-      card.classList.toggle('flipped');
-    });
-  });
-
-  // --- SECTION 03: SURPRISE LETTER ---
-  const envelope = document.getElementById('envelope');
-  envelope.addEventListener('click', () => {
-    const front = envelope.querySelector('.envelope-front');
-    const content = envelope.querySelector('.letter-content');
-    if (front && !front.classList.contains('hidden')) {
-      front.classList.add('hidden');
-      content.classList.remove('hidden');
-    }
-  });
-
-  // --- SECTION 04 & BUILD-UP: SUSPENSE ---
-  function initSuspense() {
-    document.getElementById('btn-suspense-next').classList.add('hidden');
-
-    const suspenseLinesPart1 = [
-      "Okay...",
-      "That's almost everything.",
-      "Almost."
-    ];
-
-    typeSequence('typewriter-suspense', suspenseLinesPart1, () => {
-      const btn = document.getElementById('btn-suspense-next');
-      btn.classList.remove('hidden');
-      btn.onclick = () => runBuildUp();
-    });
-  }
-
-  function runBuildUp() {
-    document.getElementById('btn-suspense-next').classList.add('hidden');
-
-    const suspenseLinesPart2 = [
-      "You probably thought that was the whole thing.",
-      "It wasn't.",
-      "There's one last thing."
-    ];
-
-    typeSequence('typewriter-suspense', suspenseLinesPart2, () => {
-      const btn = document.getElementById('btn-suspense-next');
-      btn.textContent = "Show me \u2192";
-      btn.classList.remove('hidden');
-      btn.onclick = () => runFinalSequence();
-    });
-  }
-
-  function runFinalSequence() {
-    document.getElementById('btn-suspense-next').classList.add('hidden');
-
-    const finalBuildUpLines = [
-      "We started by looking for someone.",
-      "We found her.",
-      "Then we went through a few memories.",
-      "A few random things.",
-      "And one small letter.",
-      "But there was always one reason for all of this.",
-      "Her birthday."
-    ];
-
-    typeSequence('typewriter-suspense', finalBuildUpLines, () => {
-      const btn = document.getElementById('btn-suspense-next');
-      btn.textContent = "Continue \u2192";
-      btn.classList.remove('hidden');
-      btn.onclick = () => {
-        showScreen('screen-birthday');
-        initBirthdayReveal();
+      image.onerror = () => {
+        image.style.display = "none";
+        fallback.classList.remove("hidden");
       };
+    }
+
+    const mCounter = document.getElementById("memoryCounter");
+    const mDate = document.getElementById("memoryDate");
+    const mTitle = document.getElementById("memoryTitle");
+    const mCaption = document.getElementById("memoryCaption");
+
+    if (mCounter) mCounter.textContent = `${String(index + 1).padStart(2, "0")} / ${memories.length}`;
+    if (mDate) mDate.textContent = memory.fullDate;
+    if (mTitle) mTitle.textContent = memory.title;
+    if (mCaption) mCaption.textContent = memory.caption;
+
+    document.querySelectorAll(".date").forEach((button, i) => {
+      button.classList.toggle("active", i === index);
     });
   }
 
-  // --- SCREEN 7: BIRTHDAY REVEAL ---
-  function initBirthdayReveal() {
-    const date = document.getElementById('reveal-date');
-    const hbd = document.getElementById('reveal-hbd');
-    const name = document.getElementById('reveal-fullname');
-    const sub = document.getElementById('reveal-sub');
-    const btn = document.getElementById('btn-to-final-photo');
-
-    date.classList.add('hidden');
-    hbd.classList.add('hidden');
-    name.classList.add('hidden');
-    sub.classList.add('hidden');
-    btn.classList.add('hidden');
-
-    setTimeout(() => { date.classList.remove('hidden'); }, 400);
-    setTimeout(() => { hbd.classList.remove('hidden'); }, 1200);
-    setTimeout(() => { name.classList.remove('hidden'); }, 2000);
-    setTimeout(() => { sub.classList.remove('hidden'); }, 2800);
-    setTimeout(() => { btn.classList.remove('hidden'); }, 3600);
-  }
-
-  document.getElementById('btn-to-final-photo').addEventListener('click', () => {
-    showScreen('screen-final-photo');
-  });
-
-  document.getElementById('btn-to-end').addEventListener('click', () => {
-    showScreen('screen-end');
-    initEndScreen();
-  });
-
-  // --- SCREEN 9: END & RESTART ---
-  function initEndScreen() {
-    document.getElementById('btn-restart').classList.add('hidden');
-
-    const endLines = [
-      "That's it.",
-      "You made it to the end.",
-      "Happy Birthday, Naila. :)"
-    ];
-
-    typeSequence('typewriter-end', endLines, () => {
-      document.getElementById('btn-restart').classList.remove('hidden');
+  const prevMemory = document.getElementById("prevMemory");
+  if (prevMemory) {
+    prevMemory.addEventListener("click", () => {
+      if (memoryIndex > 0) selectMemory(memoryIndex - 1);
     });
   }
 
-  document.getElementById('btn-restart').addEventListener('click', () => {
-    const front = envelope.querySelector('.envelope-front');
-    const content = envelope.querySelector('.letter-content');
-    if (front) front.classList.remove('hidden');
-    if (content) content.classList.add('hidden');
+  const nextMemory = document.getElementById("nextMemory");
+  if (nextMemory) {
+    nextMemory.addEventListener("click", () => {
+      if (memoryIndex < memories.length - 1) selectMemory(memoryIndex + 1);
+    });
+  }
 
-    document.querySelectorAll('.flip-card').forEach(card => card.classList.remove('flipped'));
-
-    showScreen('screen-intro');
-    initIntro();
+  document.querySelectorAll(".flip").forEach(card => {
+    card.addEventListener("click", () => {
+      card.classList.toggle("flipped");
+    });
   });
 
-  // Initialize App
-  initIntro();
+  const envelope = document.getElementById("envelope");
+  if (envelope) {
+    envelope.addEventListener("click", () => {
+      const envFront = document.getElementById("envelopeFront");
+      const letterContent = document.getElementById("letterContent");
+      if (envFront) envFront.classList.add("hidden");
+      if (letterContent) letterContent.classList.remove("hidden");
+    });
+  }
+
+  function startLastThing() {
+    const button = document.getElementById("lastBtn");
+    if (!button) return;
+    button.classList.add("hidden");
+    typeText(
+      "lastText",
+      ["Okay...", "That's almost everything.", "Almost."],
+      () => {
+        button.textContent = "Continue →";
+        button.classList.remove("hidden");
+        button.onclick = startLastPart;
+      }
+    );
+  }
+
+  function startLastPart() {
+    const button = document.getElementById("lastBtn");
+    if (!button) return;
+    button.classList.add("hidden");
+    typeText(
+      "lastText",
+      ["You probably thought that was the whole thing.", "It wasn't.", "There's one last thing."],
+      () => {
+        button.textContent = "Show me →";
+        button.classList.remove("hidden");
+        button.onclick = finalBuildUp;
+      }
+    );
+  }
+
+  function finalBuildUp() {
+    const button = document.getElementById("lastBtn");
+    if (!button) return;
+    button.classList.add("hidden");
+    typeText(
+      "lastText",
+      [
+        "We started by looking for someone.",
+        "We found her.",
+        "Then we went through a few memories.",
+        "A few random things.",
+        "And one small letter.",
+        "But there was always one reason for all of this.",
+        "Her birthday."
+      ],
+      () => {
+        button.textContent = "Continue →";
+        button.classList.remove("hidden");
+        button.onclick = () => {
+          showScreen("birthday");
+          startBirthday();
+        };
+      }
+    );
+  }
+
+  function startBirthday() {
+    const date = document.getElementById("birthdayDate");
+    const title = document.getElementById("birthdayTitle");
+    const name = document.getElementById("birthdayName");
+    const sub = document.getElementById("birthdaySub");
+    const button = document.getElementById("photoBtn");
+
+    if (date) date.classList.add("hidden");
+    if (title) title.classList.add("hidden");
+    if (name) name.classList.add("hidden");
+    if (sub) sub.classList.add("hidden");
+    if (button) button.classList.add("hidden");
+
+    setTimeout(() => { if (date) date.classList.remove("hidden"); }, 300);
+    setTimeout(() => { if (title) title.classList.remove("hidden"); }, 1000);
+    setTimeout(() => { if (name) name.classList.remove("hidden"); }, 1800);
+    setTimeout(() => { if (sub) sub.classList.remove("hidden"); }, 2600);
+    setTimeout(() => { if (button) button.classList.remove("hidden"); }, 3400);
+  }
+
+  const photoBtn = document.getElementById("photoBtn");
+  if (photoBtn) {
+    photoBtn.addEventListener("click", () => {
+      showScreen("final");
+    });
+  }
+
+  const endBtn = document.getElementById("endBtn");
+  if (endBtn) {
+    endBtn.addEventListener("click", () => {
+      showScreen("end");
+      startEnd();
+    });
+  }
+
+  function startEnd() {
+    const button = document.getElementById("restartBtn");
+    if (!button) return;
+    button.classList.add("hidden");
+    typeText(
+      "endText",
+      [
+        "That's it.",
+        "No more hidden files.",
+        "No more questions.",
+        "Just one simple thing left to say.",
+        "Happy Birthday, Naila.",
+        "And thank you for being part of so many memories."
+      ],
+      () => {
+        button.classList.remove("hidden");
+      }
+    );
+  }
+
+  const restartBtn = document.getElementById("restartBtn");
+  if (restartBtn) {
+    restartBtn.addEventListener("click", () => {
+      pauseMusic();
+      musicPermissionAsked = false;
+      if (musicToggleBtn) musicToggleBtn.style.display = "none";
+      showScreen("intro");
+      startIntro();
+    });
+  }
+
 });
