@@ -981,6 +981,126 @@ p {
 }
 
 
+/* FEEDBACK SCREEN DESIGN */
+.feedback-form-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 30px 24px;
+  text-align: left;
+  margin-top: 15px;
+}
+
+.feedback-form-box .input-group {
+  margin-bottom: 16px;
+}
+
+.feedback-form-box input,
+.feedback-form-box textarea {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--card2);
+  color: var(--white);
+  font-size: .95rem;
+  outline: none;
+  transition: border-color .25s ease;
+}
+
+.feedback-form-box input:focus,
+.feedback-form-box textarea:focus {
+  border-color: var(--gold);
+}
+
+.rating-container {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.rating-container p {
+  font-size: .85rem;
+  margin-bottom: 8px;
+  color: var(--muted);
+}
+
+.stars {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.star {
+  font-size: 1.8rem;
+  color: var(--border);
+  transition: color .2s ease, transform .2s ease;
+}
+
+.star.active {
+  color: var(--gold);
+}
+
+.star:hover {
+  transform: scale(1.1);
+}
+
+.feedback-msg {
+  padding: 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-top: 15px;
+}
+
+.success-text {
+  color: var(--gold) !important;
+  font-family: var(--heading);
+  font-size: 1.1rem;
+}
+
+.error-text {
+  color: #e47d7d !important;
+}
+
+
+/* MUSIC TOGGLE BUTTON & SHIMMER */
+.music-toggle-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  background: var(--card);
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.music-toggle-btn:hover {
+  transform: scale(1.1);
+  background: rgba(230,197,135,0.1);
+}
+
+@keyframes shimmerAnim {
+  0% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.2)); }
+  50% { transform: scale(1.03); filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8)); }
+  100% { transform: scale(1); filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.2)); }
+}
+
+.shimmer-effect {
+  animation: shimmerAnim 1.2s ease-in-out infinite;
+}
+
+
 /* MOBILE */
 
 @media (max-width: 600px) {
