@@ -266,6 +266,69 @@ p {
   font-size: 1.2rem;  
 }  
   
+/* Feedback Form Additional Styles */  
+.feedback-form-box {  
+  width: 100%;  
+  max-width: 400px;  
+  margin: 20px auto 0;  
+  text-align: left;  
+}  
+  
+.feedback-form-box .input-group {  
+  margin-bottom: 15px;  
+}  
+  
+.feedback-form-box input,  
+.feedback-form-box textarea {  
+  width: 100%;  
+  padding: 12px 15px;  
+  background: var(--card);  
+  border: 1px solid var(--border);  
+  border-radius: 9px;  
+  color: var(--white);  
+  font-size: 14px;  
+  outline: none;  
+  transition: border-color 0.3s ease;  
+}  
+  
+.feedback-form-box input:focus,  
+.feedback-form-box textarea:focus {  
+  border-color: var(--gold);  
+}  
+  
+.rating-container {  
+  display: flex;  
+  align-items: center;  
+  justify-content: space-between;  
+  margin-bottom: 15px;  
+  padding: 0 5px;  
+  color: var(--muted);  
+  font-size: 14px;  
+}  
+  
+.stars {  
+  display: flex;  
+  gap: 5px;  
+  cursor: pointer;  
+}  
+  
+.star {  
+  font-size: 20px;  
+  color: var(--border);  
+  transition: color 0.2s ease;  
+}  
+  
+.star.active {  
+  color: var(--gold);  
+}  
+  
+.feedback-msg {  
+  text-align: center;  
+  margin-top: 15px;  
+  font-size: 14px;  
+  color: var(--gold);  
+}  
+  
 .identity {  
   color: var(--gold);  
   font-size: 2.5rem;  
