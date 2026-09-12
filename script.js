@@ -1,13 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   const music = document.getElementById("backgroundMusic");
-  const musicModal = document.getElementById("musicModal");
-  const allowMusicBtn = document.getElementById("allowMusic");
-  const denyMusicBtn = document.getElementById("denyMusic");
   const musicToggleBtn = document.getElementById("musicToggleBtn");
 
   let isPlaying = false;
-  let musicPermissionAsked = false;
 
   function playMusic() {
     if (!music) return;
@@ -40,24 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
       musicToggleBtn.textContent = "🔇";
       musicToggleBtn.style.display = "inline-block";
     }
-  }
-
-  if (musicToggleBtn) {
-    musicToggleBtn.style.display = "none";
-  }
-
-  if (allowMusicBtn) {
-    allowMusicBtn.addEventListener("click", () => {
-      playMusic();
-      if (musicModal) musicModal.classList.add("hidden-modal");
-    });
-  }
-
-  if (denyMusicBtn) {
-    denyMusicBtn.addEventListener("click", () => {
-      pauseMusic();
-      if (musicModal) musicModal.classList.add("hidden-modal");
-    });
   }
 
   if (musicToggleBtn) {
@@ -151,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".screen").forEach(screen => {
       screen.classList.remove("active");
     });
-    const screen = document.getElementById(id);
+    const screen = document.getElementById("screen-" + id) || document.getElementById(id);
     if (screen) {
       screen.classList.add("active");
     }
@@ -208,15 +186,12 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  if (musicModal) {
-    musicModal.classList.add("hidden-modal");
-  }
   startIntro();
 
   const introBtn = document.getElementById("introBtn");
   if (introBtn) {
     introBtn.addEventListener("click", () => {
-      showScreen("nameScreen");
+      showScreen("screen-name");
       startNameScreen();
     });
   }
@@ -252,7 +227,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    showScreen("questions");
+    showScreen("screen-questions");
     startQuestions();
   }
 
@@ -334,7 +309,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (questionIndex < questions.length) {
         showQuestion();
       } else {
-        showScreen("confirmation");
+        showScreen("screen-confirmation");
         startConfirmation();
       }
     }, 1200);
@@ -355,21 +330,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const enterBtn = document.getElementById("enterBtn");
   if (enterBtn) {
     enterBtn.addEventListener("click", () => {
-      showScreen("file");
+      showScreen("screen-hub");
     });
   }
 
   document.querySelectorAll(".file-card").forEach(card => {
     card.addEventListener("click", () => {
       const target = card.dataset.open;
-      showScreen(target);
-      
       if (target === "memories") {
         playMusic();
+        showScreen("screen-memories");
         initMemories();
-      }
-
-      if (target === "last") {
+      } else if (target === "little-things") {
+        showScreen("screen-little-things");
+      } else if (target === "letter") {
+        showScreen("screen-letter");
+      } else if (target === "last") {
+        showScreen("screen-suspense");
         startLastThing();
       }
     });
@@ -377,7 +354,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.querySelectorAll("[data-back]").forEach(button => {
     button.addEventListener("click", () => {
-      showScreen("file");
+      showScreen("screen-hub");
     });
   });
 
@@ -511,7 +488,7 @@ document.addEventListener("DOMContentLoaded", () => {
         button.textContent = "Continue →";
         button.classList.remove("hidden");
         button.onclick = () => {
-          showScreen("birthday");
+          showScreen("screen-birthday");
           startBirthday();
         };
       }
@@ -541,14 +518,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const photoBtn = document.getElementById("photoBtn");
   if (photoBtn) {
     photoBtn.addEventListener("click", () => {
-      showScreen("final");
+      showScreen("screen-final");
     });
   }
 
   const endBtn = document.getElementById("endBtn");
   if (endBtn) {
     endBtn.addEventListener("click", () => {
-      showScreen("end");
+      showScreen("screen-end");
       startEnd();
     });
   }
@@ -577,9 +554,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (restartBtn) {
     restartBtn.addEventListener("click", () => {
       pauseMusic();
-      musicPermissionAsked = false;
       if (musicToggleBtn) musicToggleBtn.style.display = "none";
-      showScreen("intro");
+      showScreen("screen-intro");
       startIntro();
     });
   }
