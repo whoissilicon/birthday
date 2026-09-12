@@ -2,9 +2,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const music = document.getElementById("backgroundMusic");
   const typeSound = document.getElementById("typeSound");
-  const clickSound = document.getElementById("clickSound");
+  const musicModal = document.getElementById("musicModal");
+  const allowMusicBtn = document.getElementById("allowMusic");
+  const denyMusicBtn = document.getElementById("denyMusic");
+  const musicToggleBtn = document.getElementById("musicToggleBtn");
 
   let isPlaying = false;
+
+  function unlockAudio() {
+    if (typeSound) {
+      typeSound.volume = 0.5;
+      typeSound.play().then(() => {
+        typeSound.pause();
+        typeSound.currentTime = 0;
+      }).catch(e => {});
+    }
+  }
 
   function playMusic() {
     if (!music) return;
@@ -14,8 +27,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (playPromise !== undefined) {
       playPromise.then(() => {
         isPlaying = true;
+        if (musicToggleBtn) {
+          musicToggleBtn.textContent = "🔊";
+          musicToggleBtn.style.display = "inline-block";
+        }
       }).catch(error => {
         isPlaying = false;
+        if (musicToggleBtn) {
+          musicToggleBtn.textContent = "🔇";
+          musicToggleBtn.style.display = "inline-block";
+        }
       });
     }
   }
@@ -24,6 +45,42 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!music) return;
     music.pause();
     isPlaying = false;
+    if (musicToggleBtn) {
+      musicToggleBtn.textContent = "🔇";
+      musicToggleBtn.style.display = "inline-block";
+    }
+  }
+
+  if (musicToggleBtn) {
+    musicToggleBtn.style.display = "none";
+  }
+
+  if (allowMusicBtn) {
+    allowMusicBtn.addEventListener("click", () => {
+      unlockAudio();
+      playMusic();
+      if (musicModal) musicModal.classList.add("hidden-modal");
+      startIntro();
+    });
+  }
+
+  if (denyMusicBtn) {
+    denyMusicBtn.addEventListener("click", () => {
+      unlockAudio();
+      pauseMusic();
+      if (musicModal) musicModal.classList.add("hidden-modal");
+      startIntro();
+    });
+  }
+
+  if (musicToggleBtn) {
+    musicToggleBtn.addEventListener("click", () => {
+      if (isPlaying) {
+        pauseMusic();
+      } else {
+        playMusic();
+      }
+    });
   }
 
   const validNames = [
@@ -125,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (callback) callback();
         return;
       }
-      const line = document.createElement("div");
+      const line = document.createElement("p");
       line.className = "typewriter-line";
       container.appendChild(line);
       const text = lines[lineIndex];
@@ -137,7 +194,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (typeSound && text.charAt(charIndex) !== " ") {
           try {
             typeSound.currentTime = 0;
-            typeSound.volume = 0.4;
             typeSound.play().catch(e => {});
           } catch (err) {}
         }
@@ -172,8 +228,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     );
   }
-
-  startIntro();
 
   const introBtn = document.getElementById("introBtn");
   if (introBtn) {
@@ -324,19 +378,12 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".file-card").forEach(card => {
     card.addEventListener("click", () => {
       const target = card.dataset.open;
+      showScreen(target);
       
       if (target === "memories") {
-        if (clickSound) {
-          try {
-            clickSound.currentTime = 0;
-            clickSound.play().catch(e => {});
-          } catch (err) {}
-        }
         playMusic();
         initMemories();
       }
-
-      showScreen(target);
 
       if (target === "last") {
         startLastThing();
@@ -414,6 +461,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if (memoryIndex < memories.length - 1) selectMemory(memoryIndex + 1);
     });
   }
+
+  document.querySelectorAll(".flip").forEach(card => {
+    card.addEventListener("click", () => {
+      card.classList.toggle("flipped");
+    });
+  });
 
   const envelope = document.getElementById("envelope");
   if (envelope) {
@@ -518,11 +571,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function startEnd() {
     const button = document.getElementById("restartBtn");
-    const feedbackBox = document.getElementById("feedbackContainer");
-    
-    if (button) button.classList.add("hidden");
-    if (feedbackBox) feedbackBox.classList.add("hidden");
-
+    if (!button) return;
+    button.classList.add("hidden");
     typeText(
       "endText",
       [
@@ -530,49 +580,20 @@ document.addEventListener("DOMContentLoaded", () => {
         "No more hidden files.",
         "No more questions.",
         "Just one simple thing left to say.",
-        "Happy Birthday, Naila Islam Shifa.",
+        "Happy Birthday, Naila.",
         "And thank you for being part of so many memories."
       ],
       () => {
-        if (feedbackBox) feedbackBox.classList.remove("hidden");
-        if (button) button.classList.remove("hidden");
+        button.classList.remove("hidden");
       }
     );
-  }
-
-  const submitFeedbackBtn = document.getElementById("submitFeedbackBtn");
-  if (submitFeedbackBtn) {
-    submitFeedbackBtn.addEventListener("click", () => {
-      const feedbackText = document.getElementById("userFeedback").value.trim();
-      const successMsg = document.getElementById("feedbackSuccessMsg");
-
-      if (!feedbackText) {
-        alert("Please write something before sending!");
-        return;
-      }
-
-      const myEmail = "sifatislam153@gmail.com"; 
-      const subject = encodeURIComponent("New Website Feedback from Naila's File");
-      const body = encodeURIComponent(feedbackText);
-
-      window.location.href = `mailto:${myEmail}?subject=${subject}&body=${body}`;
-
-      if (successMsg) {
-        successMsg.textContent = "Opening your email app to send...";
-        successMsg.classList.remove("hidden");
-      }
-    });
   }
 
   const restartBtn = document.getElementById("restartBtn");
   if (restartBtn) {
     restartBtn.addEventListener("click", () => {
       pauseMusic();
-      const feedbackBox = document.getElementById("feedbackContainer");
-      const successMsg = document.getElementById("feedbackSuccessMsg");
-      if (feedbackBox) feedbackBox.classList.add("hidden");
-      if (successMsg) successMsg.classList.add("hidden");
-      document.getElementById("userFeedback").value = "";
+      if (musicToggleBtn) musicToggleBtn.style.display = "none";
       showScreen("intro");
       startIntro();
     });
