@@ -53,30 +53,22 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   const memoriesData = [
-    { date: "08.06.23", fullDate: "06 AUG 2023", img: "images/memory1.jpg", caption: "Remember this one?" },
-    { date: "08.22.23", fullDate: "22 AUG 2023", img: "images/memory2.jpg", caption: "Still remember this?" },
-    { date: "08.31.23", fullDate: "31 AUG 2023", img: "images/memory3.jpg", caption: "This was a good day." },
-    { date: "10.23.23", fullDate: "23 OCT 2023", img: "images/memory4.jpg", caption: "Feels like a while ago." },
-    { date: "10.29.23", fullDate: "29 OCT 2023", img: "images/memory5.jpg", caption: "Yeah... this one." },
+    { date: "06.08.23", fullDate: "06 AUG 2023", img: "images/memory1.jpg", caption: "Remember this one?" },
+    { date: "22.08.23", fullDate: "22 AUG 2023", img: "images/memory2.jpg", caption: "Still remember this?" },
+    { date: "31.08.23", fullDate: "31 AUG 2023", img: "images/memory3.jpg", caption: "This was a good day." },
+    { date: "23.10.23", fullDate: "23 OCT 2023", img: "images/memory4.jpg", caption: "Feels like a while ago." },
+    { date: "29.10.23", fullDate: "29 OCT 2023", img: "images/memory5.jpg", caption: "Yeah... this one." },
     { date: "11.11.23", fullDate: "11 NOV 2023", img: "images/memory6.jpg", caption: "Another memory." },
-    { date: "03.16.24", fullDate: "16 MAR 2024", img: "images/memory7.jpg", caption: "Remember this one?" },
-    { date: "07.17.24", fullDate: "17 JUL 2024", img: "images/memory8.jpg", caption: "Still remember this?" },
-    { date: "07.19.24", fullDate: "19 JUL 2024", img: "images/memory9.jpg", caption: "This was a good day." },
-    { date: "09.21.24", fullDate: "21 SEP 2024", img: "images/memory10.jpg", caption: "Feels like a while ago." },
-    { date: "12.09.24", fullDate: "09 DEC 2024", img: "images/memory11.jpg", caption: "Yeah... this one." },
-    { date: "12.25.24", fullDate: "25 DEC 2024", img: "images/memory12.jpg", caption: "Another memory." },
-    { date: "12.27.24", fullDate: "27 DEC 2024", img: "images/memory13.jpg", caption: "This one is a little different." },
-    { date: "01.26.25", fullDate: "26 JAN 2025", img: "images/memory14.jpg", caption: "Remember this one?" },
-    { date: "01.27.25", fullDate: "27 JAN 2025", img: "images/memory15.jpg", caption: "Still remember this?" },
-    { date: "04.15.25", fullDate: "15 APR 2025", img: "images/memory16.jpg", caption: "This was a good day." },
-    { date: "10.27.25", fullDate: "27 OCT 2025", img: "images/memory17.jpg", caption: "Feels like a while ago." },
-    { date: "11.05.25", fullDate: "05 NOV 2025", img: "images/memory18.jpg", caption: "Another special moment." },
-    { date: "11.20.25", fullDate: "20 NOV 2025", img: "images/memory19.jpg", caption: "Keeping this close." },
-    { date: "12.02.25", fullDate: "02 DEC 2025", img: "images/memory20.jpg", caption: "Unforgettable time." },
-    { date: "12.14.25", fullDate: "14 DEC 2025", img: "images/memory21.jpg", caption: "Remember this?" },
-    { date: "12.31.25", fullDate: "31 DEC 2025", img: "images/memory22.jpg", caption: "Ending the year right." },
-    { date: "01.10.26", fullDate: "10 JAN 2026", img: "images/memory23.jpg", caption: "Into the new year." },
-    { date: "02.14.26", fullDate: "14 FEB 2026", img: "images/memory24.jpg", caption: "One more memory." }
+    { date: "16.03.24", fullDate: "16 MAR 2024", img: "images/memory7.jpg", caption: "Remember this one?" },
+    { date: "17.07.24", fullDate: "17 JUL 2024", img: "images/memory8.jpg", caption: "Still remember this?" },
+    { date: "19.07.24", fullDate: "19 JUL 2024", img: "images/memory9.jpg", caption: "This was a good day." },
+    { date: "21.09.24", fullDate: "21 SEP 2024", img: "images/memory10.jpg", caption: "Feels like a while ago." },
+    { date: "09.12.24", fullDate: "09 DEC 2024", img: "images/memory11.jpg", caption: "Yeah... this one." },
+    { date: "25.12.24", fullDate: "25 DEC 2024", img: "images/memory12.jpg", caption: "Another memory." },
+    { date: "27.12.24", fullDate: "27 DEC 2024", img: "images/memory13.jpg", caption: "This one is a little different." },
+    { date: "15.01.25", fullDate: "15 JAN 2025", img: "images/memory14.jpg", caption: "Remember this one?" },
+    { date: "27.01.25", fullDate: "27 JAN 2025", img: "images/memory15.jpg", caption: "Still remember this?" },
+    { date: "15.02.25", fullDate: "15 FEB 2025", img: "images/memory16.jpg", caption: "This was a good day." }
   ];
 
   // --- STATE ---
