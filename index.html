@@ -222,51 +222,6 @@
       </div>
     </div>
 
-    <!-- 12. FEEDBACK SCREEN (SEPARATED PAGE) -->
-    <div class="screen" id="feedbackScreen">
-      <div class="center">
-        <span class="badge">YOUR THOUGHTS</span>
-        <div class="section-heading center-heading">
-          <h1>Leave a Feedback</h1>
-          <p>Let me know how everything felt.</p>
-        </div>
-        
-        <form id="feedbackForm" class="feedback-form-box">
-          <div class="input-group">
-            <input type="text" id="fbName" placeholder="Your Name" required />
-          </div>
-          <div class="input-group">
-            <input type="email" id="fbEmail" placeholder="Your Email (Optional)" />
-          </div>
-          <div class="rating-container">
-            <p>Rating:</p>
-            <div class="stars">
-              <span class="star active" data-value="1">★</span>
-              <span class="star active" data-value="2">★</span>
-              <span class="star active" data-value="3">★</span>
-              <span class="star active" data-value="4">★</span>
-              <span class="star active" data-value="5">★</span>
-            </div>
-            <input type="hidden" id="ratingValue" value="5" />
-          </div>
-          <div class="input-group">
-            <textarea id="fbMessage" placeholder="Write your message here..." rows="4" required></textarea>
-          </div>
-          <button type="submit" class="btn" id="fbSubmitBtn" style="width: 100%;">Send Feedback</button>
-        </form>
-
-        <div id="fbSuccess" class="hidden feedback-msg">
-          <p class="success-text">✨ Thank you! Your feedback has been sent successfully.</p>
-        </div>
-
-        <div id="fbError" class="hidden feedback-msg">
-          <p class="error-text">❌ Oops! Something went wrong. Please try again.</p>
-        </div>
-
-        <button class="btn secondary hidden" id="restartBtn" style="margin-top: 20px;">Start Over</button>
-      </div>
-    </div>
-
   </div>
 
   <!-- JavaScript -->
