@@ -18,6 +18,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let isPlaying = false;
 
+  // ---- AUDIO UNLOCK ----
+  // Browsers block any audio.play() call that isn't triggered by (or right
+  // after) a real user gesture. The very first typewriter line on this page
+  // starts automatically on load, before the visitor has clicked anything,
+  // so its typing sound can get silently blocked. This one-time listener
+  // "unlocks" both audio elements on the visitor's very first tap/click/key
+  // press anywhere on the page, so every typing sound and the background
+  // music play reliably from then on. It changes no text or visuals.
+  let audioUnlocked = false;
+  function unlockAudio() {
+    if (audioUnlocked) return;
+    audioUnlocked = true;
+    [music, typeSound].forEach(audio => {
+      if (!audio) return;
+      const previousVolume = audio.volume;
+      audio.volume = 0;
+      audio.play().then(() => {
+        audio.pause();
+        audio.currentTime = 0;
+        audio.volume = previousVolume;
+      }).catch(() => {
+        audio.volume = previousVolume;
+      });
+    });
+  }
+  ["pointerdown", "touchstart", "keydown"].forEach(evt => {
+    document.addEventListener(evt, unlockAudio, { once: true, passive: true });
+  });
+
   function playMusic() {
     if (!music) return;
     music.volume = 0.35;
@@ -465,74 +494,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Star Rating & Feedback Form Handling
-  const stars = document.querySelectorAll(".star");
-  const ratingValueInput = document.getElementById("ratingValue");
-
-  function updateStars(rating) {
-    stars.forEach(star => {
-      if (parseInt(star.dataset.value) <= rating) {
-        star.classList.add("active");
-      } else {
-        star.classList.remove("active");
-      }
-    });
-  }
-
-  updateStars(5);
-
-  stars.forEach(star => {
-    star.addEventListener("click", () => {
-      const val = star.dataset.value;
-      if (ratingValueInput) ratingValueInput.value = val;
-      updateStars(val);
-    });
-  });
-
-  const feedbackForm = document.getElementById("feedbackForm");
-  if (feedbackForm) {
-    feedbackForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      
-      const name = document.getElementById("fbName").value;
-      const email = document.getElementById("fbEmail").value;
-      const rating = ratingValueInput ? ratingValueInput.value : "5";
-      const message = document.getElementById("fbMessage").value;
-      const submitBtn = document.getElementById("fbSubmitBtn");
-
-      if (submitBtn) {
-        submitBtn.textContent = "Sending...";
-        submitBtn.disabled = true;
-      }
-
-      const templateParams = {
-        visitor_name: name,
-        visitor_email: email,
-        rating: rating,
-        message: message
-      };
-
-      if (typeof emailjs !== "undefined") {
-        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-          .then(() => {
-            feedbackForm.classList.add("hidden");
-            document.getElementById("fbSuccess").classList.remove("hidden");
-            document.getElementById("restartBtn").classList.remove("hidden");
-          })
-          .catch((error) => {
-            console.error("EmailJS Error:", error);
-            feedbackForm.classList.add("hidden");
-            document.getElementById("fbError").classList.remove("hidden");
-            document.getElementById("restartBtn").classList.remove("hidden");
-          });
-      } else {
-        feedbackForm.classList.add("hidden");
-        document.getElementById("fbError").classList.remove("hidden");
-        document.getElementById("restartBtn").classList.remove("hidden");
-      }
-    });
-  }
-
   function startLastThing() {
     const button = document.getElementById("lastBtn");
     if (!button) return;
@@ -616,45 +577,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // "Proceed to Feedback" now leaves this page and opens the dedicated
+  // feedback.html page, instead of showing an in-page feedback screen.
+  // (The original also hid the floating music toggle button here, since the
+  // in-page feedback screen shared the SPA with the music player; that's no
+  // longer needed since feedback.html is its own page and the music simply
+  // doesn't carry over to it.)
   const endBtn = document.getElementById("endBtn");
-  const musicToggleBtnElement = document.getElementById("musicToggleBtn");
-
   if (endBtn) {
     endBtn.addEventListener("click", () => {
-      showScreen("feedbackScreen");
-      if (musicToggleBtnElement) {
-        musicToggleBtnElement.style.display = "none";
-      }
-    });
-  }
-
-  const restartBtn = document.getElementById("restartBtn");
-  if (restartBtn) {
-    restartBtn.addEventListener("click", () => {
-      pauseMusic();
-      if (feedbackForm) {
-        feedbackForm.classList.remove("hidden");
-        feedbackForm.reset();
-      }
-      document.getElementById("fbSuccess").classList.add("hidden");
-      document.getElementById("fbError").classList.add("hidden");
-      restartBtn.classList.add("hidden");
-      
-      const submitBtn = document.getElementById("fbSubmitBtn");
-      if (submitBtn) {
-        submitBtn.textContent = "Send Feedback";
-        submitBtn.disabled = false;
-      }
-
-      updateStars(5);
-      if (ratingValueInput) ratingValueInput.value = "5";
-      
-      if (musicToggleBtnElement) {
-        musicToggleBtnElement.style.display = "flex";
-      }
-
-      showScreen("intro");
-      startIntro();
+      window.location.href = "feedback.html";
     });
   }
 
