@@ -24,14 +24,14 @@ document.addEventListener("DOMContentLoaded", () => {
     music.play().then(() => {
       isPlaying = true;
       if (musicToggleBtn) {
-        musicToggleBtn.textContent = "🔊";
+        musicToggleBtn.innerHTML = "🔊";
         musicToggleBtn.style.display = "flex";
       }
     }).catch(error => {
       console.log("Audio play failed:", error);
       isPlaying = false;
       if (musicToggleBtn) {
-        musicToggleBtn.textContent = "🔇";
+        musicToggleBtn.innerHTML = "🔇";
         musicToggleBtn.style.display = "flex";
       }
     });
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
     music.pause();
     isPlaying = false;
     if (musicToggleBtn) {
-      musicToggleBtn.textContent = "🔇";
+      musicToggleBtn.innerHTML = "🔇";
     }
   }
 
@@ -338,12 +338,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function startConfirmation() {
     const box = document.getElementById("confirmBox");
-    if (box) box.classList.add("hidden");
+    if (box) {
+      box.classList.add("hidden");
+      box.classList.remove("shimmer-effect");
+    }
     typeText(
       "confirmText",
       ["Okay.", "I think we have enough.", "Name checked.", "A few answers checked.", "Yes."],
       () => {
-        if (box) box.classList.remove("hidden");
+        if (box) {
+          box.classList.remove("hidden");
+          box.classList.add("shimmer-effect");
+        }
       }
     );
   }
@@ -358,9 +364,9 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".file-card").forEach(card => {
     card.addEventListener("click", () => {
       const target = card.dataset.open;
+      if (!target) return;
       showScreen(target);
       
-      // Play music only when MEMORIES is clicked
       if (target === "memories") {
         playMusic();
         initMemories();
@@ -478,7 +484,7 @@ document.addEventListener("DOMContentLoaded", () => {
   stars.forEach(star => {
     star.addEventListener("click", () => {
       const val = star.dataset.value;
-      ratingValueInput.value = val;
+      if (ratingValueInput) ratingValueInput.value = val;
       updateStars(val);
     });
   });
@@ -490,12 +496,14 @@ document.addEventListener("DOMContentLoaded", () => {
       
       const name = document.getElementById("fbName").value;
       const email = document.getElementById("fbEmail").value;
-      const rating = ratingValueInput.value;
+      const rating = ratingValueInput ? ratingValueInput.value : "5";
       const message = document.getElementById("fbMessage").value;
       const submitBtn = document.getElementById("fbSubmitBtn");
 
-      submitBtn.textContent = "Sending...";
-      submitBtn.disabled = true;
+      if (submitBtn) {
+        submitBtn.textContent = "Sending...";
+        submitBtn.disabled = true;
+      }
 
       const templateParams = {
         visitor_name: name,
@@ -580,7 +588,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     );
   }
-function startBirthday() {
+
+  function startBirthday() {
     const date = document.getElementById("birthdayDate");
     const title = document.getElementById("birthdayTitle");
     const name = document.getElementById("birthdayName");
@@ -608,44 +617,42 @@ function startBirthday() {
   }
 
   const endBtn = document.getElementById("endBtn");
+  const musicToggleBtnElement = document.getElementById("musicToggleBtn");
+
   if (endBtn) {
     endBtn.addEventListener("click", () => {
-      showScreen("end");
-      startEnd();
-    });
-  }
-
-  function startEnd() {
-    const feedbackForm = document.getElementById("feedbackForm");
-    if (feedbackForm) feedbackForm.classList.add("hidden");
-    
-    typeText(
-      "endText",
-      [
-        "That's it.",
-        "No more hidden files.",
-        "No more questions.",
-        "Just one simple thing left to say.",
-        "Happy Birthday, Naila.",
-        "And thank you for being part of so many memories."
-      ],
-      () => {
-        // Show feedback form after typing completes
-        if (feedbackForm) feedbackForm.classList.remove("hidden");
+      showScreen("feedbackScreen");
+      if (musicToggleBtnElement) {
+        musicToggleBtnElement.style.display = "none";
       }
-    );
+    });
   }
 
   const restartBtn = document.getElementById("restartBtn");
   if (restartBtn) {
     restartBtn.addEventListener("click", () => {
       pauseMusic();
-      const feedbackForm = document.getElementById("feedbackForm");
-      if (feedbackForm) feedbackForm.classList.add("hidden");
+      if (feedbackForm) {
+        feedbackForm.classList.remove("hidden");
+        feedbackForm.reset();
+      }
       document.getElementById("fbSuccess").classList.add("hidden");
       document.getElementById("fbError").classList.add("hidden");
       restartBtn.classList.add("hidden");
       
+      const submitBtn = document.getElementById("fbSubmitBtn");
+      if (submitBtn) {
+        submitBtn.textContent = "Send Feedback";
+        submitBtn.disabled = false;
+      }
+
+      updateStars(5);
+      if (ratingValueInput) ratingValueInput.value = "5";
+      
+      if (musicToggleBtnElement) {
+        musicToggleBtnElement.style.display = "flex";
+      }
+
       showScreen("intro");
       startIntro();
     });
