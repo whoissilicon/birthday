@@ -583,7 +583,7 @@ document.addEventListener("DOMContentLoaded", () => {
       startIntro();
     });
   }
-// --- EmailJS & Feedback Integration ---
+  // --- EmailJS & Feedback Integration ---
   const EMAILJS_PUBLIC_KEY = "DQO2UOW0Y4oKQbk8G";
   const EMAILJS_SERVICE_ID = "service_5ivuql1";
   const EMAILJS_TEMPLATE_ID = "template_wa6l4ep";
