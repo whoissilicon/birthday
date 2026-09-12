@@ -227,7 +227,7 @@ input[type="text"]:focus {
   transform: scale(1.05);
 }
 
-/* --- QUESTION SCREEN UI (ELEGANT STYLING) --- */
+/* --- QUESTION SCREEN UI --- */
 .question-card {
   margin-top: 24px;
   padding: 10px 0;
@@ -286,7 +286,7 @@ input[type="text"]:focus {
   padding: 24px;
 }
 
-/* --- CONFIRMATION SCREEN (PACED IDENTITY REVEAL) --- */
+/* --- CONFIRMATION SCREEN --- */
 .confirm-box {
   display: flex;
   flex-direction: column;
@@ -312,7 +312,6 @@ input[type="text"]:focus {
   font-size: 1.1rem;
 }
 
-/* Smooth Fade In Animations for Name Reveal */
 .fade-in-text {
   animation: slowFadeIn 1.5s ease-in-out forwards;
 }
@@ -332,7 +331,7 @@ input[type="text"]:focus {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- MAIN HUB (THE NAILA FILE - REDESIGNED PREMIUM INDEX) --- */
+/* --- MAIN HUB --- */
 .hub-header {
   text-align: center;
   margin-bottom: 48px;
@@ -467,10 +466,9 @@ input[type="text"]:focus {
   margin-bottom: 20px;
 }
 
-/* Flexible Image Container for any aspect ratio */
 .memory-image-container {
   width: 100%;
-  max-height: 520px;
+  max-height: none;
   background: rgba(0,0,0,0.4);
   border-radius: 10px;
   overflow: hidden;
@@ -483,8 +481,8 @@ input[type="text"]:focus {
 .memory-img {
   width: 100%;
   height: auto;
-  max-height: 520px;
-  object-fit: contain; /* Preserves natural image ratio without cropping */
+  max-height: 70vh;
+  object-fit: contain;
   display: block;
 }
 
@@ -696,7 +694,7 @@ input[type="text"]:focus {
   font-size: 1.1rem;
 }
 
-/* --- SCREEN 8: FINAL PHOTO (FLEXIBLE RATIO) --- */
+/* --- SCREEN 8: FINAL PHOTO --- */
 .final-intro {
   margin-bottom: 20px;
 }
@@ -710,7 +708,7 @@ input[type="text"]:focus {
 
 .final-img-frame {
   width: 100%;
-  max-height: 520px;
+  max-height: none;
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 20px;
@@ -723,7 +721,7 @@ input[type="text"]:focus {
 .final-img {
   width: 100%;
   height: auto;
-  max-height: 520px;
+  max-height: 70vh;
   object-fit: contain;
   display: block;
 }
@@ -777,7 +775,7 @@ input[type="text"]:focus {
     font-size: 1.85rem;
   }
 
-  .memory-image-container, .final-img-frame {
-    max-height: 380px;
+  .memory-img, .final-img {
+    max-height: 60vh;
   }
 }
