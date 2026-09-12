@@ -646,9 +646,11 @@ input[type="text"]:focus {
   font-style: italic;
 }
 
-/* --- SCREEN 7: BIRTHDAY REVEAL --- */
+/* --- SCREEN 7: BIRTHDAY REVEAL (GLOWING & SPECTACULAR) --- */
 #screen-birthday {
   position: relative;
+  text-align: center;
+  background: radial-gradient(circle at center, #262117 0%, var(--bg-color) 70%);
 }
 
 .ambient-glow {
@@ -656,11 +658,18 @@ input[type="text"]:focus {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(230, 197, 135, 0.15) 0%, rgba(15, 15, 17, 0) 70%);
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(230, 197, 135, 0.35) 0%, rgba(230, 197, 135, 0.05) 40%, rgba(15, 15, 17, 0) 75%);
+  filter: blur(20px);
   pointer-events: none;
   z-index: 0;
+  animation: pulseGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes pulseGlow {
+  0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
+  100% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
 }
 
 .birthday-container {
@@ -669,29 +678,40 @@ input[type="text"]:focus {
 }
 
 .reveal-badge {
-  font-size: 1rem;
-  letter-spacing: 0.2em;
+  font-size: 0.9rem;
+  letter-spacing: 0.25em;
   color: var(--gold);
   margin-bottom: 16px;
   display: block;
+  text-shadow: 0 0 10px rgba(230, 197, 135, 0.5);
 }
 
 .reveal-title {
-  font-size: 3rem;
+  font-size: 3.2rem;
   line-height: 1.1;
-  margin-bottom: 8px;
-  color: var(--text-main);
+  margin-bottom: 12px;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(230, 197, 135, 0.6), 0 0 40px rgba(230, 197, 135, 0.3);
+  animation: titleShine 2s ease-in-out infinite alternate;
+}
+
+@keyframes titleShine {
+  0% { text-shadow: 0 0 15px rgba(230, 197, 135, 0.4); }
+  100% { text-shadow: 0 0 25px rgba(230, 197, 135, 0.8), 0 0 10px #fff; }
 }
 
 .reveal-name {
-  font-size: 1.75rem;
+  font-size: 2rem;
   color: var(--gold);
   margin-bottom: 24px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 15px rgba(230, 197, 135, 0.5);
 }
 
 .reveal-caption {
   font-size: 1.1rem;
+  color: var(--text-main);
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
 }
 
 /* --- SCREEN 8: FINAL PHOTO --- */
