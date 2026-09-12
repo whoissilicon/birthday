@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>A Special File</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,75 +21,75 @@
     <source src="audio/key.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Music Toggle Button -->
-  <button id="musicToggleBtn" class="music-toggle-btn">🔇</button>
-
-  <div class="container">
+  <div class="app">
 
     <!-- Screen 1: Intro -->
     <div id="intro" class="screen active">
-      <div class="terminal-box">
-        <div id="introText" class="typewriter-text"></div>
-        <button id="introBtn" class="action-btn hidden">Proceed →</button>
+      <div class="center">
+        <div class="badge">SECURE DOSSIER</div>
+        <div class="typewriter" id="introText"></div>
+        <button id="introBtn" class="btn hidden">Proceed →</button>
       </div>
     </div>
 
     <!-- Screen 2: Name Verification -->
     <div id="nameScreen" class="screen">
-      <div class="terminal-box">
-        <div id="nameText" class="typewriter-text"></div>
-        <div id="nameForm" class="input-container hidden">
+      <div class="center">
+        <div class="badge">IDENTIFICATION</div>
+        <div class="typewriter" id="nameText"></div>
+        <div id="nameForm" class="form hidden">
           <input type="text" id="nameInput" placeholder="Type your name..." autocomplete="off">
-          <button id="nameBtn" class="action-btn">Enter →</button>
-          <p id="nameError" class="error-text hidden">Access denied. That name is not recognized.</p>
+          <p id="nameError" class="error hidden">Access denied. That name is not recognized.</p>
+          <button id="nameBtn" class="btn" style="width: 100%;">Enter →</button>
         </div>
       </div>
     </div>
 
     <!-- Screen 3: Questions -->
     <div id="questions" class="screen">
-      <div class="terminal-box question-box">
-        <div class="question-header">
-          <span id="questionNumber">QUESTION 01 / 04</span>
-        </div>
-        <h2 id="questionTitle"></h2>
-        <p id="questionSubtitle" class="subtitle"></p>
-        <div id="options" class="options-grid"></div>
-        <div id="feedback" class="question-feedback hidden"></div>
+      <div class="center">
+        <div id="questionNumber" class="small-label">QUESTION 01 / 04</div>
+        <h2 id="questionTitle" class="question-title"></h2>
+        <p id="questionSubtitle" class="question-subtitle"></p>
+        <div id="options" class="options"></div>
+        <div id="feedback" class="feedback hidden"></div>
       </div>
     </div>
 
     <!-- Screen 4: Confirmation -->
     <div id="confirmation" class="screen">
-      <div class="terminal-box">
-        <div id="confirmText" class="typewriter-text"></div>
+      <div class="center">
+        <div class="badge">VERIFICATION COMPLETE</div>
+        <div class="typewriter" id="confirmText"></div>
         <div id="confirmBox" class="hidden">
-          <button id="enterBtn" class="action-btn">Open File →</button>
+          <p>Target identity verified.</p>
+          <button id="enterBtn" class="btn">Open File →</button>
         </div>
       </div>
     </div>
 
     <!-- Screen 5: Main File Hub -->
     <div id="file" class="screen">
-      <div class="file-hub">
-        <header class="file-header">
-          <span class="file-tag">CONFIDENTIAL FILE // NO. 0812</span>
+      <div class="wide">
+        <div class="file-header">
+          <span class="badge">CONFIDENTIAL FILE // NO. 0812</span>
           <h1>Dossier</h1>
-        </header>
+          <p>Select a section below to access encrypted records.</p>
+        </div>
         <div class="file-grid">
           <div class="file-card" data-open="memories">
-            <span class="card-icon">📂</span>
-            <h3>Memories</h3>
+            <span>SECTION 01</span>
+            <h2>Memories</h2>
             <p>A timeline of selected moments.</p>
           </div>
           <div class="file-card" data-open="note">
-            <span class="card-icon">✉️</span>
-            <h3>A Letter</h3>
+            <span>SECTION 02</span>
+            <h2>A Letter</h2>
             <p>Something left unsaid.</p>
           </div>
           <div class="file-card" data-open="last">
-            <span class="card-icon">📌</span>
-            <h3>One Last Thing</h3>
+            <span>SECTION 03</span>
+            <h2>One Last Thing</h2>
             <p>A final checkpoint.</p>
           </div>
         </div>
@@ -95,45 +98,46 @@
 
     <!-- Screen 6: Memories Gallery -->
     <div id="memories" class="screen">
-      <div class="memory-container">
-        <button class="back-btn" data-back>← Back</button>
-        <div class="memory-viewer">
-          <div class="memory-image-box">
+      <div class="wide">
+        <button class="back" data-back>← Back to Hub</button>
+        <div class="section-heading">
+          <span>ARCHIVE // 01</span>
+          <h1>Memories</h1>
+          <p>Moments captured across time.</p>
+        </div>
+        <div class="dates" id="dateSelector"></div>
+        <div class="memory-card">
+          <div class="memory-image">
             <img id="memoryImg" src="" alt="Memory">
-            <div id="imageFallback" class="image-fallback hidden">Image missing</div>
+            <div id="imageFallback" class="fallback hidden">Image missing</div>
           </div>
           <div class="memory-info">
-            <div class="memory-meta">
-              <span id="memoryCounter">01 / 24</span>
-              <span id="memoryDate">06 AUG 2023</span>
-            </div>
-            <h2 id="memoryTitle"></h2>
+            <span id="memoryCounter" class="counter">01 / 24</span>
+            <h2 id="memoryDate">06 AUG 2023</h2>
+            <h3 id="memoryTitle"></h3>
             <p id="memoryCaption"></p>
+            <div class="memory-controls">
+              <button id="prevMemory" class="btn secondary">← Prev</button>
+              <button id="nextMemory" class="btn secondary">Next →</button>
+            </div>
           </div>
-        </div>
-        <div class="memory-controls">
-          <button id="prevMemory" class="control-btn">← Prev</button>
-          <div id="dateSelector" class="date-selector"></div>
-          <button id="nextMemory" class="control-btn">Next →</button>
         </div>
       </div>
     </div>
 
     <!-- Screen 7: Letter Note -->
     <div id="note" class="screen">
-      <div class="note-container">
-        <button class="back-btn" data-back>← Back</button>
-        <div class="envelope-wrapper">
-          <div id="envelope" class="envelope">
-            <div id="envelopeFront" class="envelope-front">
-              <p>Click to open</p>
-            </div>
-            <div id="letterContent" class="letter-content hidden">
-              <h3>To Naila,</h3>
-              <p>Some people arrive quietly in life and somehow end up becoming the most important part of it. This little corner of the internet is just a small reminder of all the warmth, laughter, and beautiful days we have shared.</p>
-              <p>Thank you for simply being you.</p>
-              <p class="signature">Always,</p>
-            </div>
+      <div class="center">
+        <button class="back top-back" data-back>← Back to Hub</button>
+        <div class="envelope" id="envelope">
+          <div id="envelopeFront" class="envelope-front">
+            <div class="seal">Click to Open Envelope</div>
+          </div>
+          <div id="letterContent" class="letter-content hidden">
+            <h3>To Naila,</h3>
+            <p>Some people arrive quietly in life and somehow end up becoming the most important part of it. This little corner of the internet is just a small reminder of all the warmth, laughter, and beautiful days we have shared.</p>
+            <p>Thank you for simply being you.</p>
+            <p class="signature">Always,</p>
           </div>
         </div>
       </div>
@@ -141,57 +145,57 @@
 
     <!-- Screen 8: Last Thing Sequence -->
     <div id="last" class="screen">
-      <div class="terminal-box">
-        <div id="lastText" class="typewriter-text"></div>
-        <button id="lastBtn" class="action-btn hidden"></button>
+      <div class="center">
+        <div class="badge">CHECKPOINT</div>
+        <div class="typewriter" id="lastText"></div>
+        <button id="lastBtn" class="btn hidden"></button>
       </div>
     </div>
 
     <!-- Screen 9: Birthday Special -->
     <div id="birthday" class="screen">
-      <div class="birthday-container">
-        <div class="birthday-content">
-          <span id="birthdayDate" class="birthday-date hidden">12 DECEMBER</span>
-          <h1 id="birthdayTitle" class="birthday-title hidden">Happy Birthday</h1>
-          <h2 id="birthdayName" class="birthday-name hidden">Naila</h2>
-          <p id="birthdaySub" class="birthday-sub hidden">May your days ahead be filled with as much light as you bring to others.</p>
-          <button id="photoBtn" class="action-btn hidden">View Final Snapshot →</button>
-        </div>
+      <div class="glow" style="top: 10%; left: 50%; transform: translateX(-50%);"></div>
+      <div class="center birthday-content">
+        <span id="birthdayDate" class="birthday-date hidden">12 DECEMBER</span>
+        <h1 id="birthdayTitle" class="birthday-title hidden">Happy Birthday</h1>
+        <div id="birthdayName" class="birthday-name hidden">Naila</div>
+        <p id="birthdaySub" class="birthday-sub hidden">May your days ahead be filled with as much light as you bring to others.</p>
+        <button id="photoBtn" class="btn hidden">View Final Snapshot →</button>
       </div>
     </div>
 
     <!-- Screen 10: Final Photo -->
     <div id="final" class="screen">
-      <div class="final-container">
-        <button class="back-btn" data-back>← Back</button>
-        <div class="polaroid-wrapper">
-          <div class="polaroid flip">
-            <div class="polaroid-front">
-              <img src="images/final.jpg" alt="Special Snapshot">
-              <div class="polaroid-caption">A snapshot in time</div>
-            </div>
-            <div class="polaroid-back">
-              <p>Some moments don't need words. They just stay.</p>
-            </div>
-          </div>
+      <div class="center">
+        <button class="back top-back" data-back>← Back to Hub</button>
+        <div class="section-heading center-heading final-intro">
+          <span>FINAL RECORD</span>
+          <h1>Snapshot</h1>
         </div>
-        <button id="endBtn" class="action-btn final-proceed-btn">Continue →</button>
+        <div class="final-card">
+          <div class="final-image">
+            <img src="images/final.jpg" alt="Special Snapshot">
+          </div>
+          <p>Some moments don't need words. They just stay.</p>
+        </div>
+        <button id="endBtn" class="btn" style="margin-top: 25px;">Continue →</button>
       </div>
     </div>
 
     <!-- Screen 11: End Screen & Feedback -->
     <div id="end" class="screen">
-      <div class="terminal-box end-box">
-        <div id="endText" class="typewriter-text"></div>
+      <div class="center">
+        <div class="badge">SESSION COMPLETE</div>
+        <div class="typewriter" id="endText"></div>
         
-        <div id="feedbackContainer" class="feedback-container hidden">
-          <p class="feedback-label">Leave a final note:</p>
-          <textarea id="userFeedback" placeholder="Type your thoughts here..."></textarea>
-          <button id="submitFeedbackBtn" class="action-btn">Send Response →</button>
-          <p id="feedbackSuccessMsg" class="success-text hidden">Message sent successfully!</p>
+        <div id="feedbackContainer" class="form hidden" style="max-width: 400px; margin-top: 20px;">
+          <p style="margin-bottom: 10px; font-size: 0.9rem;">Leave a final note:</p>
+          <textarea id="userFeedback" placeholder="Type your thoughts here..." style="width: 100%; height: 90px; background: var(--card); border: 1px solid var(--border); color: var(--white); padding: 12px; border-radius: 9px; resize: none; margin-bottom: 10px;"></textarea>
+          <button id="submitFeedbackBtn" class="btn" style="width: 100%;">Send Response →</button>
+          <p id="feedbackSuccessMsg" class="hidden" style="color: #8be9fd; font-size: 0.85rem; margin-top: 10px;">Message sent successfully!</p>
         </div>
 
-        <button id="restartBtn" class="action-btn hidden">Restart Experience</button>
+        <button id="restartBtn" class="btn secondary hidden" style="margin-top: 20px;">Restart Experience</button>
       </div>
     </div>
 
