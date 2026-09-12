@@ -1,5 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+  // --- AUDIO SETUP ---
+  const bgAudio = document.getElementById('backgroundMusic');
+  if (bgAudio) {
+    bgAudio.volume = 0.5;
+  }
+
   // --- DATA SOURCES ---
   const validNames = ['naila', 'shifa', 'naila islam', 'naila islam shifa'];
 
@@ -64,20 +70,14 @@ document.addEventListener('DOMContentLoaded', () => {
     { date: "01.27.25", fullDate: "27 JAN 2025", img: "images/memory15.jpg", caption: "Still remember this?" },
     { date: "04.15.25", fullDate: "15 APR 2025", img: "images/memory16.jpg", caption: "This was a good day." },
     { date: "10.27.25", fullDate: "27 OCT 2025", img: "images/memory17.jpg", caption: "Feels like a while ago." },
-    { date: "11.15.25", fullDate: "15 NOV 2025", img: "images/memory18.jpg", caption: "Another good memory." },
-    { date: "12.01.25", fullDate: "01 DEC 2025", img: "images/memory19.jpg", caption: "Remember this?" },
-    { date: "12.15.25", fullDate: "15 DEC 2025", img: "images/memory20.jpg", caption: "Good times." },
-    { date: "01.10.26", fullDate: "10 JAN 2026", img: "images/memory21.jpg", caption: "Still looks great." },
-    { date: "01.20.26", fullDate: "20 JAN 2026", img: "images/memory22.jpg", caption: "A special day." },
-    { date: "02.05.26", fullDate: "05 FEB 2026", img: "images/memory23.jpg", caption: "Unforgettable." },
-    { date: "02.20.26", fullDate: "20 FEB 2026", img: "images/memory24.jpg", caption: "Almost at the end." }
+    { date: "11.05.25", fullDate: "05 NOV 2025", img: "images/memory18.jpg", caption: "Another special moment." },
+    { date: "11.20.25", fullDate: "20 NOV 2025", img: "images/memory19.jpg", caption: "Keeping this close." },
+    { date: "12.02.25", fullDate: "02 DEC 2025", img: "images/memory20.jpg", caption: "Unforgettable time." },
+    { date: "12.14.25", fullDate: "14 DEC 2025", img: "images/memory21.jpg", caption: "Remember this?" },
+    { date: "12.31.25", fullDate: "31 DEC 2025", img: "images/memory22.jpg", caption: "Ending the year right." },
+    { date: "01.10.26", fullDate: "10 JAN 2026", img: "images/memory23.jpg", caption: "Into the new year." },
+    { date: "02.14.26", fullDate: "14 FEB 2026", img: "images/memory24.jpg", caption: "One more memory." }
   ];
-
-  // --- AUDIO SETUP (Live Catbox Link) ---
-  const bgAudio = document.getElementById('backgroundMusic');
-  if (bgAudio) {
-    bgAudio.volume = 0.5;
-  }
 
   // --- STATE ---
   let currentQuestionIndex = 0;
@@ -97,7 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- UTILS: TYPEWRITER EFFECT ---
   function typeSequence(containerId, lines, doneCallback) {
     const container = document.getElementById(containerId);
-    if (!container) return;
     container.innerHTML = '';
     let lineIdx = 0;
 
@@ -140,28 +139,20 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     typeSequence('typewriter-intro', introLines, () => {
-      const nextBtn = document.getElementById('btn-intro-next');
-      if (nextBtn) nextBtn.classList.remove('hidden');
+      document.getElementById('btn-intro-next').classList.remove('hidden');
     });
   }
 
-  const introNextBtn = document.getElementById('btn-intro-next');
-  if (introNextBtn) {
-    introNextBtn.addEventListener('click', () => {
-      showScreen('screen-name');
-      initNameScreen();
-    });
-  }
+  document.getElementById('btn-intro-next').addEventListener('click', () => {
+    showScreen('screen-name');
+    initNameScreen();
+  });
 
   // --- SCREEN 2: NAME INPUT ---
   function initNameScreen() {
-    const formContainer = document.getElementById('name-form-container');
-    const nameError = document.getElementById('name-error');
-    const nameInput = document.getElementById('name-input');
-    
-    if (formContainer) formContainer.classList.add('hidden');
-    if (nameError) nameError.classList.add('hidden');
-    if (nameInput) nameInput.value = '';
+    document.getElementById('name-form-container').classList.add('hidden');
+    document.getElementById('name-error').classList.add('hidden');
+    document.getElementById('name-input').value = '';
 
     const nameLines = [
       "First things first.",
@@ -169,47 +160,33 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     typeSequence('typewriter-name', nameLines, () => {
-      if (formContainer) formContainer.classList.remove('hidden');
+      document.getElementById('name-form-container').classList.remove('hidden');
     });
   }
 
-  const submitNameBtn = document.getElementById('btn-submit-name');
-  if (submitNameBtn) {
-    submitNameBtn.addEventListener('click', handleNameSubmit);
-  }
-  
-  const nameInputEl = document.getElementById('name-input');
-  if (nameInputEl) {
-    nameInputEl.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') handleNameSubmit();
-    });
-  }
+  document.getElementById('btn-submit-name').addEventListener('click', handleNameSubmit);
+  document.getElementById('name-input').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') handleNameSubmit();
+  });
 
   function handleNameSubmit() {
-    const inputEl = document.getElementById('name-input');
-    if (!inputEl) return;
-    const inputVal = inputEl.value.trim().toLowerCase();
+    const inputVal = document.getElementById('name-input').value.trim().toLowerCase();
     const isMatch = validNames.some(name => inputVal.includes(name));
 
     if (isMatch) {
       showScreen('screen-questions');
       initQuestions();
     } else {
-      const errorEl = document.getElementById('name-error');
-      if (errorEl) errorEl.classList.remove('hidden');
+      document.getElementById('name-error').classList.remove('hidden');
     }
   }
 
   // --- SCREEN 3: NATURAL QUESTIONS ---
   function initQuestions() {
     currentQuestionIndex = 0;
-    const qIntro = document.getElementById('typewriter-question-intro');
-    const qContainer = document.getElementById('question-container');
-    const qFeedback = document.getElementById('question-feedback');
-
-    if (qIntro) qIntro.innerHTML = '';
-    if (qContainer) qContainer.classList.add('hidden');
-    if (qFeedback) qFeedback.classList.add('hidden');
+    document.getElementById('typewriter-question-intro').innerHTML = '';
+    document.getElementById('question-container').classList.add('hidden');
+    document.getElementById('question-feedback').classList.add('hidden');
 
     displayQuestion(currentQuestionIndex);
   }
@@ -218,13 +195,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const qData = questionsData[index];
     const container = document.getElementById('question-container');
     const optionsContainer = document.getElementById('question-options');
-    const titleEl = document.getElementById('question-title');
-    const subtitleEl = document.getElementById('question-subtitle');
 
-    if (!container || !optionsContainer) return;
-
-    if (titleEl) titleEl.textContent = qData.title;
-    if (subtitleEl) subtitleEl.textContent = qData.subtitle;
+    document.getElementById('question-title').textContent = qData.title;
+    document.getElementById('question-subtitle').textContent = qData.subtitle;
     optionsContainer.innerHTML = '';
 
     qData.options.forEach(opt => {
@@ -239,17 +212,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function handleOptionClick(feedbackText) {
-    const qContainer = document.getElementById('question-container');
-    if (qContainer) qContainer.classList.add('hidden');
-    
+    document.getElementById('question-container').classList.add('hidden');
     const feedbackBox = document.getElementById('question-feedback');
-    if (feedbackBox) {
-      feedbackBox.textContent = feedbackText;
-      feedbackBox.classList.remove('hidden');
-    }
+    feedbackBox.textContent = feedbackText;
+    feedbackBox.classList.remove('hidden');
 
     setTimeout(() => {
-      if (feedbackBox) feedbackBox.classList.add('hidden');
+      feedbackBox.classList.add('hidden');
       currentQuestionIndex++;
       if (currentQuestionIndex < questionsData.length) {
         displayQuestion(currentQuestionIndex);
@@ -260,10 +229,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1200);
   }
 
-  // --- SCREEN 4: IDENTITY CONFIRMATION ---
+  // --- SCREEN 4: IDENTITY CONFIRMATION (PACED REVEAL) ---
   function initConfirmation() {
-    const confirmReveal = document.getElementById('confirm-reveal');
-    if (confirmReveal) confirmReveal.classList.add('hidden');
+    document.getElementById('confirm-reveal').classList.add('hidden');
 
     const confirmLines = [
       "Okay.",
@@ -274,39 +242,32 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     typeSequence('typewriter-confirm', confirmLines, () => {
-      if (confirmReveal) confirmReveal.classList.remove('hidden');
+      document.getElementById('confirm-reveal').classList.remove('hidden');
     });
   }
 
-  const enterBtn = document.getElementById('btn-enter');
-  if (enterBtn) {
-    enterBtn.addEventListener('click', () => {
-      showScreen('screen-hub');
-    });
-  }
+  document.getElementById('btn-enter').addEventListener('click', () => {
+    showScreen('screen-hub');
+  });
 
   // --- SCREEN 5: MAIN HUB ROUTING ---
   document.querySelectorAll('.hub-card').forEach(card => {
     card.addEventListener('click', () => {
       const targetScreen = card.getAttribute('data-target');
-      if (targetScreen) {
-        showScreen(targetScreen);
-        if (targetScreen === 'screen-memories') {
-          initMemories();
-          if (bgAudio) {
-            bgAudio.play().catch(e => console.log("Audio autoplay restricted:", e));
-          }
-        } else {
-          if (bgAudio) bgAudio.pause();
-        }
-        if (targetScreen === 'screen-suspense') initSuspense();
+      showScreen(targetScreen);
+      
+      // Play background music when entering memories or interacting with hub if audio exists
+      if (bgAudio && bgAudio.paused) {
+        bgAudio.play().catch(e => console.log("Audio autoplay restricted:", e));
       }
+
+      if (targetScreen === 'screen-memories') initMemories();
+      if (targetScreen === 'screen-suspense') initSuspense();
     });
   });
 
   document.querySelectorAll('.btn-back').forEach(btn => {
     btn.addEventListener('click', () => {
-      if (bgAudio) bgAudio.pause();
       showScreen('screen-hub');
     });
   });
@@ -314,7 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- SECTION 01: MEMORIES ---
   function initMemories() {
     const selector = document.getElementById('date-selector');
-    if (!selector) return;
     selector.innerHTML = '';
 
     memoriesData.forEach((item, index) => {
@@ -333,19 +293,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = memoriesData[index];
 
     const img = document.getElementById('memory-img');
-    if (!img) return;
     const placeholder = img.nextElementSibling;
     img.style.display = 'block';
     if(placeholder) placeholder.style.display = 'none';
 
     img.src = data.img;
-    const memDate = document.getElementById('memory-date');
-    const memCaption = document.getElementById('memory-caption');
-    const memCounter = document.getElementById('memory-counter');
-
-    if (memDate) memDate.textContent = data.fullDate;
-    if (memCaption) memCaption.textContent = data.caption;
-    if (memCounter) memCounter.textContent = `${String(index + 1).padStart(2, '0')} / ${memoriesData.length}`;
+    document.getElementById('memory-date').textContent = data.fullDate;
+    document.getElementById('memory-caption').textContent = data.caption;
+    document.getElementById('memory-counter').textContent = `${String(index + 1).padStart(2, '0')} / ${memoriesData.length}`;
 
     const chips = document.querySelectorAll('.date-chip');
     chips.forEach((chip, idx) => {
@@ -356,23 +311,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const prevMemBtn = document.getElementById('btn-prev-memory');
-  if (prevMemBtn) {
-    prevMemBtn.addEventListener('click', () => {
-      if (currentMemoryIndex > 0) {
-        selectMemory(currentMemoryIndex - 1);
-      }
-    });
-  }
+  document.getElementById('btn-prev-memory').addEventListener('click', () => {
+    if (currentMemoryIndex > 0) {
+      selectMemory(currentMemoryIndex - 1);
+    }
+  });
 
-  const nextMemBtn = document.getElementById('btn-next-memory');
-  if (nextMemBtn) {
-    nextMemBtn.addEventListener('click', () => {
-      if (currentMemoryIndex < memoriesData.length - 1) {
-        selectMemory(currentMemoryIndex + 1);
-      }
-    });
-  }
+  document.getElementById('btn-next-memory').addEventListener('click', () => {
+    if (currentMemoryIndex < memoriesData.length - 1) {
+      selectMemory(currentMemoryIndex + 1);
+    }
+  });
 
   // --- SECTION 02: LITTLE THINGS (CARD FLIP) ---
   document.querySelectorAll('.flip-card').forEach(card => {
@@ -383,21 +332,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- SECTION 03: SURPRISE LETTER ---
   const envelope = document.getElementById('envelope');
-  if (envelope) {
-    envelope.addEventListener('click', () => {
-      const front = envelope.querySelector('.envelope-front');
-      const content = envelope.querySelector('.letter-content');
-      if (front && content && !front.classList.contains('hidden')) {
-        front.classList.add('hidden');
-        content.classList.remove('hidden');
-      }
-    });
-  }
+  envelope.addEventListener('click', () => {
+    const front = envelope.querySelector('.envelope-front');
+    const content = envelope.querySelector('.letter-content');
+    if (front && !front.classList.contains('hidden')) {
+      front.classList.add('hidden');
+      content.classList.remove('hidden');
+    }
+  });
 
   // --- SECTION 04 & BUILD-UP: SUSPENSE ---
   function initSuspense() {
-    const suspenseBtn = document.getElementById('btn-suspense-next');
-    if (suspenseBtn) suspenseBtn.classList.add('hidden');
+    document.getElementById('btn-suspense-next').classList.add('hidden');
 
     const suspenseLinesPart1 = [
       "Okay...",
@@ -407,16 +353,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     typeSequence('typewriter-suspense', suspenseLinesPart1, () => {
       const btn = document.getElementById('btn-suspense-next');
-      if (btn) {
-        btn.classList.remove('hidden');
-        btn.onclick = () => runBuildUp();
-      }
+      btn.classList.remove('hidden');
+      btn.onclick = () => runBuildUp();
     });
   }
 
   function runBuildUp() {
-    const suspenseBtn = document.getElementById('btn-suspense-next');
-    if (suspenseBtn) suspenseBtn.classList.add('hidden');
+    document.getElementById('btn-suspense-next').classList.add('hidden');
 
     const suspenseLinesPart2 = [
       "You probably thought that was the whole thing.",
@@ -426,17 +369,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     typeSequence('typewriter-suspense', suspenseLinesPart2, () => {
       const btn = document.getElementById('btn-suspense-next');
-      if (btn) {
-        btn.textContent = "Show me →";
-        btn.classList.remove('hidden');
-        btn.onclick = () => runFinalSequence();
-      }
+      btn.textContent = "Show me \u2192";
+      btn.classList.remove('hidden');
+      btn.onclick = () => runFinalSequence();
     });
   }
 
   function runFinalSequence() {
-    const suspenseBtn = document.getElementById('btn-suspense-next');
-    if (suspenseBtn) suspenseBtn.classList.add('hidden');
+    document.getElementById('btn-suspense-next').classList.add('hidden');
 
     const finalBuildUpLines = [
       "We started by looking for someone.",
@@ -450,14 +390,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     typeSequence('typewriter-suspense', finalBuildUpLines, () => {
       const btn = document.getElementById('btn-suspense-next');
-      if (btn) {
-        btn.textContent = "Continue →";
-        btn.classList.remove('hidden');
-        btn.onclick = () => {
-          showScreen('screen-birthday');
-          initBirthdayReveal();
-        };
-      }
+      btn.textContent = "Continue \u2192";
+      btn.classList.remove('hidden');
+      btn.onclick = () => {
+        showScreen('screen-birthday');
+        initBirthdayReveal();
+      };
     });
   }
 
@@ -469,38 +407,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const sub = document.getElementById('reveal-sub');
     const btn = document.getElementById('btn-to-final-photo');
 
-    if (date) date.classList.add('hidden');
-    if (hbd) hbd.classList.add('hidden');
-    if (name) name.classList.add('hidden');
-    if (sub) sub.classList.add('hidden');
-    if (btn) btn.classList.add('hidden');
+    date.classList.add('hidden');
+    hbd.classList.add('hidden');
+    name.classList.add('hidden');
+    sub.classList.add('hidden');
+    btn.classList.add('hidden');
 
-    setTimeout(() => { if (date) date.classList.remove('hidden'); }, 400);
-    setTimeout(() => { if (hbd) hbd.classList.remove('hidden'); }, 1200);
-    setTimeout(() => { if (name) name.classList.remove('hidden'); }, 2000);
-    setTimeout(() => { if (sub) sub.classList.remove('hidden'); }, 2800);
-    setTimeout(() => { if (btn) btn.classList.remove('hidden'); }, 3600);
+    setTimeout(() => { date.classList.remove('hidden'); }, 400);
+    setTimeout(() => { hbd.classList.remove('hidden'); }, 1200);
+    setTimeout(() => { name.classList.remove('hidden'); }, 2000);
+    setTimeout(() => { sub.classList.remove('hidden'); }, 2800);
+    setTimeout(() => { btn.classList.remove('hidden'); }, 3600);
   }
 
-  const toFinalPhotoBtn = document.getElementById('btn-to-final-photo');
-  if (toFinalPhotoBtn) {
-    toFinalPhotoBtn.addEventListener('click', () => {
-      showScreen('screen-final-photo');
-    });
-  }
+  document.getElementById('btn-to-final-photo').addEventListener('click', () => {
+    showScreen('screen-final-photo');
+  });
 
-  const toEndBtn = document.getElementById('btn-to-end');
-  if (toEndBtn) {
-    toEndBtn.addEventListener('click', () => {
-      showScreen('screen-end');
-      initEndScreen();
-    });
-  }
+  document.getElementById('btn-to-end').addEventListener('click', () => {
+    showScreen('screen-end');
+    initEndScreen();
+  });
 
   // --- SCREEN 9: END & RESTART ---
   function initEndScreen() {
-    const restartBtn = document.getElementById('btn-restart');
-    if (restartBtn) restartBtn.classList.add('hidden');
+    document.getElementById('btn-restart').classList.add('hidden');
 
     const endLines = [
       "That's it.",
@@ -509,27 +440,21 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     typeSequence('typewriter-end', endLines, () => {
-      if (restartBtn) restartBtn.classList.remove('hidden');
+      document.getElementById('btn-restart').classList.remove('hidden');
     });
   }
 
-  const restartBtnEl = document.getElementById('btn-restart');
-  if (restartBtnEl) {
-    restartBtnEl.addEventListener('click', () => {
-      if (bgAudio) bgAudio.pause();
-      if (envelope) {
-        const front = envelope.querySelector('.envelope-front');
-        const content = envelope.querySelector('.letter-content');
-        if (front) front.classList.remove('hidden');
-        if (content) content.classList.add('hidden');
-      }
+  document.getElementById('btn-restart').addEventListener('click', () => {
+    const front = envelope.querySelector('.envelope-front');
+    const content = envelope.querySelector('.letter-content');
+    if (front) front.classList.remove('hidden');
+    if (content) content.classList.add('hidden');
 
-      document.querySelectorAll('.flip-card').forEach(card => card.classList.remove('flipped'));
+    document.querySelectorAll('.flip-card').forEach(card => card.classList.remove('flipped'));
 
-      showScreen('screen-intro');
-      initIntro();
-    });
-  }
+    showScreen('screen-intro');
+    initIntro();
+  });
 
   // Initialize App
   initIntro();
