@@ -255,13 +255,15 @@ document.addEventListener('DOMContentLoaded', () => {
     card.addEventListener('click', () => {
       const targetScreen = card.getAttribute('data-target');
       showScreen(targetScreen);
-      
-      // Play background music when entering memories or interacting with hub if audio exists
-      if (bgAudio && bgAudio.paused) {
-        bgAudio.play().catch(e => console.log("Audio autoplay restricted:", e));
+
+      // শুধুমাত্র Memories কার্ডে ক্লিক করলেই গান বাজবে
+      if (targetScreen === 'screen-memories') {
+        if (bgAudio) {
+          bgAudio.play().catch(e => console.log("Audio autoplay restricted:", e));
+        }
+        initMemories();
       }
 
-      if (targetScreen === 'screen-memories') initMemories();
       if (targetScreen === 'screen-suspense') initSuspense();
     });
   });
