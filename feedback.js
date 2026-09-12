@@ -11,8 +11,6 @@ const EMAILJS_TEMPLATE_ID = "template_wa6l4ep";
 })();
 
 document.addEventListener("DOMContentLoaded", () => {
-
-  // Star Rating & Feedback Form Handling
   const stars = document.querySelectorAll(".star");
   const ratingValueInput = document.getElementById("ratingValue");
 
@@ -37,6 +35,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const feedbackForm = document.getElementById("feedbackForm");
+  const fbSuccess = document.getElementById("fbSuccess");
+  const fbError = document.getElementById("fbError");
+  const restartBtn = document.getElementById("restartBtn");
+
   if (feedbackForm) {
     feedbackForm.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -53,32 +55,33 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const templateParams = {
-        visitor_name: name,
-        visitor_email: email,
+        name: name,
+        email: email,
         rating: rating,
-        message: message
+        message: message,
+        title: "Website Feedback",
+        time: new Date().toLocaleString()
       };
 
       if (typeof emailjs !== "undefined") {
         emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-          .then(() => {
-            feedbackForm.classList.add("hidden");
-            document.getElementById("fbSuccess").classList.remove("hidden");
-            document.getElementById("restartBtn").classList.remove("hidden");
+          .then((response) => {
+            console.log("SUCCESS!", response.status, response.text);
+            feedbackForm.style.display = "none";
+            if(fbSuccess) fbSuccess.style.display = "block";
+            if(restartBtn) restartBtn.style.display = "inline-block";
           })
           .catch((error) => {
             console.error("EmailJS Error:", error);
-            feedbackForm.classList.add("hidden");
-            document.getElementById("fbError").classList.remove("hidden");
-            document.getElementById("restartBtn").classList.remove("hidden");
+            feedbackForm.style.display = "none";
+            if(fbError) fbError.style.display = "block";
+            if(restartBtn) restartBtn.style.display = "inline-block";
           });
       } else {
-        feedbackForm.classList.add("hidden");
-        document.getElementById("fbError").classList.remove("hidden");
-        document.getElementById("restartBtn").classList.remove("hidden");
+        feedbackForm.style.display = "none";
+        if(fbError) fbError.style.display = "block";
+        if(restartBtn) restartBtn.style.display = "inline-block";
       }
     });
   }
-
 });
-
