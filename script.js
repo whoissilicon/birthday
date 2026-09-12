@@ -2,13 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const music = document.getElementById("backgroundMusic");
   const typeSound = document.getElementById("typeSound");
-  const musicModal = document.getElementById("musicModal");
-  const allowMusicBtn = document.getElementById("allowMusic");
-  const denyMusicBtn = document.getElementById("denyMusic");
-  const musicToggleBtn = document.getElementById("musicToggleBtn");
 
   let isPlaying = false;
-  let musicPermissionAsked = false;
 
   function playMusic() {
     if (!music) return;
@@ -18,17 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (playPromise !== undefined) {
       playPromise.then(() => {
         isPlaying = true;
-        if (musicToggleBtn) {
-          musicToggleBtn.textContent = "🔊";
-          musicToggleBtn.style.display = "inline-block";
-        }
       }).catch(error => {
-        console.log("Audio play failed:", error);
         isPlaying = false;
-        if (musicToggleBtn) {
-          musicToggleBtn.textContent = "🔇";
-          musicToggleBtn.style.display = "inline-block";
-        }
       });
     }
   }
@@ -37,38 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!music) return;
     music.pause();
     isPlaying = false;
-    if (musicToggleBtn) {
-      musicToggleBtn.textContent = "🔇";
-      musicToggleBtn.style.display = "inline-block";
-    }
-  }
-
-  if (musicToggleBtn) {
-    musicToggleBtn.style.display = "none";
-  }
-
-  if (allowMusicBtn) {
-    allowMusicBtn.addEventListener("click", () => {
-      playMusic();
-      if (musicModal) musicModal.classList.add("hidden-modal");
-    });
-  }
-
-  if (denyMusicBtn) {
-    denyMusicBtn.addEventListener("click", () => {
-      pauseMusic();
-      if (musicModal) musicModal.classList.add("hidden-modal");
-    });
-  }
-
-  if (musicToggleBtn) {
-    musicToggleBtn.addEventListener("click", () => {
-      if (isPlaying) {
-        pauseMusic();
-      } else {
-        playMusic();
-      }
-    });
   }
 
   const validNames = [
@@ -170,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (callback) callback();
         return;
       }
-      const line = document.createElement("p");
+      const line = document.createElement("div");
       line.className = "typewriter-line";
       container.appendChild(line);
       const text = lines[lineIndex];
@@ -180,8 +134,11 @@ document.addEventListener("DOMContentLoaded", () => {
         line.textContent += text.charAt(charIndex);
         
         if (typeSound && text.charAt(charIndex) !== " ") {
-          typeSound.currentTime = 0;
-          typeSound.play().catch(e => {});
+          try {
+            typeSound.currentTime = 0;
+            typeSound.volume = 0.4;
+            typeSound.play().catch(e => {});
+          } catch (err) {}
         }
 
         charIndex++;
@@ -215,9 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  if (musicModal) {
-    musicModal.classList.add("hidden-modal");
-  }
   startIntro();
 
   const introBtn = document.getElementById("introBtn");
@@ -453,12 +407,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  document.querySelectorAll(".flip").forEach(card => {
-    card.addEventListener("click", () => {
-      card.classList.toggle("flipped");
-    });
-  });
-
   const envelope = document.getElementById("envelope");
   if (envelope) {
     envelope.addEventListener("click", () => {
@@ -562,8 +510,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function startEnd() {
     const button = document.getElementById("restartBtn");
-    if (!button) return;
-    button.classList.add("hidden");
+    const feedbackBox = document.getElementById("feedbackContainer");
+    
+    if (button) button.classList.add("hidden");
+    if (feedbackBox) feedbackBox.classList.add("hidden");
+
     typeText(
       "endText",
       [
@@ -575,17 +526,72 @@ document.addEventListener("DOMContentLoaded", () => {
         "And thank you for being part of so many memories."
       ],
       () => {
-        button.classList.remove("hidden");
+        if (feedbackBox) feedbackBox.classList.remove("hidden");
+        if (button) button.classList.remove("hidden");
       }
     );
+  }
+
+  const submitFeedbackBtn = document.getElementById("submitFeedbackBtn");
+  if (submitFeedbackBtn) {
+    submitFeedbackBtn.addEventListener("click", async () => {
+      const feedbackText = document.getElementById("userFeedback").value.trim();
+      const successMsg = document.getElementById("feedbackSuccessMsg");
+
+      if (!feedbackText) {
+        alert("Please write something before sending!");
+        return;
+      }
+
+      submitFeedbackBtn.disabled = true;
+      submitFeedbackBtn.textContent = "Sending...";
+
+      try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify({
+            access_key: "631b0bba-88cc-413b-ab32-f2a43bb012c4",
+            subject: "New Website Feedback Received!",
+            message: feedbackText
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          if (successMsg) successMsg.classList.remove("hidden");
+          submitFeedbackBtn.textContent = "Sent!";
+          document.getElementById("userFeedback").value = "";
+        } else {
+          alert("Sorry, something went wrong. Please try again.");
+          submitFeedbackBtn.disabled = false;
+          submitFeedbackBtn.textContent = "Send Response →";
+        }
+      } catch (error) {
+        alert("Network error occurred!");
+        submitFeedbackBtn.disabled = false;
+        submitFeedbackBtn.textContent = "Send Response →";
+      }
+    });
   }
 
   const restartBtn = document.getElementById("restartBtn");
   if (restartBtn) {
     restartBtn.addEventListener("click", () => {
       pauseMusic();
-      musicPermissionAsked = false;
-      if (musicToggleBtn) musicToggleBtn.style.display = "none";
+      const feedbackBox = document.getElementById("feedbackContainer");
+      const successMsg = document.getElementById("feedbackSuccessMsg");
+      if (feedbackBox) feedbackBox.classList.add("hidden");
+      if (successMsg) successMsg.classList.add("hidden");
+      document.getElementById("userFeedback").value = "";
+      if (submitFeedbackBtn) {
+        submitFeedbackBtn.disabled = false;
+        submitFeedbackBtn.textContent = "Send Response →";
+      }
       showScreen("intro");
       startIntro();
     });
