@@ -1,69 +1,38 @@
-// EmailJS Credentials
-const EMAILJS_PUBLIC_KEY = "DQO2UOW0Y4oKQbk8G";
-const EMAILJS_SERVICE_ID = "service_5ivuql1";
-const EMAILJS_TEMPLATE_ID = "template_wa6l4ep";
-
-// Initialize EmailJS
-(function() {
-  if (typeof emailjs !== "undefined") {
-    emailjs.init(EMAILJS_PUBLIC_KEY);
-  }
-})();
-
 document.addEventListener("DOMContentLoaded", () => {
 
   const music = document.getElementById("backgroundMusic");
-  const typeSound = document.getElementById("typeSound");
+  const musicModal = document.getElementById("musicModal");
+  const allowMusicBtn = document.getElementById("allowMusic");
+  const denyMusicBtn = document.getElementById("denyMusic");
   const musicToggleBtn = document.getElementById("musicToggleBtn");
 
-  let isPlaying = false;
+  const typeSound = new Audio("https://gfxsounds.com/wp-content/uploads/2021/04/Electric-typewriter-typing.mp3");
+  typeSound.volume = 0.3;
 
-  // ---- AUDIO UNLOCK ----
-  // Browsers block any audio.play() call that isn't triggered by (or right
-  // after) a real user gesture. The very first typewriter line on this page
-  // starts automatically on load, before the visitor has clicked anything,
-  // so its typing sound can get silently blocked. This one-time listener
-  // "unlocks" both audio elements on the visitor's very first tap/click/key
-  // press anywhere on the page, so every typing sound and the background
-  // music play reliably from then on. It changes no text or visuals.
-  let audioUnlocked = false;
-  function unlockAudio() {
-    if (audioUnlocked) return;
-    audioUnlocked = true;
-    [music, typeSound].forEach(audio => {
-      if (!audio) return;
-      const previousVolume = audio.volume;
-      audio.volume = 0;
-      audio.play().then(() => {
-        audio.pause();
-        audio.currentTime = 0;
-        audio.volume = previousVolume;
-      }).catch(() => {
-        audio.volume = previousVolume;
-      });
-    });
-  }
-  ["pointerdown", "touchstart", "keydown"].forEach(evt => {
-    document.addEventListener(evt, unlockAudio, { once: true, passive: true });
-  });
+  let isPlaying = false;
+  let musicPermissionAsked = false;
 
   function playMusic() {
     if (!music) return;
     music.volume = 0.35;
-    music.play().then(() => {
-      isPlaying = true;
-      if (musicToggleBtn) {
-        musicToggleBtn.innerHTML = "🔊";
-        musicToggleBtn.style.display = "flex";
-      }
-    }).catch(error => {
-      console.log("Audio play failed:", error);
-      isPlaying = false;
-      if (musicToggleBtn) {
-        musicToggleBtn.innerHTML = "🔇";
-        musicToggleBtn.style.display = "flex";
-      }
-    });
+    
+    const playPromise = music.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        isPlaying = true;
+        if (musicToggleBtn) {
+          musicToggleBtn.textContent = "🔊";
+          musicToggleBtn.style.display = "inline-block";
+        }
+      }).catch(error => {
+        console.log("Audio play failed:", error);
+        isPlaying = false;
+        if (musicToggleBtn) {
+          musicToggleBtn.textContent = "🔇";
+          musicToggleBtn.style.display = "inline-block";
+        }
+      });
+    }
   }
 
   function pauseMusic() {
@@ -71,8 +40,27 @@ document.addEventListener("DOMContentLoaded", () => {
     music.pause();
     isPlaying = false;
     if (musicToggleBtn) {
-      musicToggleBtn.innerHTML = "🔇";
+      musicToggleBtn.textContent = "🔇";
+      musicToggleBtn.style.display = "inline-block";
     }
+  }
+
+  if (musicToggleBtn) {
+    musicToggleBtn.style.display = "none";
+  }
+
+  if (allowMusicBtn) {
+    allowMusicBtn.addEventListener("click", () => {
+      playMusic();
+      if (musicModal) musicModal.classList.add("hidden-modal");
+    });
+  }
+
+  if (denyMusicBtn) {
+    denyMusicBtn.addEventListener("click", () => {
+      pauseMusic();
+      if (musicModal) musicModal.classList.add("hidden-modal");
+    });
   }
 
   if (musicToggleBtn) {
@@ -193,10 +181,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const timer = setInterval(() => {
         line.textContent += text.charAt(charIndex);
         
-        if (typeSound) {
-          typeSound.currentTime = 0;
-          typeSound.play().catch(e => {});
-        }
+        typeSound.currentTime = 0;
+        typeSound.play().catch(() => {});
 
         charIndex++;
         if (charIndex >= text.length) {
@@ -229,6 +215,9 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
+  if (musicModal) {
+    musicModal.classList.add("hidden-modal");
+  }
   startIntro();
 
   const introBtn = document.getElementById("introBtn");
@@ -268,13 +257,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const error = document.getElementById("nameError");
       if (error) error.classList.remove("hidden");
       return;
-    }
-
-    if (typeof emailjs !== "undefined") {
-      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-        visitor_name: inputField.value,
-        message: "Someone opened the website and entered the correct name: " + inputField.value
-      }).catch(error => console.log("EmailJS Error:", error));
     }
 
     showScreen("questions");
@@ -367,18 +349,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function startConfirmation() {
     const box = document.getElementById("confirmBox");
-    if (box) {
-      box.classList.add("hidden");
-      box.classList.remove("shimmer-effect");
-    }
+    if (box) box.classList.add("hidden");
     typeText(
       "confirmText",
       ["Okay.", "I think we have enough.", "Name checked.", "A few answers checked.", "Yes."],
       () => {
-        if (box) {
-          box.classList.remove("hidden");
-          box.classList.add("shimmer-effect");
-        }
+        if (box) box.classList.remove("hidden");
       }
     );
   }
@@ -393,7 +369,6 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".file-card").forEach(card => {
     card.addEventListener("click", () => {
       const target = card.dataset.open;
-      if (!target) return;
       showScreen(target);
       
       if (target === "memories") {
@@ -577,16 +552,42 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // "Proceed to Feedback" now leaves this page and opens the dedicated
-  // feedback.html page, instead of showing an in-page feedback screen.
-  // (The original also hid the floating music toggle button here, since the
-  // in-page feedback screen shared the SPA with the music player; that's no
-  // longer needed since feedback.html is its own page and the music simply
-  // doesn't carry over to it.)
   const endBtn = document.getElementById("endBtn");
   if (endBtn) {
     endBtn.addEventListener("click", () => {
-      window.location.href = "feedback.html";
+      showScreen("end");
+      startEnd();
+    });
+  }
+
+  function startEnd() {
+    const button = document.getElementById("restartBtn");
+    if (!button) return;
+    button.classList.add("hidden");
+    typeText(
+      "endText",
+      [
+        "That's it.",
+        "No more hidden files.",
+        "No more questions.",
+        "Just one simple thing left to say.",
+        "Happy Birthday, Naila.",
+        "And thank you for being part of so many memories."
+      ],
+      () => {
+        button.classList.remove("hidden");
+      }
+    );
+  }
+
+  const restartBtn = document.getElementById("restartBtn");
+  if (restartBtn) {
+    restartBtn.addEventListener("click", () => {
+      pauseMusic();
+      musicPermissionAsked = false;
+      if (musicToggleBtn) musicToggleBtn.style.display = "none";
+      showScreen("intro");
+      startIntro();
     });
   }
 
