@@ -338,7 +338,7 @@ document.addEventListener("DOMContentLoaded", () => {
     card.addEventListener("click", () => {
       const target = card.dataset.open;
       if (target === "memories") {
-        playMusic();
+        playMusic(); // গান শুধু Memories অপশনে চাপ দিলেই বাজবে
         showScreen("screen-memories");
         initMemories();
       } else if (target === "little-things") {
