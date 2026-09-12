@@ -15,14 +15,14 @@ document.addEventListener("DOMContentLoaded", () => {
         isPlaying = true;
         if (musicToggleBtn) {
           musicToggleBtn.textContent = "🔊";
-          musicToggleBtn.style.display = "inline-block";
+          musicToggleBtn.style.display = "flex";
         }
       }).catch(error => {
         console.log("Audio play failed:", error);
         isPlaying = false;
         if (musicToggleBtn) {
           musicToggleBtn.textContent = "🔇";
-          musicToggleBtn.style.display = "inline-block";
+          musicToggleBtn.style.display = "flex";
         }
       });
     }
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     isPlaying = false;
     if (musicToggleBtn) {
       musicToggleBtn.textContent = "🔇";
-      musicToggleBtn.style.display = "inline-block";
+      musicToggleBtn.style.display = "flex";
     }
   }
 
@@ -271,7 +271,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     question.options.forEach(optionText => {
       const button = document.createElement("button");
-      button.className = "option";
+      button.className = "option-btn"; // ঠিক করা হয়েছে যাতে CSS-এর ডিজাইন পায়
       button.textContent = optionText;
       button.addEventListener("click", () => chooseOption(optionText));
       options.appendChild(button);
@@ -366,7 +366,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     memories.forEach((memory, index) => {
       const button = document.createElement("button");
-      button.className = "date";
+      button.className = "date-chip";
       button.textContent = memory.date;
       button.addEventListener("click", () => selectMemory(index));
       selector.appendChild(button);
@@ -404,7 +404,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (mTitle) mTitle.textContent = memory.title;
     if (mCaption) mCaption.textContent = memory.caption;
 
-    document.querySelectorAll(".date").forEach((button, i) => {
+    document.querySelectorAll(".date-chip").forEach((button, i) => {
       button.classList.toggle("active", i === index);
     });
   }
@@ -423,7 +423,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  document.querySelectorAll(".flip").forEach(card => {
+  document.querySelectorAll(".flip-card").forEach(card => {
     card.addEventListener("click", () => {
       card.classList.toggle("flipped");
     });
