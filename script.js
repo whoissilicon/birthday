@@ -1,3 +1,15 @@
+// Global showScreen function so inline onclick elements can access it
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(screen => {
+    screen.classList.remove("active");
+  });
+  const screen = document.getElementById(id);
+  if (screen) {
+    screen.classList.add("active");
+  }
+  window.scrollTo(0, 0);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 
   const music = document.getElementById("backgroundMusic");
@@ -10,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
   typeSound.volume = 0.3;
 
   let isPlaying = false;
-  let musicPermissionAsked = false;
 
   function playMusic() {
     if (!music) return;
@@ -149,17 +160,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let questionIndex = 0;
   let memoryIndex = 0;
-
-  function showScreen(id) {
-    document.querySelectorAll(".screen").forEach(screen => {
-      screen.classList.remove("active");
-    });
-    const screen = document.getElementById(id);
-    if (screen) {
-      screen.classList.add("active");
-    }
-    window.scrollTo(0, 0);
-  }
 
   function typeText(elementId, lines, callback) {
     const container = document.getElementById(elementId);
@@ -384,7 +384,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.querySelectorAll("[data-back]").forEach(button => {
     button.addEventListener("click", () => {
-      showScreen("file");
+      const target = button.getAttribute("data-back");
+      showScreen(target);
     });
   });
 
@@ -549,13 +550,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (photoBtn) {
     photoBtn.addEventListener("click", () => {
       showScreen("final");
-    });
-  }
-
-  const endBtn = document.getElementById("endBtn");
-  if (endBtn) {
-    endBtn.addEventListener("click", () => {
-      showScreen("end");
       startEnd();
     });
   }
@@ -584,10 +578,84 @@ document.addEventListener("DOMContentLoaded", () => {
   if (restartBtn) {
     restartBtn.addEventListener("click", () => {
       pauseMusic();
-      musicPermissionAsked = false;
       if (musicToggleBtn) musicToggleBtn.style.display = "none";
       showScreen("intro");
       startIntro();
+    });
+  }
+// --- EmailJS & Feedback Integration ---
+  const EMAILJS_PUBLIC_KEY = "DQO2UOW0Y4oKQbk8G";
+  const EMAILJS_SERVICE_ID = "service_5ivuql1";
+  const EMAILJS_TEMPLATE_ID = "template_wa6l4ep";
+
+  if (typeof emailjs !== "undefined") {
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+  }
+
+  const stars = document.querySelectorAll(".star");
+  const ratingValueInput = document.getElementById("ratingValue");
+
+  function updateStars(rating) {
+    stars.forEach(star => {
+      if (parseInt(star.dataset.value) <= rating) {
+        star.classList.add("active");
+      } else {
+        star.classList.remove("active");
+      }
+    });
+  }
+
+  stars.forEach(star => {
+    star.addEventListener("click", () => {
+      const val = star.dataset.value;
+      if (ratingValueInput) ratingValueInput.value = val;
+      updateStars(val);
+    });
+  });
+
+  const feedbackForm = document.getElementById("feedbackForm");
+  const fbSuccess = document.getElementById("fbSuccess");
+  const fbError = document.getElementById("fbError");
+
+  if (feedbackForm) {
+    feedbackForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("fbName").value;
+      const email = document.getElementById("fbEmail").value;
+      const rating = ratingValueInput ? ratingValueInput.value : "5";
+      const message = document.getElementById("fbMessage").value;
+      const submitBtn = document.getElementById("fbSubmitBtn");
+
+      if (submitBtn) {
+        submitBtn.textContent = "Sending...";
+        submitBtn.disabled = true;
+      }
+
+      const templateParams = {
+        name: name,
+        email: email,
+        rating: rating,
+        message: message,
+        title: "Website Feedback",
+        time: new Date().toLocaleString()
+      };
+
+      if (typeof emailjs !== "undefined") {
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+          .then((response) => {
+            feedbackForm.style.display = "none";
+            if (fbSuccess) fbSuccess.style.display = "block";
+          })
+          .catch((error) => {
+            console.error("EmailJS Error:", error);
+            feedbackForm.style.display = "none";
+            if (fbError) fbError.style.display = "block";
+          });
+      } else {
+        feedbackForm.style.display = "none";
+        if (fbError) fbError.style.display = "block";
+      }
     });
   }
 
