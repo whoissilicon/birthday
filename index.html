@@ -11,19 +11,20 @@
 </head>
 <body>
 
-  <!-- Background Music -->
   <audio id="backgroundMusic" loop>
     <source src="audio/bgm.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Typing Sound Effect -->
   <audio id="typeSound">
     <source src="audio/key.mp3" type="audio/mpeg">
   </audio>
 
+  <audio id="clickSound">
+    <source src="audio/click.mp3" type="audio/mpeg">
+  </audio>
+
   <div class="app">
 
-    <!-- Screen 1: Intro -->
     <div id="intro" class="screen active">
       <div class="center">
         <div class="badge">SECURE DOSSIER</div>
@@ -32,7 +33,6 @@
       </div>
     </div>
 
-    <!-- Screen 2: Name Verification -->
     <div id="nameScreen" class="screen">
       <div class="center">
         <div class="badge">IDENTIFICATION</div>
@@ -45,7 +45,6 @@
       </div>
     </div>
 
-    <!-- Screen 3: Questions -->
     <div id="questions" class="screen">
       <div class="center">
         <div id="questionNumber" class="small-label">QUESTION 01 / 04</div>
@@ -56,7 +55,6 @@
       </div>
     </div>
 
-    <!-- Screen 4: Confirmation -->
     <div id="confirmation" class="screen">
       <div class="center">
         <div class="badge">VERIFICATION COMPLETE</div>
@@ -68,7 +66,6 @@
       </div>
     </div>
 
-    <!-- Screen 5: Main File Hub -->
     <div id="file" class="screen">
       <div class="wide">
         <div class="file-header">
@@ -77,7 +74,7 @@
           <p>Select a section below to access encrypted records.</p>
         </div>
         <div class="file-grid">
-          <div class="file-card" data-open="memories">
+          <div class="file-card" data-open="memories" id="memoriesCard">
             <span>SECTION 01</span>
             <h2>Memories</h2>
             <p>A timeline of selected moments.</p>
@@ -96,7 +93,6 @@
       </div>
     </div>
 
-    <!-- Screen 6: Memories Gallery -->
     <div id="memories" class="screen">
       <div class="wide">
         <button class="back" data-back>← Back to Hub</button>
@@ -125,7 +121,6 @@
       </div>
     </div>
 
-    <!-- Screen 7: Letter Note -->
     <div id="note" class="screen">
       <div class="center">
         <button class="back top-back" data-back>← Back to Hub</button>
@@ -134,7 +129,7 @@
             <div class="seal">Click to Open Envelope</div>
           </div>
           <div id="letterContent" class="letter-content hidden">
-            <h3>To Naila,</h3>
+            <h3>To Naila Islam Shifa,</h3>
             <p>Some people arrive quietly in life and somehow end up becoming the most important part of it. This little corner of the internet is just a small reminder of all the warmth, laughter, and beautiful days we have shared.</p>
             <p>Thank you for simply being you.</p>
             <p class="signature">Always,</p>
@@ -143,7 +138,6 @@
       </div>
     </div>
 
-    <!-- Screen 8: Last Thing Sequence -->
     <div id="last" class="screen">
       <div class="center">
         <div class="badge">CHECKPOINT</div>
@@ -152,19 +146,17 @@
       </div>
     </div>
 
-    <!-- Screen 9: Birthday Special -->
     <div id="birthday" class="screen">
       <div class="glow" style="top: 10%; left: 50%; transform: translateX(-50%);"></div>
       <div class="center birthday-content">
         <span id="birthdayDate" class="birthday-date hidden">12 DECEMBER</span>
         <h1 id="birthdayTitle" class="birthday-title hidden">Happy Birthday</h1>
-        <div id="birthdayName" class="birthday-name hidden">Naila</div>
+        <div id="birthdayName" class="birthday-name hidden">Naila Islam Shifa</div>
         <p id="birthdaySub" class="birthday-sub hidden">May your days ahead be filled with as much light as you bring to others.</p>
         <button id="photoBtn" class="btn hidden">View Final Snapshot →</button>
       </div>
     </div>
 
-    <!-- Screen 10: Final Photo -->
     <div id="final" class="screen">
       <div class="center">
         <button class="back top-back" data-back>← Back to Hub</button>
@@ -182,7 +174,6 @@
       </div>
     </div>
 
-    <!-- Screen 11: End Screen & Feedback -->
     <div id="end" class="screen">
       <div class="center">
         <div class="badge">SESSION COMPLETE</div>
@@ -192,7 +183,7 @@
           <p style="margin-bottom: 10px; font-size: 0.9rem;">Leave a final note:</p>
           <textarea id="userFeedback" placeholder="Type your thoughts here..." style="width: 100%; height: 90px; background: var(--card); border: 1px solid var(--border); color: var(--white); padding: 12px; border-radius: 9px; resize: none; margin-bottom: 10px;"></textarea>
           <button id="submitFeedbackBtn" class="btn" style="width: 100%;">Send Response →</button>
-          <p id="feedbackSuccessMsg" class="hidden" style="color: #8be9fd; font-size: 0.85rem; margin-top: 10px;">Message sent successfully!</p>
+          <p id="feedbackSuccessMsg" class="hidden" style="color: #8be9fd; font-size: 0.85rem; margin-top: 10px;">Opening your email app...</p>
         </div>
 
         <button id="restartBtn" class="btn secondary hidden" style="margin-top: 20px;">Restart Experience</button>
