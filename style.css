@@ -202,6 +202,31 @@ input[type="text"]:focus {
   display: none !important;
 }
 
+/* --- MUSIC TOGGLE BUTTON --- */
+.music-toggle-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--gold);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.1rem;
+  z-index: 1000;
+  transition: all 0.2s ease;
+}
+
+.music-toggle-btn:hover {
+  border-color: var(--gold);
+  transform: scale(1.05);
+}
+
 /* --- QUESTION SCREEN UI (ELEGANT STYLING) --- */
 .question-card {
   margin-top: 24px;
