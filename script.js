@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   const music = document.getElementById("backgroundMusic");
+  const typeSound = document.getElementById("typeSound");
   const musicModal = document.getElementById("musicModal");
   const allowMusicBtn = document.getElementById("allowMusic");
   const denyMusicBtn = document.getElementById("denyMusic");
@@ -177,6 +178,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const timer = setInterval(() => {
         line.textContent += text.charAt(charIndex);
+        
+        if (typeSound && text.charAt(charIndex) !== " ") {
+          typeSound.currentTime = 0;
+          typeSound.play().catch(e => {});
+        }
+
         charIndex++;
         if (charIndex >= text.length) {
           clearInterval(timer);
