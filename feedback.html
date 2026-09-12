@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- CSS (same stylesheet as the main site, so the look matches exactly) -->
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
 
   <!-- EmailJS SDK -->
@@ -53,15 +53,15 @@
           <button type="submit" class="btn" id="fbSubmitBtn" style="width: 100%;">Send Feedback</button>
         </form>
 
-        <div id="fbSuccess" class="hidden feedback-msg">
-          <p class="success-text">✨ Thank you! Your feedback has been sent successfully.</p>
+        <div id="fbSuccess" style="display: none;" class="feedback-msg">
+          <p class="success-text" style="color: #2ecc71;">✨ Thank you! Your feedback has been sent successfully.</p>
         </div>
 
-        <div id="fbError" class="hidden feedback-msg">
-          <p class="error-text">❌ Oops! Something went wrong. Please try again.</p>
+        <div id="fbError" style="display: none;" class="feedback-msg">
+          <p class="error-text" style="color: #e74c3c;">❌ Oops! Something went wrong. Please try again.</p>
         </div>
 
-        <a class="btn secondary hidden" id="restartBtn" href="index.html" style="margin-top: 20px; display: inline-block; text-decoration: none;">Start Over</a>
+        <a class="btn secondary" id="restartBtn" href="index.html" style="margin-top: 20px; display: none; text-decoration: none;">Start Over</a>
       </div>
     </div>
   </div>
