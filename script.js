@@ -175,8 +175,6 @@ document.addEventListener("DOMContentLoaded", () => {
       [
         "We are looking for someone.",
         "Someone very specific.",
-        "We don't know if you found this page by accident...",
-        "...or if it was meant to find you.",
         "So before we continue...",
         "We need to ask you something."
       ],
@@ -320,7 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (box) box.classList.add("hidden");
     typeText(
       "confirmText",
-      ["Okay.", "I think we have enough.", "Name checked.", "A few answers checked.", "Yes."],
+      ["Okay.", "I think we have enough.", "Name checked.", "A few answers checked."],
       () => {
         if (box) box.classList.remove("hidden");
       }
