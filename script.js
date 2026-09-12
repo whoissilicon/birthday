@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const music = document.getElementById("backgroundMusic");
   const typeSound = document.getElementById("typeSound");
+  const clickSound = document.getElementById("clickSound");
 
   let isPlaying = false;
 
@@ -323,12 +324,19 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".file-card").forEach(card => {
     card.addEventListener("click", () => {
       const target = card.dataset.open;
-      showScreen(target);
       
       if (target === "memories") {
+        if (clickSound) {
+          try {
+            clickSound.currentTime = 0;
+            clickSound.play().catch(e => {});
+          } catch (err) {}
+        }
         playMusic();
         initMemories();
       }
+
+      showScreen(target);
 
       if (target === "last") {
         startLastThing();
@@ -522,7 +530,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "No more hidden files.",
         "No more questions.",
         "Just one simple thing left to say.",
-        "Happy Birthday, Naila.",
+        "Happy Birthday, Naila Islam Shifa.",
         "And thank you for being part of so many memories."
       ],
       () => {
@@ -534,7 +542,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const submitFeedbackBtn = document.getElementById("submitFeedbackBtn");
   if (submitFeedbackBtn) {
-    submitFeedbackBtn.addEventListener("click", async () => {
+    submitFeedbackBtn.addEventListener("click", () => {
       const feedbackText = document.getElementById("userFeedback").value.trim();
       const successMsg = document.getElementById("feedbackSuccessMsg");
 
@@ -543,38 +551,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      submitFeedbackBtn.disabled = true;
-      submitFeedbackBtn.textContent = "Sending...";
+      const myEmail = "sifatislam153@gmail.com"; 
+      const subject = encodeURIComponent("New Website Feedback from Naila's File");
+      const body = encodeURIComponent(feedbackText);
 
-      try {
-        const response = await fetch("https://api.web3forms.com/submit", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-          },
-          body: JSON.stringify({
-            access_key: "631b0bba-88cc-413b-ab32-f2a43bb012c4",
-            subject: "New Website Feedback Received!",
-            message: feedbackText
-          })
-        });
+      window.location.href = `mailto:${myEmail}?subject=${subject}&body=${body}`;
 
-        const result = await response.json();
-
-        if (result.success) {
-          if (successMsg) successMsg.classList.remove("hidden");
-          submitFeedbackBtn.textContent = "Sent!";
-          document.getElementById("userFeedback").value = "";
-        } else {
-          alert("Sorry, something went wrong. Please try again.");
-          submitFeedbackBtn.disabled = false;
-          submitFeedbackBtn.textContent = "Send Response →";
-        }
-      } catch (error) {
-        alert("Network error occurred!");
-        submitFeedbackBtn.disabled = false;
-        submitFeedbackBtn.textContent = "Send Response →";
+      if (successMsg) {
+        successMsg.textContent = "Opening your email app to send...";
+        successMsg.classList.remove("hidden");
       }
     });
   }
@@ -588,10 +573,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (feedbackBox) feedbackBox.classList.add("hidden");
       if (successMsg) successMsg.classList.add("hidden");
       document.getElementById("userFeedback").value = "";
-      if (submitFeedbackBtn) {
-        submitFeedbackBtn.disabled = false;
-        submitFeedbackBtn.textContent = "Send Response →";
-      }
       showScreen("intro");
       startIntro();
     });
