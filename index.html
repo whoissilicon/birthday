@@ -3,263 +3,258 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Archive</title>
-  
-  <!-- Google Fonts -->
+  <title>The Naila File</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Background Music Audio Element -->
-  <audio id="backgroundMusic" src="music.mp3" loop></audio>
-  <button id="musicToggleBtn" class="music-toggle-btn" style="display:none;">🔇</button>
+  <!-- Background Audio with Catbox link -->
+  <audio id="backgroundMusic" loop preload="auto">  
+    <source src="https://files.catbox.moe/pf1rse.mp3" type="audio/mpeg">  
+    Your browser does not support the audio element.
+  </audio>
 
-  <main class="app-container">
+  <!-- Music Toggle Button -->
+  <button id="musicToggleBtn" class="music-toggle-btn" style="display: none;">🔊</button>
 
-    <!-- SCREEN 1: MYSTERY INTRO -->
-    <section id="screen-intro" class="screen active">
+  <div class="app-container">
+
+    <!-- SCREEN 1: INTRO -->
+    <div id="screen-intro" class="screen active">
       <div class="content-box text-center">
-        <span class="status-badge">SEARCHING...</span>
-        <div id="introText" class="typewriter-box"></div>
-        <button id="introBtn" class="btn primary-btn hidden">Continue &rarr;</button>
+        <span class="status-badge">SYSTEM SECURE // FILE #0929</span>
+        <div class="typewriter-box" id="introText"></div>
+        <button id="introBtn" class="btn primary-btn hidden">Proceed →</button>
       </div>
-    </section>
+    </div>
 
-    <!-- SCREEN 2: NAME INPUT -->
-    <section id="screen-name" class="screen">
+    <!-- SCREEN 2: NAME VERIFICATION -->
+    <div id="screen-name" class="screen">
       <div class="content-box text-center">
-        <div id="nameText" class="typewriter-box"></div>
+        <span class="status-badge">IDENTITY CHECK</span>
+        <div class="typewriter-box" id="nameText"></div>
         <div id="nameForm" class="form-group hidden">
-          <input type="text" id="nameInput" placeholder="Enter your name" autocomplete="off" spellcheck="false">
-          <p id="nameError" class="error-msg hidden">Hmm... I don't think we're looking for you.</p>
-          <button id="nameBtn" class="btn primary-btn">Continue &rarr;</button>
+          <input type="text" id="nameInput" placeholder="Enter your name..." autocomplete="off">
+          <button id="nameBtn" class="btn primary-btn">Verify →</button>
+          <p id="nameError" class="error-msg hidden">Access denied. That's not the name we're looking for.</p>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- SCREEN 3: NATURAL QUESTIONS -->
-    <section id="screen-questions" class="screen">
+    <!-- SCREEN 3: QUESTIONS -->
+    <div id="screen-questions" class="screen">
       <div class="content-box text-center">
-        <div id="questionNumber" class="status-badge"></div>
-        <div id="question-container" class="question-card">
+        <span id="questionNumber" class="status-badge">QUESTION 01 / 04</span>
+        <div class="question-card">
           <h2 id="questionTitle" class="question-heading"></h2>
           <p id="questionSubtitle" class="question-sub"></p>
           <div id="options" class="options-stack"></div>
+          <div id="feedback" class="feedback-box hidden"></div>
         </div>
-        <div id="feedback" class="feedback-box hidden"></div>
       </div>
-    </section>
+    </div>
 
-    <!-- SCREEN 4: IDENTITY CONFIRMATION -->
-    <section id="screen-confirmation" class="screen">
+    <!-- SCREEN 4: CONFIRMATION -->
+    <div id="screen-confirmation" class="screen">
       <div class="content-box text-center">
-        <div id="confirmText" class="typewriter-box"></div>
+        <span class="status-badge">VERIFICATION COMPLETE</span>
+        <div class="typewriter-box" id="confirmText"></div>
         <div id="confirmBox" class="confirm-box hidden">
-          <h1 class="identity-name fade-in-text">You are Naila Islam Shifa.</h1>
-          <div class="identity-sub-group fade-in-delayed">
-            <p class="identity-sub">We found the person we were looking for.</p>
-            <p class="identity-sub">You can come in now.</p>
+          <h2 class="identity-name fade-in-text">Naila Islam</h2>
+          <div class="identity-sub-group">
+            <p class="identity-sub fade-in-delayed">Access granted to restricted files.</p>
+            <p class="identity-sub fade-in-delayed-more">Proceed when ready.</p>
           </div>
-          <button id="enterBtn" class="btn primary-btn mt-large fade-in-delayed-more">Enter &rarr;</button>
+          <button id="enterBtn" class="btn primary-btn mt-large">Open The File →</button>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- SCREEN 5: THE NAILA FILE (MAIN HUB) -->
-    <section id="screen-hub" class="screen">
+    <!-- SCREEN 5: MAIN HUB -->
+    <div id="screen-hub" class="screen">
       <div class="content-box wide">
-        <header class="hub-header">
-          <span class="status-badge">FILE STATUS: OPEN</span>
-          <h1 class="hub-title">THE NAILA FILE</h1>
-          <p class="hub-subtitle">A small collection of memories, moments, and a few things I decided to keep.</p>
-        </header>
-
-        <nav class="hub-grid">
-          <div class="hub-card file-card" data-open="memories">
+        <div class="hub-header">
+          <span class="status-badge">THE ARCHIVE</span>
+          <h1 class="hub-title">The Naila File</h1>
+          <p class="hub-subtitle">Select a section to explore.</p>
+        </div>
+        <div class="hub-grid">
+          <div class="hub-card" data-open="memories">
             <span class="card-num">01</span>
-            <h2>MEMORIES</h2>
-            <p>A collection of dates and photos.</p>
+            <h2>Memories</h2>
+            <p>Moments, dates, and snapshots collected over time.</p>
           </div>
-          <div class="hub-card file-card" data-open="little-things">
+          <div class="hub-card" data-open="little-things">
             <span class="card-num">02</span>
-            <h2>LITTLE THINGS</h2>
-            <p>Small interactive cards.</p>
+            <h2>Little Things</h2>
+            <p>Small thoughts and unsaid observations.</p>
           </div>
-          <div class="hub-card file-card" data-open="letter">
+          <div class="hub-card" data-open="letter">
             <span class="card-num">03</span>
-            <h2>SURPRISE LETTER</h2>
-            <p>A simple interactive envelope containing a message.</p>
+            <h2>Surprise Letter</h2>
+            <p>A message kept inside a digital envelope.</p>
           </div>
-          <div class="hub-card file-card" data-open="last">
+          <div class="hub-card" data-open="last">
             <span class="card-num">04</span>
-            <h2>ONE LAST THING</h2>
-            <p>The final mystery.</p>
-          </div>
-        </nav>
-      </div>
-    </section>
-
-    <!-- SECTION 01: MEMORIES -->
-    <section id="screen-memories" class="screen">
-      <div class="content-box wide">
-        <button class="btn-back" data-back="hub">&larr; Back to File</button>
-        <header class="section-header">
-          <h2>MEMORIES</h2>
-          <p>A few dates worth remembering.</p>
-        </header>
-
-        <div class="memory-viewer">
-          <div class="date-selector-wrapper">
-            <div id="dateSelector" class="date-selector"></div>
-          </div>
-
-          <div class="memory-display">
-            <div class="memory-image-container">
-              <img id="memoryImg" src="" alt="Memory Image" class="memory-img">
-              <div id="imageFallback" class="img-placeholder hidden"><span>Image Unavailable</span></div>
-            </div>
-            <div class="memory-details">
-              <h3 id="memoryDate" class="memory-date-title"></h3>
-              <h4 id="memoryTitle" class="memory-sub-title"></h4>
-              <p id="memoryCaption" class="memory-caption-text"></p>
-              <span id="memoryCounter" class="memory-counter-tag"></span>
-            </div>
-          </div>
-
-          <div class="memory-controls">
-            <button id="prevMemory" class="btn secondary-btn">&larr; Previous</button>
-            <button id="nextMemory" class="btn secondary-btn">Next &rarr;</button>
+            <h2>One Last Thing</h2>
+            <p>The final piece of the puzzle.</p>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- SECTION 02: LITTLE THINGS -->
-    <section id="screen-little-things" class="screen">
+    <!-- SCREEN 6A: MEMORIES -->
+    <div id="screen-memories" class="screen">
       <div class="content-box wide">
-        <button class="btn-back" data-back="hub">&larr; Back to File</button>
-        <header class="section-header">
-          <h2>LITTLE THINGS</h2>
-          <p>Some things are remembered for no particular reason.</p>
-        </header>
+        <button class="btn-back" data-back>← Back to Hub</button>
+        <div class="section-header">
+          <span class="status-badge">SECTION 01</span>
+          <h2>Memories</h2>
+          <p>Chronicles of days gone by.</p>
+        </div>
+        <div class="date-selector-wrapper">
+          <div id="dateSelector" class="date-selector"></div>
+        </div>
+        <div class="memory-display">
+          <div class="memory-image-container">
+            <img id="memoryImg" class="memory-img" src="" alt="Memory">
+            <div id="imageFallback" class="img-placeholder hidden">Image unavailable</div>
+          </div>
+          <div class="memory-details">
+            <span id="memoryDate" class="status-badge"></span>
+            <h3 id="memoryTitle" class="memory-date-title"></h3>
+            <p id="memoryCaption" class="memory-caption-text"></p>
+            <span id="memoryCounter" class="memory-counter-tag"></span>
+          </div>
+        </div>
+        <div class="memory-controls">
+          <button id="prevMemory" class="btn secondary-btn">← Previous</button>
+          <button id="nextMemory" class="btn primary-btn">Next →</button>
+        </div>
+      </div>
+    </div>
 
+    <!-- SCREEN 6B: LITTLE THINGS -->
+    <div id="screen-little-things" class="screen">
+      <div class="content-box wide">
+        <button class="btn-back" data-back>← Back to Hub</button>
+        <div class="section-header">
+          <span class="status-badge">SECTION 02</span>
+          <h2>Little Things</h2>
+          <p>Click the cards to flip and read.</p>
+        </div>
         <div class="cards-grid">
-          <div class="flip-card flip">
+          <div class="flip-card" data-index="1">
             <div class="flip-card-inner">
-              <div class="flip-card-front"><span class="card-label">TAP TO OPEN</span></div>
-              <div class="flip-card-back"><p>Apparently, some dates are surprisingly easy to remember.</p></div>
+              <div class="flip-card-front"><span class="card-label">CARD 01 // CLICK TO FLIP</span></div>
+              <div class="flip-card-back"><p>You laugh at the most random things, and honestly? That's the best part.</p></div>
             </div>
           </div>
-          <div class="flip-card flip">
+          <div class="flip-card" data-index="2">
             <div class="flip-card-inner">
-              <div class="flip-card-front"><span class="card-label">TAP TO OPEN</span></div>
-              <div class="flip-card-back"><p>Some photos need absolutely no explanation.</p></div>
+              <div class="flip-card-front"><span class="card-label">CARD 02 // CLICK TO FLIP</span></div>
+              <div class="flip-card-back"><p>Stubborn? Maybe a little. Focused? Absolutely.</p></div>
             </div>
           </div>
-          <div class="flip-card flip">
+          <div class="flip-card" data-index="3">
             <div class="flip-card-inner">
-              <div class="flip-card-front"><span class="card-label">TAP TO OPEN</span></div>
-              <div class="flip-card-back"><p>Some random moments become memories without asking.</p></div>
+              <div class="flip-card-front"><span class="card-label">CARD 03 // CLICK TO FLIP</span></div>
+              <div class="flip-card-back"><p>You pretend you don't care, but you notice every little detail.</p></div>
             </div>
           </div>
-          <div class="flip-card flip">
+          <div class="flip-card" data-index="4">
             <div class="flip-card-inner">
-              <div class="flip-card-front"><span class="card-label">TAP TO OPEN</span></div>
-              <div class="flip-card-back"><p>And yes, I remembered way too many dates.</p></div>
+              <div class="flip-card-front"><span class="card-label">CARD 04 // CLICK TO FLIP</span></div>
+              <div class="flip-card-back"><p>Some people just make life feel a lot less complicated by simply being in it.</p></div>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- SECTION 03: SURPRISE LETTER -->
-    <section id="screen-letter" class="screen">
+    <!-- SCREEN 6C: SURPRISE LETTER -->
+    <div id="screen-letter" class="screen">
       <div class="content-box">
-        <button class="btn-back" data-back="hub">&larr; Back to File</button>
-        <header class="section-header text-center">
-          <h2>SURPRISE LETTER</h2>
-          <p>Okay, this one is slightly different.</p>
-        </header>
-
+        <button class="btn-back" data-back>← Back to Hub</button>
+        <div class="section-header">
+          <span class="status-badge">SECTION 03</span>
+          <h2>Surprise Letter</h2>
+          <p>Unseal the envelope.</p>
+        </div>
         <div class="envelope-wrapper">
           <div id="envelope" class="envelope">
             <div id="envelopeFront" class="envelope-front">
-              <div class="seal">TAP TO OPEN</div>
+              <span class="seal">OPEN LETTER</span>
             </div>
             <div id="letterContent" class="letter-content hidden">
-              <p>Hey Naila,</p>
-              <p>I wasn't really planning to make a whole website.</p>
-              <p>But then I started remembering all the dates, photos and random moments...</p>
-              <p>And somehow, there were enough of them to actually make one.</p>
-              <p>So here it is.</p>
-              <p>I hope you have a really good birthday.</p>
-              <p>I hope this year brings you good days, good memories, plenty of laughs, and a lot of things worth looking forward to.</p>
-              <p>Enjoy your day.</p>
-              <p class="letter-sign">&mdash; From someone who clearly remembered too many dates :)</p>
+              <p>Dear Naila,</p>
+              <p>If you're reading this, it means you went through all the little steps just to see what's hidden at the end.</p>
+              <p>I just wanted to remind you how amazing it is to have you around. Thank you for all the shared laughs, the quiet moments, and the memories we've built.</p>
+              <p>Wishing you the happiest birthday ever!</p>
+              <p class="letter-sign">With all the warmth in the world.</p>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- SECTION 04: ONE LAST THING / SUSPENSE -->
-    <section id="screen-suspense" class="screen">
+    <!-- SCREEN 6D: ONE LAST THING -->
+    <div id="screen-suspense" class="screen">
       <div class="content-box text-center">
-        <button class="btn-back" data-back="hub">&larr; Back to File</button>
-        <div id="lastText" class="typewriter-box"></div>
-        <button id="lastBtn" class="btn primary-btn hidden mt-large">Continue &rarr;</button>
+        <button class="btn-back" data-back>← Back to Hub</button>
+        <span class="status-badge">SECTION 04</span>
+        <div class="typewriter-box" id="lastText"></div>
+        <button id="lastBtn" class="btn primary-btn hidden">Continue →</button>
       </div>
-    </section>
+    </div>
 
     <!-- SCREEN 7: BIRTHDAY REVEAL -->
-    <section id="screen-birthday" class="screen">
+    <div id="screen-birthday" class="screen">
       <div class="ambient-glow"></div>
-      <div class="content-box text-center">
-        <div class="birthday-container">
-          <span id="birthdayDate" class="reveal-badge hidden">29 SEPTEMBER</span>
-          <h1 id="birthdayTitle" class="reveal-title hidden">HAPPY BIRTHDAY</h1>
-          <h2 id="birthdayName" class="reveal-name hidden">NAILA ISLAM SHIFA</h2>
-          <p id="birthdaySub" class="reveal-caption hidden">This whole little thing was made for you.</p>
-          <button id="photoBtn" class="btn primary-btn mt-large hidden">Continue &rarr;</button>
-        </div>
+      <div class="content-box text-center birthday-container">
+        <span id="birthdayDate" class="reveal-badge hidden">29 SEPTEMBER</span>
+        <h1 id="birthdayTitle" class="reveal-title hidden">Happy Birthday</h1>
+        <h2 id="birthdayName" class="reveal-name hidden">Naila Islam Shifa</h2>
+        <p id="birthdaySub" class="reveal-caption hidden">May this year bring you closer to everything you hope for.</p>
+        <button id="photoBtn" class="btn primary-btn mt-large hidden">View Final Photo →</button>
       </div>
-    </section>
+    </div>
 
     <!-- SCREEN 8: FINAL PHOTO -->
-    <section id="screen-final" class="screen">
-      <div class="content-box text-center">
-        <p class="final-intro">And finally...</p>
+    <div id="screen-final" class="screen">
+      <div class="content-box">
+        <button class="btn-back" data-back>← Back to Hub</button>
+        <div class="final-intro text-center">
+          <span class="status-badge">SPECIAL FRAME</span>
+          <h2>A Special Moment</h2>
+        </div>
         <div class="final-card">
           <div class="final-img-frame">
-            <img src="images/final.jpg" alt="Naila" class="final-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="img-placeholder" style="display:none;"><span>Final Photo</span></div>
+            <img class="final-img" src="images/final.jpg" alt="Final Memory">
           </div>
-          <h2 class="final-heading">Happy Birthday, Naila.</h2>
-          <p class="final-text">
-            Hope this year gives you more good days,<br>
-            more good memories,<br>
-            more reasons to laugh,<br>
-            and plenty of things to look forward to.
-          </p>
-          <p class="final-closing">Enjoy your day. :)</p>
+          <h3 class="final-heading">To Many More</h3>
+          <p class="final-text">Some pictures capture a split second, but they hold onto a lifetime of feelings. Here's to making countless more memories just like this one.</p>
+          <p class="final-closing">Have an unforgettable day! 🌟</p>
         </div>
-        <button id="endBtn" class="btn primary-btn mt-large">Continue &rarr;</button>
+        <div class="text-center mt-large">
+          <button id="endBtn" class="btn primary-btn">Finish Journey</button>
+        </div>
       </div>
-    </section>
+    </div>
 
     <!-- SCREEN 9: END -->
-    <section id="screen-end" class="screen">
+    <div id="screen-end" class="screen">
       <div class="content-box text-center">
-        <div id="endText" class="typewriter-box"></div>
-        <button id="restartBtn" class="btn secondary-btn hidden mt-large">Start Again &#8634;</button>
+        <span class="status-badge">END OF FILE</span>
+        <div class="typewriter-box" id="endText"></div>
+        <button id="restartBtn" class="btn secondary-btn hidden">Start Over ↺</button>
       </div>
-    </section>
+    </div>
 
-  </main>
+  </div>
 
   <script src="script.js"></script>
 </body>
