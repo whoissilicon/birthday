@@ -1,44 +1,40 @@
+// EmailJS Credentials
+const EMAILJS_PUBLIC_KEY = "DQO2UOW0Y4oKQbk8G";
+const EMAILJS_SERVICE_ID = "service_5ivuql1";
+const EMAILJS_TEMPLATE_ID = "template_wa6l4ep";
+
+// Initialize EmailJS
+(function() {
+  if (typeof emailjs !== "undefined") {
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+  }
+})();
+
 document.addEventListener("DOMContentLoaded", () => {
 
   const music = document.getElementById("backgroundMusic");
   const typeSound = document.getElementById("typeSound");
-  const musicModal = document.getElementById("musicModal");
-  const allowMusicBtn = document.getElementById("allowMusic");
-  const denyMusicBtn = document.getElementById("denyMusic");
   const musicToggleBtn = document.getElementById("musicToggleBtn");
 
   let isPlaying = false;
 
-  function unlockAudio() {
-    if (typeSound) {
-      typeSound.volume = 0.5;
-      typeSound.play().then(() => {
-        typeSound.pause();
-        typeSound.currentTime = 0;
-      }).catch(e => {});
-    }
-  }
-
   function playMusic() {
     if (!music) return;
     music.volume = 0.35;
-    
-    const playPromise = music.play();
-    if (playPromise !== undefined) {
-      playPromise.then(() => {
-        isPlaying = true;
-        if (musicToggleBtn) {
-          musicToggleBtn.textContent = "🔊";
-          musicToggleBtn.style.display = "inline-block";
-        }
-      }).catch(error => {
-        isPlaying = false;
-        if (musicToggleBtn) {
-          musicToggleBtn.textContent = "🔇";
-          musicToggleBtn.style.display = "inline-block";
-        }
-      });
-    }
+    music.play().then(() => {
+      isPlaying = true;
+      if (musicToggleBtn) {
+        musicToggleBtn.textContent = "🔊";
+        musicToggleBtn.style.display = "flex";
+      }
+    }).catch(error => {
+      console.log("Audio play failed:", error);
+      isPlaying = false;
+      if (musicToggleBtn) {
+        musicToggleBtn.textContent = "🔇";
+        musicToggleBtn.style.display = "flex";
+      }
+    });
   }
 
   function pauseMusic() {
@@ -47,30 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     isPlaying = false;
     if (musicToggleBtn) {
       musicToggleBtn.textContent = "🔇";
-      musicToggleBtn.style.display = "inline-block";
     }
-  }
-
-  if (musicToggleBtn) {
-    musicToggleBtn.style.display = "none";
-  }
-
-  if (allowMusicBtn) {
-    allowMusicBtn.addEventListener("click", () => {
-      unlockAudio();
-      playMusic();
-      if (musicModal) musicModal.classList.add("hidden-modal");
-      startIntro();
-    });
-  }
-
-  if (denyMusicBtn) {
-    denyMusicBtn.addEventListener("click", () => {
-      unlockAudio();
-      pauseMusic();
-      if (musicModal) musicModal.classList.add("hidden-modal");
-      startIntro();
-    });
   }
 
   if (musicToggleBtn) {
@@ -191,11 +164,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const timer = setInterval(() => {
         line.textContent += text.charAt(charIndex);
         
-        if (typeSound && text.charAt(charIndex) !== " ") {
-          try {
-            typeSound.currentTime = 0;
-            typeSound.play().catch(e => {});
-          } catch (err) {}
+        if (typeSound) {
+          typeSound.currentTime = 0;
+          typeSound.play().catch(e => {});
         }
 
         charIndex++;
@@ -228,6 +199,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     );
   }
+
+  startIntro();
 
   const introBtn = document.getElementById("introBtn");
   if (introBtn) {
@@ -266,6 +239,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const error = document.getElementById("nameError");
       if (error) error.classList.remove("hidden");
       return;
+    }
+
+    if (typeof emailjs !== "undefined") {
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        visitor_name: inputField.value,
+        message: "Someone opened the website and entered the correct name: " + inputField.value
+      }).catch(error => console.log("EmailJS Error:", error));
     }
 
     showScreen("questions");
@@ -380,6 +360,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const target = card.dataset.open;
       showScreen(target);
       
+      // Play music only when MEMORIES is clicked
       if (target === "memories") {
         playMusic();
         initMemories();
@@ -478,6 +459,72 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Star Rating & Feedback Form Handling
+  const stars = document.querySelectorAll(".star");
+  const ratingValueInput = document.getElementById("ratingValue");
+
+  function updateStars(rating) {
+    stars.forEach(star => {
+      if (parseInt(star.dataset.value) <= rating) {
+        star.classList.add("active");
+      } else {
+        star.classList.remove("active");
+      }
+    });
+  }
+
+  updateStars(5);
+
+  stars.forEach(star => {
+    star.addEventListener("click", () => {
+      const val = star.dataset.value;
+      ratingValueInput.value = val;
+      updateStars(val);
+    });
+  });
+
+  const feedbackForm = document.getElementById("feedbackForm");
+  if (feedbackForm) {
+    feedbackForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById("fbName").value;
+      const email = document.getElementById("fbEmail").value;
+      const rating = ratingValueInput.value;
+      const message = document.getElementById("fbMessage").value;
+      const submitBtn = document.getElementById("fbSubmitBtn");
+
+      submitBtn.textContent = "Sending...";
+      submitBtn.disabled = true;
+
+      const templateParams = {
+        visitor_name: name,
+        visitor_email: email,
+        rating: rating,
+        message: message
+      };
+
+      if (typeof emailjs !== "undefined") {
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+          .then(() => {
+            feedbackForm.classList.add("hidden");
+            document.getElementById("fbSuccess").classList.remove("hidden");
+            document.getElementById("restartBtn").classList.remove("hidden");
+          })
+          .catch((error) => {
+            console.error("EmailJS Error:", error);
+            feedbackForm.classList.add("hidden");
+            document.getElementById("fbError").classList.remove("hidden");
+            document.getElementById("restartBtn").classList.remove("hidden");
+          });
+      } else {
+        feedbackForm.classList.add("hidden");
+        document.getElementById("fbError").classList.remove("hidden");
+        document.getElementById("restartBtn").classList.remove("hidden");
+      }
+    });
+  }
+
   function startLastThing() {
     const button = document.getElementById("lastBtn");
     if (!button) return;
@@ -533,8 +580,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     );
   }
-
-  function startBirthday() {
+function startBirthday() {
     const date = document.getElementById("birthdayDate");
     const title = document.getElementById("birthdayTitle");
     const name = document.getElementById("birthdayName");
@@ -570,9 +616,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function startEnd() {
-    const button = document.getElementById("restartBtn");
-    if (!button) return;
-    button.classList.add("hidden");
+    const feedbackForm = document.getElementById("feedbackForm");
+    if (feedbackForm) feedbackForm.classList.add("hidden");
+    
     typeText(
       "endText",
       [
@@ -584,7 +630,8 @@ document.addEventListener("DOMContentLoaded", () => {
         "And thank you for being part of so many memories."
       ],
       () => {
-        button.classList.remove("hidden");
+        // Show feedback form after typing completes
+        if (feedbackForm) feedbackForm.classList.remove("hidden");
       }
     );
   }
@@ -593,7 +640,12 @@ document.addEventListener("DOMContentLoaded", () => {
   if (restartBtn) {
     restartBtn.addEventListener("click", () => {
       pauseMusic();
-      if (musicToggleBtn) musicToggleBtn.style.display = "none";
+      const feedbackForm = document.getElementById("feedbackForm");
+      if (feedbackForm) feedbackForm.classList.add("hidden");
+      document.getElementById("fbSuccess").classList.add("hidden");
+      document.getElementById("fbError").classList.add("hidden");
+      restartBtn.classList.add("hidden");
+      
       showScreen("intro");
       startIntro();
     });
